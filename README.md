@@ -1,0 +1,2 @@
+# saltshaker
+GUI For SaltStack
