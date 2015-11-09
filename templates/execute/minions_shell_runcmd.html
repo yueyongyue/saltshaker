@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+  {% block content %}
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Run Shell Command</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Run Shell Command</div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                                <form method="post" action="../execute/minions_shell_runcmd.html">
+                                     <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Target</a></label>
+                                  <div class="panel panel-success">
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="panel-body" style="padding: 0px">
+                                             <table border="1" cellpadding="3" cellspacing="0" width="100%" bordercolor="#a6bbce">
+                                               <tr>
+                                                 <td width="20%" align="center">
+                                                     <div class="checkbox">
+                                                            <label>
+                                                               <input  id="CheckAll"  onclick="selectAll()" type="checkbox" value="">DMP-Memory
+                                                            </label>
+                                                     </div>
+                                                 </td>
+                                                 <td width="80%">
+                                                  <table border="1" cellpadding="3" cellspacing="0" width="100%" bordercolor="#a6bbce">
+                                                   <tr>
+                                                     <td align="center">
+                                                         <div class="checkbox">
+                                                            <label>
+                                                               <input type="checkbox" value="echo" name="host">echo
+                                                            </label>
+                                                        </div>
+                                                     </td>
+                                                     <td align="center">
+                                                         <div class="checkbox">
+                                                            <label>
+                                                               <input type="checkbox" value="python.example.sinanode.com.cn" name="host">python.example.sinanode.com.cn
+                                                            </label>
+                                                        </div>
+                                                     </td>
+                                                     <td align="center">
+                                                         <div class="checkbox">
+                                                            <label>
+                                                               <input type="checkbox" name="host" value="">10.13.88.113
+                                                            </label>
+                                                        </div>
+                                                     </td>
+                                                   </tr>
+                                                   <tr>
+                                                     <td align="center">
+                                                         <div class="checkbox">
+                                                            <label>
+                                                               <input type="checkbox" name="host" value="">10.13.88.114
+                                                            </label>
+                                                        </div>
+                                                     </td>
+                                                     <td align="center">
+                                                         <div class="checkbox">
+                                                            <label>
+                                                               <input type="checkbox"  name="host" value="">10.13.88.115
+                                                            </label>
+                                                        </div>
+                                                     </td>
+                                                     <td align="center">
+                                                         <div class="checkbox">
+                                                            <label>
+                                                               <input type="checkbox" name="host" value="">10.13.88.116
+                                                            </label>
+                                                        </div>
+                                                     </td>
+                                                   </tr>
+                                                 </table></td>
+                                               </tr>
+                                               <tr>
+                                                 <td>&nbsp;</td>
+                                                 <td>
+                                                   <table width="100%">
+                                                   <tr>
+                                                     <td>&nbsp;</td>
+                                                     <td>&nbsp;</td>
+                                                     <td>&nbsp;</td>
+                                                   </tr>
+                                                   <tr>
+                                                     <td>&nbsp;</td>
+                                                     <td>&nbsp;</td>
+                                                     <td>&nbsp;</td>
+                                                   </tr>
+                                                 </table></td>
+                                               </tr>
+                                             </table>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                                <div class="form-group">
+                                            <label>Command</label>
+                                            <textarea class="form-control" rows="3" name="cmd"></textarea>
+                                        </div>
+                                <div class="form-group">
+                                <input type="submit" value="Submit" class="btn btn-default"/>
+                                <input type="reset" value="Reset" class="btn btn-default"/>
+                                </div>
+                                </form>
+                               <div class="form-group">
+                                            <label>Command Result</label>
+                                            <textarea class="form-control" rows="20" style="background: #300a24" >
+                                             {% for hostname,shell_result in result.items %}
+Minions : {{ hostname }}
+-------------------------------------------------------------------------------------------------------------------------
+{{ shell_result }}
+                                             {% endfor %}
+                                            </textarea>
+                                        </div>
+                         </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+
+    <script>
+        function selectAll(){
+           var checklist = document.getElementsByName ("host");
+           if(document.getElementById("CheckAll").checked)
+               {
+                   for(var i=0;i<checklist.length;i++)
+                      {
+                         checklist[i].checked = 1;
+                      }
+               }
+           else
+               {
+                   for(var j=0;j<checklist.length;j++)
+                     {
+                        checklist[j].checked = 0;
+                     }
+               }
+        }
+    </script>
+{% endblock %}

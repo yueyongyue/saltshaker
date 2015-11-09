@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+  {% block content %}
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Minions Status</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Minions Status
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Minions</th>
+                                            <th>Up/Down</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for value in status.up %}
+                                        <tr class="odd gradeC">
+                                            <td>{{ value }}</td>
+                                            <td style="text-align:center"><div class="btn-success btn-xs" style="width:50px">Up</div></td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% for value in status.down %}
+                                        <tr class="odd gradeC">
+                                            <td>{{ value }}</td>
+                                            <td style="text-align:center"><div class="btn-danger btn-xs" style="width:50px">Down</div></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->                  
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+  {% endblock %}
