@@ -33,12 +33,12 @@
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
-                                     {% for group in list_groups %}
+                                     {% for groups in list_groups %}
                                         <tr class="even gradeC">
                                             <td><input type='checkbox' name='ck'></td>
-                                            <td><div>{{ group }}</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'></td>
+                                            <td><div>{{ groups }}</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'></td>
                                             <td><input type='button' class='btn btn-success btn-xs' value='Edit' onclick=edit(this,'show')></td>
-                                            <td><input type='button' class='btn btn-danger btn-xs' value='Delete' onclick='del(this,'{{ group }}')'></td>
+                                            <td><a href="../groups_manage/del_group={{ groups }}"><input type='button' class='btn btn-danger btn-xs' value='Delete' onclick=del(this)></a></td>
                                         </tr>
                                         {% endfor %}
                                 </table>
@@ -70,7 +70,7 @@
 				var oTD4 = oTR.insertCell(2);
 				oTD4.innerHTML = "<input type='button' class='btn btn-success btn-xs' value='Edit' onclick=\"edit(this,'show')\">";
 				var oTD5 = oTR.insertCell(3);
-				oTD5.innerHTML = "<input type='submit' class='btn btn-danger btn-xs' value='Delete' onclick='del(this)'>";
+				oTD5.innerHTML = "<input type='submit' class='btn btn-danger btn-xs' value='Delete' onclick='del(this,group)'>";
 			i++;
 			}
 
@@ -78,39 +78,28 @@
 			function edit(o,otype){
 				var oTR=o.parentNode.parentNode;
 				var oDiv1=oTR.cells[1].getElementsByTagName("div");
-				var oDiv2=oTR.cells[2].getElementsByTagName("div");
 				var oInpt1=oTR.cells[1].getElementsByTagName("input");
-				var oInpt2=oTR.cells[2].getElementsByTagName("input");
+				var oA1=oTR.cells[1].getElementsByTagName("a");
 				if (otype =="show"){
 					o.value="Submit";
 					o.setAttribute("onclick","edit(this,'hide')");
-					//名字修改前
 					oInpt1[0].value = oDiv1[0].childNodes[0].nodeValue;
 					oInpt1[0].style.display = "block";
 					oDiv1[0].style.display = "none";
-					//年龄修改前
-					oInpt2[0].value = oDiv2[0].childNodes[0].nodeValue;
-					oInpt2[0].style.display = "block";
-					oDiv2[0].style.display = "none";
+                    oA1[0].href="../groups_manage/modity_group";
 				}else if (otype =="hide"){
 					o.value="Edit";
 					o.setAttribute("onclick","edit(this,'show')");
-					//名字修改后
 					oDiv1[0].childNodes[0].nodeValue = oInpt1[0].value;
 					oDiv1[0].style.display = "block";
 					oInpt1[0].style.display = "none";
-					//年龄修改后
-					oDiv2[0].childNodes[0].nodeValue = oInpt2[0].value;
-					oDiv2[0].style.display = "block";
-					oInpt2[0].style.display = "none";
 				}
 
 			}
 			//Delete TR
-			function del(o,oGroup){
+			function del(o,group){
 				var oTB = document.getElementById("TB");
 				var oInpt = oTB.getElementsByTagName("input");
-				var oDiv = oTB.getElementsByTagName("div");
 				if (o == 'chk')
 				{
 					for (var i=1; i<oInpt.length ; i++)
@@ -124,13 +113,7 @@
 					}
 				}else{
 					var oDel = o.parentNode.parentNode.sectionRowIndex;
-					//for (var i=1; i<oDiv.length ; i++)
-					//{
-					//	alert (oDiv[i].innerHTML)
-					//}
-					alert(oGroup.innerHTML)
 					oTB.deleteRow(oDel);
-                    alert(aFieldValue.join());
 				}
 			}
 

@@ -9,6 +9,7 @@ def add_group(request):
     group = NodeGroups()
     all_group = group.list_groups()
     return render(request,'groups_manage/add_group_test.html',{ 'list_groups':all_group })
+    #return render(request,'groups_manage/add_group_test.html',{ 'list_groups':json.dumps(all_group)})
 
 def jobs_manage(request):
     sapi = SaltAPI()
@@ -32,7 +33,7 @@ def add(request, a, b):
     c = int(a) + int(b)
     r = HttpResponse(ajax_string + str(c))
     return r
-
+"""
 def del_group(request):
     group = NodeGroups()
     if request.POST:
@@ -42,6 +43,13 @@ def del_group(request):
             group.del_groups(a)
             return HttpResponse(a)
     #    group.del_groups(groups)
+"""
+def del_group(request,groups):
+    group = NodeGroups()
+    group.del_groups(groups)
+    all_group = group.list_groups()
+    return render(request,'groups_manage/add_group_test.html',{ 'list_groups':all_group })
+
 
 
 

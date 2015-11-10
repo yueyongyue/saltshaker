@@ -42,8 +42,8 @@ class NodeGroups(object):
 
 def main():
     group = NodeGroups()
-    a = group.list_groups()
-    print a
+    a = group.add_groups("fgfvvvcgh")
+    #print a
 
 if __name__ == '__main__':
     main()

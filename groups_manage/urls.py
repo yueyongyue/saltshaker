@@ -20,6 +20,6 @@ urlpatterns = [
     url(r'^add_group', views.add_group,name='add_group'),
     url(r'^ajaz_dict', views.ajax_dict,name='ajax_dict'),
     url(r'^ajax_list', views.ajax_list,name='ajax_list'),
-    url(r'^del_group', views.del_group,name='del_group'),
+    url(r'^del_group=(.*)', views.del_group,name='del_group'),
     url(r'^add', views.add,name='add'),
 ]
