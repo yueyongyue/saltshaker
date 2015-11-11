@@ -16,7 +16,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <form method="post" action="../execute/minions_shell_result.html">
+                                <form method="post" action="" id="saveReportForm" onsubmit="return saveReport();">
                                      <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Target</a></label>
                                   <div class="panel panel-success">
                                     <div id="collapseOne" class="panel-collapse collapse in">
@@ -43,7 +43,7 @@
                                                      <td align="center">
                                                          <div class="checkbox">
                                                             <label>
-                                                               <input type="checkbox" value="python.example.sinanode.com.cn" name="host">python.example.sinanode.com.cn
+                                                               <input type="checkbox" value="echo.example.sinanode.com.cn" name="host">echo.example.sinanode.com.cn
                                                             </label>
                                                         </div>
                                                      </td>
@@ -106,14 +106,13 @@
                                             <textarea class="form-control" rows="3" name="cmd"></textarea>
                                         </div>
                                 <div class="form-group">
-                                <input type="submit" value="Submit" class="btn btn-default"/>
+                                <input type="submit" value="Submit" class="btn btn-default" onclick="iframepage.window.location.reload()"/>
                                 <input type="reset" value="Reset" class="btn btn-default"/>
                                 </div>
                                 </form>
                                 <div class="form-group">
                                             <label>Command Result</label>
-                              <iframe src="../execute/minions_shell_result.html" frameborder="0" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="100%" height=100% id="iframepage" name="iframepage" onLoad="iFrameHeight()"  ></iframe>
-
+                                 <iframe src="../execute/minions_shell_result.html" frameborder="0" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="100%" height=100% id="iframepage" name="iframepage" onLoad="iFrameHeight()"></iframe>
                                 </div>
                          </div>
                         <!-- /.panel-body -->
@@ -143,25 +142,15 @@
                      }
                }
         }
+
+        function iFrameHeight() {
+           var ifm= document.getElementById("iframepage");
+           var subWeb = document.frames ? document.frames["iframepage"].document :
+              ifm.contentDocument;
+              if(ifm != null && subWeb != null) {
+              ifm.height = subWeb.body.scrollHeight;
+              }
+        }
     </script>
 
-    <script type="text/javascript" language="javascript">
-
-    function iFrameHeight() {
-
-        var ifm= document.getElementById("iframepage");
-
-        var subWeb = document.frames ? document.frames["iframepage"].document :
-
-ifm.contentDocument;
-
-            if(ifm != null && subWeb != null) {
-
-            ifm.height = subWeb.body.scrollHeight;
-
-            }
-
-    }
-
-</script>
 {% endblock %}
