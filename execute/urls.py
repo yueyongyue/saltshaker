@@ -18,5 +18,6 @@ from . import views
 
 urlpatterns = [
     url(r'^minions_shell_runcmd', views.shell_runcmd,name='shell_runcmd'),
-    url(r'^minions_salt_runcmd', views.salt_runcmd,name='salt_runcmd')
+    url(r'^minions_salt_runcmd', views.salt_runcmd,name='salt_runcmd'),
+    url(r'^minions_shell_result', views.shell_result,name='shell_result'),
 ]
