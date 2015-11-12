@@ -1,5 +1,4 @@
 import os
-import json
 
 class NodeGroups(object):
     def __init__(self):
@@ -15,8 +14,7 @@ class NodeGroups(object):
         nodegroups = []
         os.system("sed '1d' /etc/salt/master.d/nodegroups.conf | awk '{print $1}' |awk -F: '{print $1}' > /tmp/nodegroups")
         nodegroup = open("/tmp/nodegroups","r").readlines()
-        for i in nodegroup:               #delete '\n'
-            print i
+        for i in nodegroup:
             z = i.split('\n')[0]
             nodegroups += [z]
         return nodegroups
@@ -32,15 +30,15 @@ class NodeGroups(object):
         if group.strip()=="":
             print "group null"
         else:
-            cmd = "sed -i '/" + group + ":/d' /etc/salt/master.d/nodegroups.conf"
+            cmd = "sed -i '/^  " + group + ":/d' /etc/salt/master.d/nodegroups.conf"
             os.system(cmd)
 
     def modify_groups(self,group,modify_group):
-        cmd = "sed -i 's/" + group + ":/" + modify_group + ":/g' /etc/salt/master.d/nodegroups.conf"
+        cmd = "sed -i 's/^  " + group + ":/  " + modify_group + ":/g' /etc/salt/master.d/nodegroups.conf"
         os.system(cmd)
 
     def add_hosts(self,group,host):
-        cmd = "sed -i 's/" + group + ":.*L@/&" + host + ",/' /etc/salt/master.d/nodegroups.conf"
+        cmd = "sed -i 's/^  " + group + ":.*L@/&" + host + ",/' /etc/salt/master.d/nodegroups.conf"
         os.system(cmd)
 
     def del_hosts(self,host):
@@ -52,6 +50,8 @@ class NodeGroups(object):
 def main():
     group = NodeGroups()
     #a = group.add_groups("33333erererererer")
+
+    c = group.del_groups('aaaaaaaaaaaaaaaaa')
     b = group.list_groups()
     print  b
     #print a

@@ -30,7 +30,7 @@
                                      {% for groups in list_groups %}
                                         <tr class="even gradeC">
                                             <td><div>{{ groups }}</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'></td>
-                                            <td><input type='button' class='btn btn-success btn-xs' value='Edit' onclick=edit(this,'show')></td>
+                                            <td><input type='button' class='btn btn-success btn-xs' value='Edit' onclick=edit(this,'show','{{ groups }}')></td>
                                             <td><input type='button' class='btn btn-danger btn-xs' value='Delete' onclick=del(this,'{{ groups }}')></td>
                                         </tr>
                                         {% endfor %}
@@ -57,19 +57,17 @@
                 var oTX = document.getElementById("AG");  // get add group name
 				var oTR = oTB.insertRow(oTB.rows.length);
 				var oTD2 = oTR.insertCell(0);
-				oTD2.innerHTML = "<div>" + oTX.value + "</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'>";
+				oTD2.innerHTML = "<div>"+oTX.value+"</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'>";
 				var oTD4 = oTR.insertCell(1);
 				oTD4.innerHTML = "<input type='button' class='btn btn-success btn-xs' value='Edit' onclick=\"edit(this,'show')\">";
 				var oTD5 = oTR.insertCell(2);
-				oTD5.innerHTML = "<input type='submit' class='btn btn-danger btn-xs' value='Delete' onclick='del(this)'>";
+				oTD5.innerHTML = "<input type='button' class='btn btn-danger btn-xs' value='Delete' onclick=del(this,'"+oTX.value+"')>";
 			i++;
-
                 $.post("../groups_manage/add_group", { groups_name: oTX.value } );  //post add_group
-
 			}
 
 			//EDIT TR
-			function edit(o,otype){
+			function edit(o,otype,ogroup){
 				var oTR=o.parentNode.parentNode;
 				var oDiv1=oTR.cells[0].getElementsByTagName("div");
 				var oInpt1=oTR.cells[0].getElementsByTagName("input");
@@ -85,9 +83,12 @@
 					oDiv1[0].childNodes[0].nodeValue = oInpt1[0].value;
 					oDiv1[0].style.display = "block";
 					oInpt1[0].style.display = "none";
-				}
+                    $.post("../groups_manage/modify_group", { group: ogroup } );
 
+
+				}
 			}
+
 			//Delete TR
 			function del(o,ogroup){
 				var oTB = document.getElementById("TB");
@@ -97,22 +98,4 @@
                 $.post("../groups_manage/del_group", { groups_name: ogroup } );
 			}
 	</script>
-
-<script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
-
-<script>
-function add_group(){
-$(document).ready(function(){
-  $("button").click(function(){
-    $.post("../groups_manage/add_group",
-    {
-      group_names:"SAX"
-    },
-    function(data,status){
-      alert("数据：" + data + "\n状态：" + status);
-    });
-  });
-});
-    }
-</script>
-    {% endblock %}
+  {% endblock %}
