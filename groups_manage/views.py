@@ -5,16 +5,29 @@ from shaker.nodegroups import *
 from django.http import HttpResponse
 
 
-def add_group(request):
+def all_group(request):
     group = NodeGroups()
     all_group = group.list_groups()
     return render(request,'groups_manage/add_group_test.html',{ 'list_groups':all_group })
-    #return render(request,'groups_manage/add_group_test.html',{ 'list_groups':json.dumps(all_group)})
 
-def jobs_manage(request):
-    sapi = SaltAPI()
-    jids_running = sapi.runner("jobs.active")
-    return render(request,'jobs/jobs_manage.html',{ 'jids_running': jids_running })
+def add_group(request):
+    group = NodeGroups()
+    if request.POST:
+        groups = request.POST
+        for key in groups:
+            group_name = groups.get(key)
+            group.add_groups(group_name)
+            return HttpResponse(group_name)
+
+def add_group(request):
+    group = NodeGroups()
+    if request.POST:
+        groups = request.POST
+        for key in groups:
+            group_name = groups.get(key)
+            group.add_groups(group_name)
+            return HttpResponse(group_name)
+
 
 def ajax_list(request):
     group = NodeGroups()
@@ -33,7 +46,7 @@ def add(request, a, b):
     c = int(a) + int(b)
     r = HttpResponse(ajax_string + str(c))
     return r
-"""
+
 def del_group(request):
     group = NodeGroups()
     if request.POST:
@@ -49,7 +62,7 @@ def del_group(request,groups):
     group.del_groups(groups)
     all_group = group.list_groups()
     return render(request,'groups_manage/add_group_test.html',{ 'list_groups':all_group })
-
+"""
 
 
 

@@ -16,34 +16,26 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <form>
                             <div class="form-group">
+                                <input  id="AG" type="text" class="form-control" placeholder="Group Name" style="width: 300px" />
 					            <input type="button" class="btn btn-default" onClick="CreateTB()" value="Add" />
-					            <input type="button" class="btn btn-default" onClick="chkFun()" value="Invert Selection" />
-					            <input type="button" class="btn btn-default" onClick="del('chk')" value="Del Selection" />
-								<button>向页面发送 HTTP POST 请求，并获得返回的结果</button>
                             </div>
-                            </form>
-                            <form>
                             <div class="dataTable_wrapper">
                                 <table class="table table-striped table-bordered table-hover" id="TB">
                                     <tr>
-                                        <th width="50"><input type="checkbox" onClick="chk('all',this)" /></th>
                                         <th>Group Name</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
                                      {% for groups in list_groups %}
                                         <tr class="even gradeC">
-                                            <td><input type='checkbox' name='ck'></td>
                                             <td><div>{{ groups }}</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'></td>
                                             <td><input type='button' class='btn btn-success btn-xs' value='Edit' onclick=edit(this,'show')></td>
-                                            <td><a href="../groups_manage/del_group={{ groups }}"><input type='button' class='btn btn-danger btn-xs' value='Delete' onclick=del(this)></a></td>
+                                            <td><input type='button' class='btn btn-danger btn-xs' value='Delete' onclick=del(this,'{{ groups }}')></td>
                                         </tr>
                                         {% endfor %}
                                 </table>
                             </div>
-                            </form>
                             <!-- /.table-responsive -->
                         </div>
                         <!-- /.panel-body -->
@@ -62,31 +54,31 @@
 			var i = 1;
 			function CreateTB(){
 				var oTB = document.getElementById("TB");
+                var oTX = document.getElementById("AG");  // get add group name
 				var oTR = oTB.insertRow(oTB.rows.length);
-				var oTD1 = oTR.insertCell(0);
-				oTD1.innerHTML = "<input type='checkbox' name='ck'>";
-				var oTD2 = oTR.insertCell(1);
-				oTD2.innerHTML = "<div>default</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'>";
-				var oTD4 = oTR.insertCell(2);
+				var oTD2 = oTR.insertCell(0);
+				oTD2.innerHTML = "<div>" + oTX.value + "</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'>";
+				var oTD4 = oTR.insertCell(1);
 				oTD4.innerHTML = "<input type='button' class='btn btn-success btn-xs' value='Edit' onclick=\"edit(this,'show')\">";
-				var oTD5 = oTR.insertCell(3);
-				oTD5.innerHTML = "<input type='submit' class='btn btn-danger btn-xs' value='Delete' onclick='del(this,group)'>";
+				var oTD5 = oTR.insertCell(2);
+				oTD5.innerHTML = "<input type='submit' class='btn btn-danger btn-xs' value='Delete' onclick='del(this)'>";
 			i++;
+
+                $.post("../groups_manage/add_group", { groups_name: oTX.value } );  //post add_group
+
 			}
 
 			//EDIT TR
 			function edit(o,otype){
 				var oTR=o.parentNode.parentNode;
-				var oDiv1=oTR.cells[1].getElementsByTagName("div");
-				var oInpt1=oTR.cells[1].getElementsByTagName("input");
-				var oA1=oTR.cells[1].getElementsByTagName("a");
+				var oDiv1=oTR.cells[0].getElementsByTagName("div");
+				var oInpt1=oTR.cells[0].getElementsByTagName("input");
 				if (otype =="show"){
 					o.value="Submit";
 					o.setAttribute("onclick","edit(this,'hide')");
 					oInpt1[0].value = oDiv1[0].childNodes[0].nodeValue;
 					oInpt1[0].style.display = "block";
 					oDiv1[0].style.display = "none";
-                    oA1[0].href="../groups_manage/modity_group";
 				}else if (otype =="hide"){
 					o.value="Edit";
 					o.setAttribute("onclick","edit(this,'show')");
@@ -97,65 +89,30 @@
 
 			}
 			//Delete TR
-			function del(o,group){
+			function del(o,ogroup){
 				var oTB = document.getElementById("TB");
 				var oInpt = oTB.getElementsByTagName("input");
-				if (o == 'chk')
-				{
-					for (var i=1; i<oInpt.length ; i++)
-					{
-						if (oInpt[i].type == 'checkbox' && oInpt[i].checked)
-						{
-							var oRow = oInpt[i].parentNode.parentNode.sectionRowIndex;
-							oTB.deleteRow(oRow);
-							i--;
-						}
-					}
-				}else{
-					var oDel = o.parentNode.parentNode.sectionRowIndex;
-					oTB.deleteRow(oDel);
-				}
-			}
-
-			//Check All
-			function chk(type,o){
-				var oInpt = document.getElementsByTagName("input");
-				for (var i=0; i<oInpt.length; i++){
-					if (oInpt[i].type == "checkbox"){
-						oInpt[i].checked = o.checked;
-					}
-				}
-			}
-
-			//Check Fan
-			function chkFun(){
-				var oTB = document.getElementById("TB");
-				var oInpt = oTB.getElementsByTagName("input");
-				for (var i=1; i<oInpt.length; i++){
-					if (oInpt[i].type == "checkbox"){
-						if (oInpt[i].checked)
-						{
-							oInpt[i].checked = false;
-						}else{
-							oInpt[i].checked = true;
-						}
-					}
-				}
+                var oDel = o.parentNode.parentNode.sectionRowIndex;
+                oTB.deleteRow(oDel);
+                $.post("../groups_manage/del_group", { groups_name: ogroup } );
 			}
 	</script>
+
 <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
 
 <script>
+function add_group(){
 $(document).ready(function(){
   $("button").click(function(){
-    $.post("../groups_manage/del_group/",
+    $.post("../groups_manage/add_group",
     {
-      value:"SAX"
+      group_names:"SAX"
     },
     function(data,status){
       alert("数据：" + data + "\n状态：" + status);
     });
   });
 });
+    }
 </script>
     {% endblock %}

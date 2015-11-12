@@ -7,7 +7,6 @@ def shell_runcmd(request):
     sapi = SaltAPI()
     host = ["a","b","c","d","e","f"]
     return render(request,'execute/minions_shell_runcmd.html',{'host': host })
-    #return HttpResponseRedirect('minions_shell_runcmd.html')
 
 def shell_result(request):
     sapi = SaltAPI()
