@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-import dashboard,minions,execute,jobs,states_config,code_update,groups_manage,system_setup
+import dashboard,minions,execute,jobs,states_config,code_update,groups,system_setup
 
 urlpatterns = [
     url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.STATIC_ROOT}),
@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'jobs/', include('jobs.urls')),
     #url(r'states_config/', include('states_config.urls')),
     #url(r'code_update/', include('code_update.urls')),
-    url(r'groups_manage/', include('groups_manage.urls')),
+    url(r'groups/', include('groups.urls')),
     #url(r'system_setup/', include('system_setup.urls')),
 
 ]
