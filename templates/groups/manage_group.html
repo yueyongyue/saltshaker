@@ -17,21 +17,31 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="form-group">
-                                <input id="AG" type="text" placeholder="Group Name" />
-					            <input type="button" onClick="CreateTB()" value="Add" />
+                                <table>
+                                    <tr>
+                                        <th style="padding:0px 5px 0px 0px">
+                                            <input id="AG" type="text" placeholder="Group Name" class="form-control" />
+                                        </th>
+                                        <th style="padding:0px 5px 0px 0px">
+                                            <input type="button" onClick="CreateTB()" value="Add" class="btn btn-outline btn-primary btn-xs" />
+                                        </th>
+                                    </tr>
+                                </table>
                             </div>
                             <div class="dataTable_wrapper">
                                 <table class="table table-striped table-bordered table-hover" id="TB">
-                                    <tr>
-                                        <th>Group Name</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
-                                    </tr>
+                                    <thead>
+                                        <tr>
+                                           <th>Group Name</th>
+                                           <th>Edit</th>
+                                           <th>Delete</th>
+                                        </tr>
+                                    </thead>
                                      {% for groups in list_groups %}
                                         <tr class="even gradeC">
-                                            <td><div>{{ groups }}</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'></td>
-                                            <td><input type='button' class='btn btn-success btn-xs' value='Edit' onclick=edit(this,'show','{{ groups }}')></td>
-                                            <td><input type='button' class='btn btn-danger btn-xs' value='Delete' onclick=del(this,'{{ groups }}')></td>
+                                            <td><div>{{ groups }}</div><input type='text' style='display:none' class='form-control'></td>
+                                            <td><input type='button' class='btn btn-outline btn-success btn-xs' value='Edit' onclick=edit(this,'show','{{ groups }}')></td>
+                                            <td><input type='button' class='btn btn-outline btn-danger btn-xs' value='Delete' onclick=del(this,'{{ groups }}')></td>
                                         </tr>
                                         {% endfor %}
                                 </table>
@@ -54,20 +64,21 @@
 			var i = 1;
 			function CreateTB(){
 				var oTB = document.getElementById("TB");
-                var oTX = document.getElementById("AG");  // get add group name
+                var oTX = document.getElementById("AG");
+                var groups = oTX.value.replace(/(^\s*)|(\s*$)/g, "")// get add group name
                 if (oTX.value == ""){
                     alert("Group name is null")
                 }
                 else{
                     var oTR = oTB.insertRow(oTB.rows.length);
 				    var oTD2 = oTR.insertCell(0);
-                    oTD2.innerHTML = "<div>"+oTX.value+"</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'>";
+                    oTD2.innerHTML = "<div>"+groups+"</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'>";
 				    var oTD4 = oTR.insertCell(1);
-				    oTD4.innerHTML = "<input type='button' class='btn btn-success btn-xs' value='Edit' onclick=\"edit(this,'show')\">";
+				    oTD4.innerHTML = "<input type='button' class='btn btn-outline btn-success btn-xs' value='Edit' onclick=\"edit(this,'show')\">";
 				    var oTD5 = oTR.insertCell(2);
-				    oTD5.innerHTML = "<input type='button' class='btn btn-danger btn-xs' value='Delete' onclick=del(this,'"+oTX.value+"')>";
+				    oTD5.innerHTML = "<input type='button' class='btn btn-outline btn-danger btn-xs' value='Delete' onclick=del(this,'"+groups+"')>";
 			    i++;
-                    $.post("../groups/add_group", { groups_name: oTX.value } );  //post add_group
+                    $.post("../groups/add_group", { groups_name: groups } );  //post add_group
                 }
 
 			}
@@ -89,7 +100,7 @@
 					oDiv1[0].childNodes[0].nodeValue = oInpt1[0].value;
 					oDiv1[0].style.display = "block";
 					oInpt1[0].style.display = "none";
-                    omodify_group=oInpt1[0].value;
+                    omodify_group=oInpt1[0].value.replace(/(^\s*)|(\s*$)/g, "");
                     $.post("../groups/modify_group", { groups_name: ogroup , modify: omodify_group } );
 				}
 			}

@@ -39,10 +39,25 @@ def modify_group(request):
 
 def manage_host(request):
     group = NodeGroups()
-    all_group = group.list_groups()
-    return render(request,'groups/manage_host.html',{ 'list_groups':all_group })
+    all = group.list_groups_hosts()
+    return render(request,'groups/manage_host.html',{ 'list_groups':all })
+
+def add_host(request):
+    host = NodeGroups()
+    if request.POST:
+        group_name = request.POST.get("groups_name")
+        host_name = request.POST.get("hosts_name")
+        host.add_hosts(group_name,host_name)
+        return HttpResponse(host_name)
 
 
+def del_host(request):
+    host = NodeGroups()
+    if request.POST:
+        group_name = request.POST.get("groups_name")
+        host_name = request.POST.get("hosts_name")
+        host.del_hosts(group_name,host_name)
+        return HttpResponse(host_name)
 
 
 

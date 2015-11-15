@@ -40,7 +40,12 @@
                                                 {% endfor %}
                                             </td>
                                             <td>{{ info.StartTime }}</td>
-                                            <td><textarea  rows="1" cols="15">{{ info.Target }}</textarea>
+                                            <td>
+                                                <ui class="list-inline">
+                                                        <li>
+                                                          {{ info.Target }}
+                                                        </li>
+                                                </ui>
                                             </td>
                                             <td>{{ info.User }}</td>
                                         </tr>

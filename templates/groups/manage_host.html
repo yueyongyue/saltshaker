@@ -16,18 +16,31 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="form-group">
-                                <label>Groups</label>
-                                            <select>
+                            <div>
+                                <table>
+                                    <tr>
+                                        <th style="padding:0px 5px 15px 0px">
+                                            <select id="Group_id" class="form-control">
+                                                <option>Select Group</option>
                                                 {% for groups in list_groups %}
-                                                <option>{{ groups }}</option>
+                                                    <option>{{ groups }}</option>
                                                 {% endfor %}
                                             </select>
-                                <input id="AG" type="text" placeholder="Host" />
-					            <input type="button" onClick="CreateTB()" value="Add" />
+                                        </th>
+                                        <th style="padding:0px 5px 15px 0px">
+                                            <input id="HostN" type="text" placeholder="192.168.10.1 or 192.168.10.1,192.168.10.2" style="width: 300px" class="form-control"/>
+                                        </th>
+                                        <th style="padding:0px 5px 15px 0px">
+                                            <input type="button" onClick="AddHost()" value="Add" class="btn btn-outline btn-primary btn-xs" />
+                                        </th>
+                                        <th style="padding:0px 5px 15px 0px">
+                                            <input type="button" onClick="DelHost()" value="Del" class="btn btn-outline btn-primary btn-xs"/>
+                                        </th>
+                                    </tr>
+                                </table>
                             </div>
                             <div class="dataTable_wrapper">
-                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th>Groups</th>
@@ -35,11 +48,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for groups in list_groups %}
+                                        {% for groups,hosts in list_groups.items %}
                                         <tr class="odd gradeC">
                                             <td>{{ groups}}</td>
-                                            <td style="">
-                                                 192.168.10.8,192.168.10.6,192.168.10.5,192.168.10.4,192.168.10.3,192.168.10.2,192.168.10.1,</br>192.168.10.8,192.168.10.6,192.168.10.5,192.168.10.4,192.168.10.3,192.168.10.2,192.168.10.1,</br>192.168.10.8,192.168.10.6,192.168.10.5,192.168.10.4,192.168.10.3,192.168.10.2,192.168.10.1,</br>192.168.10.8,192.168.10.6,192.168.10.5,192.168.10.4,192.168.10.3,192.168.10.2,192.168.10.1,</br>192.168.10.8,192.168.10.6,192.168.10.5,192.168.10.4,192.168.10.3,192.168.10.2,192.168.10.1,</br>192.168.10.8,192.168.10.6,192.168.10.5,192.168.10.4,192.168.10.3,192.168.10.2,192.168.10.1,</br>192.168.10.8,192.168.10.6,192.168.10.5,192.168.10.4,192.168.10.3,192.168.10.2,192.168.10.1,
+                                            <td>
+                                                {% for host in hosts %}
+                                                    <ui class="list-inline">
+                                                        <li>
+                                                          {{ host }}
+                                                        </li>
+                                                    </ui>
+                                                 {% endfor %}
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -60,57 +79,32 @@
 
     <script type="text/javascript">
 
-			//Create TR
-			var i = 1;
-			function CreateTB(){
-				var oTB = document.getElementById("TB");
-                var oTX = document.getElementById("AG");  // get add group name
-                if (oTX.value == ""){
-                    alert("Group name is null")
+			//Add Host
+			function AddHost(){
+                var str = document.getElementById("Group_id");
+                var group = (str.options[str.selectedIndex].value.replace(/(^\s*)|(\s*$)/g, ""));
+                var host = document.getElementById("HostN").value.replace(/(^\s*)|(\s*$)/g, "");
+                if (host == ""){
+                    alert("Host name is null")
                 }
                 else{
-                    var oTR = oTB.insertRow(oTB.rows.length);
-				    var oTD2 = oTR.insertCell(0);
-                    oTD2.innerHTML = "<div>"+oTX.value+"</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'>";
-				    var oTD4 = oTR.insertCell(1);
-				    oTD4.innerHTML = "<input type='button' class='btn btn-success btn-xs' value='Edit' onclick=\"edit(this,'show')\">";
-				    var oTD5 = oTR.insertCell(2);
-				    oTD5.innerHTML = "<input type='button' class='btn btn-danger btn-xs' value='Delete' onclick=del(this,'"+oTX.value+"')>";
-			    i++;
-                    $.post("../groups/add_group", { groups_name: oTX.value } );  //post add_group
+                    $.post("../groups/add_host", { groups_name: group , hosts_name: host } );
+                    window.location.reload()
                 }
-
 			}
 
-			//EDIT TR
-			function edit(o,otype,ogroup){
-				var oTR=o.parentNode.parentNode;
-				var oDiv1=oTR.cells[0].getElementsByTagName("div");
-				var oInpt1=oTR.cells[0].getElementsByTagName("input");
-				if (otype =="show"){
-					o.value="Submit";
-					o.setAttribute("onclick","edit(this,'hide','"+ogroup+"')");
-					oInpt1[0].value = oDiv1[0].childNodes[0].nodeValue;
-					oInpt1[0].style.display = "block";
-					oDiv1[0].style.display = "none";
-				}else if (otype =="hide"){
-					o.value="Edit";
-					o.setAttribute("onclick","edit(this,'show')");
-					oDiv1[0].childNodes[0].nodeValue = oInpt1[0].value;
-					oDiv1[0].style.display = "block";
-					oInpt1[0].style.display = "none";
-                    omodify_group=oInpt1[0].value;
-                    $.post("../groups/modify_group", { groups_name: ogroup , modify: omodify_group } );
-				}
-			}
-
-			//Delete TR
-			function del(o,ogroup){
-				var oTB = document.getElementById("TB");
-				var oInpt = oTB.getElementsByTagName("input");
-                var oDel = o.parentNode.parentNode.sectionRowIndex;
-                oTB.deleteRow(oDel);
-                $.post("../groups/del_group", { groups_name: ogroup } );
+            //Del Host
+            function DelHost(){
+                var str = document.getElementById("Group_id");
+                var group = (str.options[str.selectedIndex].value.replace(/(^\s*)|(\s*$)/g, ""));
+                var host = document.getElementById("HostN").value.replace(/(^\s*)|(\s*$)/g, "");
+                if (host == ""){
+                    alert("Host name is null")
+                }
+                else{
+                    $.post("../groups/del_host", { groups_name: group , hosts_name: host } );
+                    window.location.reload()
+                }
 			}
 	</script>
   {% endblock %}

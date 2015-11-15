@@ -19,6 +19,19 @@ class NodeGroups(object):
             nodegroups += [z]
         return nodegroups
 
+    def list_groups_hosts(self):
+        group_host_dic = {}
+        all_group_host = {}
+        os.system("sed '1d' /etc/salt/master.d/nodegroups.conf | awk '{print $1}' |awk -F: '{print $1}' > /tmp/nodegroups")
+        nodegroup = open("/tmp/nodegroups","r").readlines()
+        for i in nodegroup:
+            group = i.split('\n')[0]
+            cmd = ''' sed -n "s/^  ''' + group + '''.*@/'/gp" /etc/salt/master.d/nodegroups.conf | sed -n "s/'//gp"'''
+            hosts = os.popen(cmd).read().split('\n')[0].split(',')[0:-1]
+            group_host_dic = {group:hosts}
+            all_group_host.update(group_host_dic)
+        return all_group_host
+
     def add_groups(self,group):
         nodegroups = file("/etc/salt/master.d/nodegroups.conf","a+")
         group_name = "  " + group + ":" + " " + "'L@'\n"
@@ -43,20 +56,22 @@ class NodeGroups(object):
         return hosts
 
     def add_hosts(self,group,host):
-        cmd = "sed -i 's/^  " + group + ":.*L@/&" + host + ",/' /etc/salt/master.d/nodegroups.conf"
+        cmd = "sed -i 's/^  " + group + ":.*L@/&" + host + ",/g' /etc/salt/master.d/nodegroups.conf"
         os.system(cmd)
 
-    def del_hosts(self,host):
-        cmd = "sed -i 's/" + host + ",//g' /etc/salt/master.d/nodegroups.conf"
+    def del_hosts(self,group,host):
+        cmd = "sed -i '/.*" + group + ".*/s/" + host + ",//g' /etc/salt/master.d/nodegroups.conf"
         os.system(cmd)
 
 
 def main():
     host = NodeGroups()
-    #b = host.add_hosts('SAX','192.168.10.8')
+    c = host.list_groups_hosts()
+    #b = host.del_hosts('SAX','192.168.10.8')
     #print  b
-    a = host.list_hosts('DMP0001')
-    print a
+    #a = host.list_hosts('DMP0001')
+    #print a
+    print c
 
 if __name__ == '__main__':
     main()
