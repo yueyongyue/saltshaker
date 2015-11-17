@@ -88,8 +88,13 @@
                     alert("Host name is null")
                 }
                 else{
-                    $.post("../groups/add_host", { groups_name: group , hosts_name: host } );
-                    window.location.reload()
+                    if (group == "Select Group"){
+                        alert ("Group name is null")
+                    }
+                    else{
+                        $.post("../groups/add_host", { groups_name: group , hosts_name: host } );
+                        window.location.reload()
+                    }
                 }
 			}
 
