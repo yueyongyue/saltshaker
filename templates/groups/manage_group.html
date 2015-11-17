@@ -108,8 +108,7 @@
 			//Delete TR
 			function del(o,ogroup){
 				var oTB = document.getElementById("TB");
-				var oInpt = oTB.getElementsByTagName("input");
-                var oDel = o.parentNode.parentNode.sectionRowIndex;
+                var oDel = o.parentNode.parentNode.sectionRowIndex+1;
                 oTB.deleteRow(oDel);
                 $.post("../groups/del_group", { groups_name: ogroup } );
 			}
