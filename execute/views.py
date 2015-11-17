@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from shaker.shaker_core import *
+from shaker.nodegroups import *
 from django.http import HttpResponseRedirect
 
 
 def shell_runcmd(request):
-    sapi = SaltAPI()
-    host = ["a","b","c","d","e","f"]
-    return render(request,'execute/minions_shell_runcmd.html',{'host': host })
+    group = NodeGroups()
+    all = group.list_groups_hosts()
+    return render(request,'execute/minions_shell_runcmd.html',{ 'list_groups': all })
 
 def shell_result(request):
     sapi = SaltAPI()

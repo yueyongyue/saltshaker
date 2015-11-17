@@ -8,7 +8,7 @@ from django.http import HttpResponse
 def manage_group(request):
     group = NodeGroups()
     all_group = group.list_groups()
-    return render(request,'groups/manage_group.html',{ 'list_groups':all_group })
+    return render(request,'groups/manage_group.html',{ 'list_groups': all_group })
 
 def add_group(request):
     group = NodeGroups()
@@ -58,25 +58,6 @@ def del_host(request):
         host_name = request.POST.get("hosts_name")
         host.del_hosts(group_name,host_name)
         return HttpResponse(host_name)
-
-
-
-
-
-
-
-
-
-
-
-def ajax_list(request):
-    group = NodeGroups()
-    all_group = group.list_groups()
-    return JsonResponse(all_group, safe=False)
-
-def ajax_dict(request):
-    name_dict = {'twz': 'Love python and Django', 'zqxt': 'I am teaching Django'}
-    return JsonResponse(name_dict)
 
 
 
