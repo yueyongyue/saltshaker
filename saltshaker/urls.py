@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'minions/', include('minions.urls')),
     url(r'execute/', include('execute.urls')),
     url(r'jobs/', include('jobs.urls')),
-    #url(r'states_config/', include('states_config.urls')),
+    url(r'states_config/', include('states_config.urls')),
     #url(r'code_update/', include('code_update.urls')),
     url(r'groups/', include('groups.urls')),
     #url(r'system_setup/', include('system_setup.urls')),

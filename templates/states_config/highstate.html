@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+  {% block content %}
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">Highstate</h2>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Highstate
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                        <div class="panel-body" style="width:20%;float:left;padding: 1px">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-stacked">
+                                <li class="active"><a href="#Initialization" data-toggle="tab">Initialization OS</a>
+                                </li>
+                                <li><a href="#Package" data-toggle="tab">Install Package</a>
+                                </li>
+                                <li><a href="Nginx" data-toggle="tab">Nginx</a>
+                                </li>
+                                <li><a href="#Tomcat" data-toggle="tab">Tomcat</a>
+                                </li>
+                                <li><a href="#Scribe" data-toggle="tab">Scribe</a>
+                                </li>
+                                <li><a href="#Crontab" data-toggle="tab">Crontab</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="panel-body" style="width: 80%;float:right;padding: 1px 1px 1px 12px">
+                            <!-- Tab panes -->
+                            <div class="tabs-left">
+                                <div class="tab-pane fade in active" id="Initialization" style="width: 100% ">
+                                    <textarea class="form-control" rows="20" >
+mywebsite:
+  file.managed:
+    - name: /etc/apache2/sites-available/mywebsite.com
+    - source: salt://mywebsite.com
+
+a2ensite mywebsite.com:
+  cmd.wait:
+    - unless: test -L /etc/apache2/sites-enabled/mywebsite.com
+    - watch:
+      - file: mywebsite
+
+apache2:
+  service:
+    - running
+    - watch:
+      - file: mywebsite
+                                    </textarea>
+                                </div>
+                                <div class="tab-pane fade" id="Package" style="width: 100% ">
+                                    <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                </div>
+                                <div class="tab-pane fade" id="Nginx" style="width: 100% ">
+                                    <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                </div>
+                                <div class="tab-pane fade" id="Tomcat" style="width: 100% ">
+                                    <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                </div>
+                                <div class="tab-pane fade" id="Scribe" style="width: 100% ">
+                                    <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                </div>
+                                <div class="tab-pane fade" id="Crontab" style="width: 100% ">
+                                    <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+
+    <script>
+        function selectAll(group){
+           var checklist = document.getElementsByName(group);
+            //alert(checklist)
+           if(document.getElementById(group).checked)
+               {
+                   for(var i=0;i<checklist.length;i++)
+                      {
+                         checklist[i].checked = 1;
+                      }
+               }
+           else
+               {
+                   for(var j=0;j<checklist.length;j++)
+                     {
+                        checklist[j].checked = 0;
+                     }
+               }
+        }
+
+        function iFrameHeight() {
+           var ifm= document.getElementById("iframepage");
+           var subWeb = document.frames ? document.frames["iframepage"].document :
+              ifm.contentDocument;
+              if(ifm != null && subWeb != null) {
+              ifm.height = subWeb.body.scrollHeight;
+              }
+        }
+    </script>
+
+{% endblock %}
