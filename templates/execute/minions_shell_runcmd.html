@@ -21,7 +21,7 @@
                                   <div>
                                      <div id="collapseOne" class="panel-collapse collapse in">
                                         <div class="panel-body" style="padding:0px">
-                                           <table class="table table-striped table-bordered table-hover" id="checkedhost">
+                                           <table class="table table-striped table-bordered table-hover">
                                                <tr>
                                                    <td>
                                                        <label>Groups</label>
@@ -39,8 +39,8 @@
                                                    </td>
                                                    <td>
                                                        {% for host in hosts %}
-                                                           <div class="checkbox-inline">
-                                                               <input name="{{ groups }}"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
+                                                           <div class="checkbox-inline" name="checkedhost">
+                                                               <input class="checkedhost" name="{{ groups }}"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
                                                            </div>
                                                        {% endfor %}
                                                    </td>
@@ -57,11 +57,12 @@
                             </div>
                             <div class="form-group">
                                 <input type="button" value="Submit" class="btn btn-default" onclick="shellResult()" />
-                                <input type="reset" value="Reset" class="btn btn-default"/>
+                                <input type="button" value="Submit" class="btn btn-default" onclick="iframepage.window.location.reload()" />
+                                <input type="reset" value="Reset" class="btn btn-default" />
                             </div>
                             <div class="form-group">
                                 <label>Command Result</label>
-                                <iframe src="../execute/minions_shell_result.html" frameborder="0" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="100%" height=100% id="iframepage" name="iframepage" onLoad="iFrameHeight()"></iframe>
+                                <iframe src="../execute/minions_shell_result.html" frameborder="0" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="100%" height=100% id="iframepage" onLoad="iFrameHeight()"></iframe>
                             </div>
                          </div>
                         <!-- /.panel-body -->
@@ -73,7 +74,8 @@
             <!-- /.row -->
         </div>
 
-    <script>
+    <script type="text/javascript">
+
         function selectAll(group){
            var checklist = document.getElementsByName(group);
             //alert(checklist)
@@ -103,23 +105,24 @@
         }
 
         function shellResult() {
-                var dhost = document.getElementById("checkedhost");
-                var ahost = dhost.getElementsByTagName("input");
-                //var ahost = document.getElementsByTagName("checkedhost")
-                var cmd = document.getElementById("shell_cmd").value.replace(/(^\s*)|(\s*$)/g, "");
-                //var iframe = document.getElementById("iframepage");
-                var hostlist = new Array();
-
-                for(var i = 0; i < ahost.length; i++){
-                    if(ahost[i].checked)
-                       hostlist.push(ahost[i].value);
-                }
-                alert(hostlist);
-                //alert(hostlist)
-                //$.post("../execute/minions_shell_result.html", { groups_name: group , hosts_name: host } );
-                //iframe.window.location.reload()
-
-			}
+            var ahost = document.getElementsByClassName("checkedhost");
+            var acmd = document.getElementById("shell_cmd").value.replace(/(^\s*)|(\s*$)/g, "");
+            var iframe = document.getElementById("iframepage");
+            var hostlist = new Array();
+            for(var i = 0; i < ahost.length; i++){
+                if(ahost[i].checked)
+                    hostlist.push(ahost[i].value);
+            }
+            //alert(hostlist);
+            //alert(acmd);
+            $.post("../execute/minions_shell_result", { cmd: acmd , hosts_name: hostlist } );
+            $.get("../execute/minions_shell_result")
+            //$.post("../groups/del_host", { groups_name: group , hosts_name: host } );
+            //window.parent.frames[1].location.reload();
+            //window.location.reload()
+            //$('#iframe').attr('src', $('#iframe').attr('src'));
+            //document.getElementById('iframepage').contentWindow.location.reload(true);
+        }
     </script>
 
 {% endblock %}

@@ -13,7 +13,7 @@ def shell_result(request):
     sapi = SaltAPI()
     if request.POST:
         cmd = request.POST.get("cmd")
-        host_list = request.POST.getlist("host")
+        host_list = request.POST.getlist("hosts_name")
         host_str = ",".join(host_list)
         result = sapi.shell_remote_execution(host_str,cmd)
         return render(request,'execute/minions_shell_result.html', {'result': result })
