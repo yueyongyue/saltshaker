@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import urllib2,urllib
-import time
+
 try:
     import json
 except ImportError:
@@ -77,7 +77,7 @@ class SaltAPI(object):
         return ret
     def shell_remote_execution(self,tgt,arg):
         ''' Shell command execution with parameters '''
-        params = {'client': 'local', 'tgt': tgt, 'fun': 'cmd.run', 'arg': arg , 'expr_form': 'list'}
+        params = {'client': 'local', 'tgt': tgt, 'fun': 'cmd.run', 'arg': arg, 'expr_form': 'list'}
         obj = urllib.urlencode(params)
         self.token_id()
         content = self.postRequest(obj)
@@ -145,10 +145,10 @@ class SaltAPI(object):
 def main():
     #sapi = SaltAPI(url='http://127.0.0.1:8000',username='admin',password='admin')
     sapi = SaltAPI()
-    ''' test '''
-    host = sapi.list_all_key()
-    b = sapi.runner_status("up")
-    #a = sapi.runner("manage.versions")
-    print b
+    a = sapi.runner_status("status").get("up")
+    for i in a:
+        print i
+
+    #print a
 if __name__ == '__main__':
     main()
