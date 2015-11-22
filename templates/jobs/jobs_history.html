@@ -31,7 +31,7 @@
                                     <tbody>
                                         {% for jid,info in jids.items %}
                                         <tr class="even gradeC">
-                                            <td><a href="../jobs/jobs_detail.html/{{ jid }}" title="jobs detail">{{ jid }}</a></td>
+                                            <td><div class="tooltip-demo"><a href="../jobs/jobs_detail.html/{{ jid }}" data-toggle="tooltip" data-placement="left" title="jobs detail">{{ jid }}</a></div></td>
                                             <td>{{ info.Function }}</td>
                                             <td>{% for arg in info.Arguments %}
                                                  <li style="list-style-type:none">

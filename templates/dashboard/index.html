@@ -12,11 +12,11 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Area Chart Example
+                            Minios Status
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
+                        <div class="panel-body" style="height:250px">
+                            <div id="main" style="height:250px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -26,11 +26,11 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Bar Chart Example
+                            OS Release
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-bar-chart"></div>
+                        <div class="panel-body" style="height:250px">
+                           <div id="main1" style="height:250px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -44,7 +44,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="morris-donut-chart"></div>
+                            <div id="main2" style="height:400px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -58,7 +58,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="morris-donut-chart"></div>
+                           <div id="main3" style="height:400px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -72,7 +72,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <p>&nbsp;</p>
+                           <div id="main4" style="height:400px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -83,5 +83,694 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
+      <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+
+      <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/funnel'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main'),'macarons');
+
+                var option = {
+                    title: {
+                        x: 'center',
+                        text: '',
+                        subtext: '',
+                        link: ''
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataView: {show: true, readOnly: false},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    calculable: true,
+                    grid: {
+                        borderWidth: 0,
+                        y: 50,
+                        y2: 30,
+                        x: 0,
+                        x2: 30
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            show: false,
+                            data: ['Up', 'Down', 'Accepted', 'Unaccepted', 'Rejected']
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            show: false
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'Minions Status',
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    color: function(params) {
+                                        // build a color map as your need.
+                                        var colorList = [
+                                          '#B5C334','#C1232B','#FCCE10','#E87C25','#27727B',
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    },
+                                    label: {
+                                        show: true,
+                                        position: 'top',
+                                        formatter: '{b}\n{c}'
+                                    }
+                                }
+                            },
+                            data: [40,21,10,4,12],
+                            markPoint: {
+                                tooltip: {
+                                    trigger: 'item',
+                                    backgroundColor: 'rgba(0,0,0,0)',
+                                    formatter: function(params){
+                                        return '<img src="'
+                                                + params.data.symbol.replace('image://', '')
+                                                + '"/>';
+                                    }
+                                },
+                                data: [
+                                    {xAxis:0, y: 350, name:'Line', symbolSize:20, symbol: 'image://../asset/ico/折线图.png'},
+                                    {xAxis:1, y: 350, name:'Bar', symbolSize:20, symbol: 'image://../asset/ico/柱状图.png'},
+                                    {xAxis:2, y: 350, name:'Scatter', symbolSize:20, symbol: 'image://../asset/ico/散点图.png'},
+                                    {xAxis:3, y: 350, name:'K', symbolSize:20, symbol: 'image://../asset/ico/K线图.png'},
+                                    {xAxis:4, y: 350, name:'Pie', symbolSize:20, symbol: 'image://../asset/ico/饼状图.png'},
+                                ]
+                            }
+                        }
+                    ]
+                };
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+      </script>
+
+      <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/pie', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/funnel'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main1'),'macarons');
+
+                var option = {
+                    title : {
+                        text: '',
+                        subtext: '',
+                        x:'center'
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient : 'vertical',
+                        x : 'left',
+                        data:['Centos6.5','Centos5.4','Ubuntu14.02','Centos7.0','RedHat7']
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {
+                                show: true,
+                                type: ['pie', 'funnel'],
+                                option: {
+                                    funnel: {
+                                        x: '29%',
+                                        width: '50%',
+                                        funnelAlign: 'left',
+                                        max: 1548
+                                    }
+                                }
+                            },
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    calculable : true,
+                    series : [
+                        {
+                            name:'OS Release',
+                            type:'pie',
+                            radius : '55%',
+                            center: ['50%', '56%'],
+                            data:[
+                                {value:335, name:'Centos6.5'},
+                                {value:310, name:'Centos5.4'},
+                                {value:234, name:'Ubuntu14.02'},
+                                {value:135, name:'Centos7.0'},
+                                {value:1548, name:'RedHat7'}
+                            ]
+                        }
+                    ]
+                };
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+  </script>
+
+      <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/pie', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/funnel'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main2'));
+
+               var labelTop = {
+                normal : {
+                    label : {
+                        show : true,
+                        position : 'center',
+                        formatter : '{b}',
+                        textStyle: {
+                            baseline : 'bottom'
+                        }
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                }
+            };
+            var labelFromatter = {
+                normal : {
+                    label : {
+                        formatter : function (params){
+                            return 100 - params.value + '%'
+                        },
+                        textStyle: {
+                            baseline : 'top'
+                        }
+                    }
+                },
+            }
+            var labelBottom = {
+                normal : {
+                    color: '#ccc',
+                    label : {
+                        show : true,
+                        position : 'center'
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                },
+                emphasis: {
+                    color: 'rgba(0,0,0,0)'
+                }
+            };
+            var radius = [40, 55];
+            option = {
+                legend: {
+                    x : 'center',
+                    y : 'center',
+                    data:[
+                        'GoogleMaps','Facebook','Youtube',
+                        'Twitter', 'Skype', 'Messenger'
+                    ]
+                },
+                title : {
+                    text: '',
+                    subtext: '',
+                    x: 'center'
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        dataView : {show: true, readOnly: false},
+                        magicType : {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    width: '20%',
+                                    height: '30%',
+                                    itemStyle : {
+                                        normal : {
+                                            label : {
+                                                formatter : function (params){
+                                                    return 'other\n' + params.value + '%\n'
+                                                },
+                                                textStyle: {
+                                                    baseline : 'middle'
+                                                }
+                                            }
+                                        },
+                                    }
+                                }
+                            }
+                        },
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                series : [
+                    {
+                        type : 'pie',
+                        center : ['20%', '30%'],
+                        radius : radius,
+                        x: '0%', // for funnel
+                        itemStyle : labelFromatter,
+                        data : [
+                            {name:'other', value:46, itemStyle : labelBottom},
+                            {name:'GoogleMaps', value:54,itemStyle : labelTop}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['50%', '30%'],
+                        radius : radius,
+                        x:'20%', // for funnel
+                        itemStyle : labelFromatter,
+                        data : [
+                            {name:'other', value:56, itemStyle : labelBottom},
+                            {name:'Facebook', value:44,itemStyle : labelTop}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['80%', '30%'],
+                        radius : radius,
+                        x:'40%', // for funnel
+                        itemStyle : labelFromatter,
+                        data : [
+                            {name:'other', value:65, itemStyle : labelBottom},
+                            {name:'Youtube', value:35,itemStyle : labelTop}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['20%', '70%'],
+                        radius : radius,
+                        y: '55%',   // for funnel
+                        x: '0%',    // for funnel
+                        itemStyle : labelFromatter,
+                        data : [
+                            {name:'other', value:78, itemStyle : labelBottom},
+                            {name:'Twitter', value:22,itemStyle : labelTop}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['50%', '70%'],
+                        radius : radius,
+                        y: '55%',   // for funnel
+                        x:'20%',    // for funnel
+                        itemStyle : labelFromatter,
+                        data : [
+                            {name:'other', value:78, itemStyle : labelBottom},
+                            {name:'Skype', value:22,itemStyle : labelTop}
+                        ]
+                    },
+                    {
+                        type : 'pie',
+                        center : ['80%', '70%'],
+                        radius : radius,
+                        y: '55%',   // for funnel
+                        x:'40%', // for funnel
+                        itemStyle : labelFromatter,
+                        data : [
+                            {name:'other', value:78, itemStyle : labelBottom},
+                            {name:'Messenger', value:22,itemStyle : labelTop}
+                        ]
+                    }
+
+                ]
+            };
+
+
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+    </script>
+
+      <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/gauge', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/funnel'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main3'),'macarons');
+
+                var option = {
+                    tooltip : {
+                        formatter: "{a} <br/>{c} {b}"
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    series : [
+                        {
+                            name:'速度',
+                            type:'gauge',
+                            radius : '55%',
+                            z: 3,
+                            min:0,
+                            max:220,
+                            splitNumber:11,
+                            axisLine: {            // 坐标轴线
+                                lineStyle: {       // 属性lineStyle控制线条样式
+                                    width: 10
+                                }
+                            },
+                            axisTick: {            // 坐标轴小标记
+                                length :15,        // 属性length控制线长
+                                lineStyle: {       // 属性lineStyle控制线条样式
+                                    color: 'auto'
+                                }
+                            },
+                            splitLine: {           // 分隔线
+                                length :20,         // 属性length控制线长
+                                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                    color: 'auto'
+                                }
+                            },
+                            title : {
+                                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                    fontWeight: 'bolder',
+                                    fontSize: 20,
+                                    fontStyle: 'italic'
+                                }
+                            },
+                            detail : {
+                                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                    fontWeight: 'bolder'
+                                }
+                            },
+                            data:[{value: 40, name: 'km/h'}]
+                        },
+                        {
+                            name:'转速',
+                            type:'gauge',
+                            center : ['15%', '55%'],    // 默认全局居中
+                            radius : '30%',
+                            min:0,
+                            max:7,
+                            endAngle:45,
+                            splitNumber:7,
+                            axisLine: {            // 坐标轴线
+                                lineStyle: {       // 属性lineStyle控制线条样式
+                                    width: 8
+                                }
+                            },
+                            axisTick: {            // 坐标轴小标记
+                                length :12,        // 属性length控制线长
+                                lineStyle: {       // 属性lineStyle控制线条样式
+                                    color: 'auto'
+                                }
+                            },
+                            splitLine: {           // 分隔线
+                                length :20,         // 属性length控制线长
+                                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                    color: 'auto'
+                                }
+                            },
+                            pointer: {
+                                width:5
+                            },
+                            title : {
+                                offsetCenter: [0, '-30%'],       // x, y，单位px
+                            },
+                            detail : {
+                                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                    fontWeight: 'bolder'
+                                }
+                            },
+                            data:[{value: 1.5, name: 'x1000 r/min'}]
+                        },
+                        {
+                            name:'油表',
+                            type:'gauge',
+                            center : ['85%', '50%'],    // 默认全局居中
+                            radius : '30%',
+                            min:0,
+                            max:2,
+                            startAngle:135,
+                            endAngle:45,
+                            splitNumber:2,
+                            axisLine: {            // 坐标轴线
+                                lineStyle: {       // 属性lineStyle控制线条样式
+                                    color: [[0.2, '#ff4500'],[0.8, '#48b'],[1, '#228b22']],
+                                    width: 8
+                                }
+                            },
+                            axisTick: {            // 坐标轴小标记
+                                splitNumber:5,
+                                length :10,        // 属性length控制线长
+                                lineStyle: {       // 属性lineStyle控制线条样式
+                                    color: 'auto'
+                                }
+                            },
+                            axisLabel: {
+                                formatter:function(v){
+                                    switch (v + '') {
+                                        case '0' : return 'E';
+                                        case '1' : return 'Gas';
+                                        case '2' : return 'F';
+                                    }
+                                }
+                            },
+                            splitLine: {           // 分隔线
+                                length :15,         // 属性length控制线长
+                                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                    color: 'auto'
+                                }
+                            },
+                            pointer: {
+                                width:2
+                            },
+                            title : {
+                                show: false
+                            },
+                            detail : {
+                                show: false
+                            },
+                            data:[{value: 0.5, name: 'gas'}]
+                        },
+                        {
+                            name:'水表',
+                            type:'gauge',
+                            center : ['85%', '50%'],    // 默认全局居中
+                            radius : '30%',
+                            min:0,
+                            max:2,
+                            startAngle:315,
+                            endAngle:225,
+                            splitNumber:2,
+                            axisLine: {            // 坐标轴线
+                                lineStyle: {       // 属性lineStyle控制线条样式
+                                    color: [[0.2, '#ff4500'],[0.8, '#48b'],[1, '#228b22']],
+                                    width: 8
+                                }
+                            },
+                            axisTick: {            // 坐标轴小标记
+                                show: false
+                            },
+                            axisLabel: {
+                                formatter:function(v){
+                                    switch (v + '') {
+                                        case '0' : return 'H';
+                                        case '1' : return 'Water';
+                                        case '2' : return 'C';
+                                    }
+                                }
+                            },
+                            splitLine: {           // 分隔线
+                                length :15,         // 属性length控制线长
+                                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                    color: 'auto'
+                                }
+                            },
+                            pointer: {
+                                width:2
+                            },
+                            title : {
+                                show: false
+                            },
+                            detail : {
+                                show: false
+                            },
+                            data:[{value: 0.5, name: 'gas'}]
+                        }
+                    ]
+                };
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+  </script>
+
+      <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/bar'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main4'),'macarons');
+
+                var option = {
+                    title : {
+                        text : '',
+                        subtext : ''
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter : function (params) {
+                            var date = new Date(params.value[0]);
+                            data = date.getFullYear() + '-'
+                                   + (date.getMonth() + 1) + '-'
+                                   + date.getDate() + ' '
+                                   + date.getHours() + ':'
+                                   + date.getMinutes();
+                            return data + '<br/>'
+                                   + params.value[1] + ', '
+                                   + params.value[2];
+                        }
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    dataZoom: {
+                        show: true,
+                        start : 70
+                    },
+                    legend : {
+                        data : ['series1']
+                    },
+                    grid: {
+                        y2: 80,
+                        x: 30,
+                        x2: 40
+                    },
+                    xAxis : [
+                        {
+                            type : 'time',
+                            splitNumber:10
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name: 'series1',
+                            type: 'line',
+                            showAllSymbol: true,
+                            symbolSize: function (value){
+                                return Math.round(value[2]/10) + 2;
+                            },
+                            data: (function () {
+                                var d = [];
+                                var len = 0;
+                                var now = new Date();
+                                var value;
+                                while (len++ < 200) {
+                                    d.push([
+                                        new Date(2014, 9, 1, 0, len * 10000),
+                                        (Math.random()*30).toFixed(2) - 0,
+                                        (Math.random()*100).toFixed(2) - 0
+                                    ]);
+                                }
+                                return d;
+                            })()
+                        }
+                    ]
+                };
+
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+  </script>
+
+
+
   {% endblock %}
 
