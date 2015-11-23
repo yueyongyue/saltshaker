@@ -20,7 +20,6 @@ class NodeGroups(object):
         return nodegroups
 
     def list_groups_hosts(self):
-        #group_host_dic = {}
         all_group_host = {}
         os.system("sed '1d' /etc/salt/master.d/nodegroups.conf | awk '{print $1}' |awk -F: '{print $1}' > /tmp/nodegroups")
         nodegroup = open("/tmp/nodegroups","r").readlines()

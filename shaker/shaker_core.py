@@ -145,9 +145,8 @@ class SaltAPI(object):
 def main():
     #sapi = SaltAPI(url='http://127.0.0.1:8000',username='admin',password='admin')
     sapi = SaltAPI()
-    a = sapi.runner_status("status")
-    for i in a:
-        print i
+    jids = sapi.runner("jobs.list_jobs")
+    print jids
 
     #print a
 if __name__ == '__main__':
