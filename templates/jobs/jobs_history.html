@@ -40,13 +40,7 @@
                                                 {% endfor %}
                                             </td>
                                             <td>{{ info.StartTime }}</td>
-                                            <td>
-                                                <ui class="list-inline">
-                                                        <li>
-                                                          {{ info.Target }}
-                                                        </li>
-                                                </ui>
-                                            </td>
+                                            <td style="table-layout: fixed;WORD-BREAK: break-all; WORD-WRAP: break-word">{{ info.Target }}</td>
                                             <td>{{ info.User }}</td>
                                         </tr>
                                         {% endfor %}
