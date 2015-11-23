@@ -41,9 +41,11 @@
                                                 </li>
                                             </td>
                                             <td>
-                                                  {% for ip in key.ipv4 %}
+                                                  {% for inter,ip_list in key.ip4_interfaces.items %}
                                                   <li style="list-style-type:none">
-                                                       {{ ip }}
+                                                       {% for ip in ip_list %}
+                                                           {{ inter }}:{{ ip }}
+                                                       {% endfor %}
                                                   </li>
                                                   {% endfor %}
                                             </td>
