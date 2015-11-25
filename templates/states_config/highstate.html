@@ -16,82 +16,95 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                     <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration:none">Target</a></label>
-                            <form method="post" action="../execute/minions_shell_result.html" target="iframepage">     <!-- target iframe refresh minions_shell_result.html -->
-                                     <div id="collapseOne" class="panel-collapse collapse on">
-                                        <div class="panel-body" style="padding:0px">
-                                           <table class="table table-striped table-bordered table-hover">
-                                               <tr>
-                                                   <td>
-                                                       <label>Groups</label>
-                                                   </td>
-                                                   <td>
-                                                       <label>Hosts</label>
-                                                   </td>
-                                               </tr>
-                                               {% for groups,hosts in list_groups.items %}
-                                               <tr>
-                                                   <td>
-                                                       <div class="checkbox-inline" style="margin-left:7px">
-                                                          <input  id="{{ groups }}"  onclick="selectAll('{{ groups }}')" type="checkbox" value="">{{ groups }}
+                                <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration:none">Target</a></label>
+                                <div id="collapseOne" class="panel-collapse collapse on">
+                                    <div class="panel-body" style="padding:0px">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <tr>
+                                                <td>
+                                                   <label>Groups</label>
+                                               </td>
+                                               <td>
+                                                   <label>Hosts</label>
+                                               </td>
+                                            </tr>
+                                            {% for groups,hosts in list_groups.items %}
+                                            <tr>
+                                                <td>
+                                                   <div class="checkbox-inline" style="margin-left:7px">
+                                                      <input  id="{{ groups }}"  onclick="selectAll('{{ groups }}')" type="checkbox" value="">{{ groups }}
+                                                   </div>
+                                                </td>
+                                                <td>
+                                                   {% for host in hosts %}
+                                                       <div class="checkbox-inline" name="checkedhost">
+                                                           <input class="{{ groups }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
                                                        </div>
-                                                   </td>
-                                                   <td>
-                                                       {% for host in hosts %}
-                                                           <div class="checkbox-inline" name="checkedhost">
-                                                               <input class="{{ groups }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
-                                                           </div>
-                                                       {% endfor %}
-                                                   </td>
-                                               </tr>
-                                               {% endfor %}
-                                           </table>
-                                        </div>
-                                     </div>
-                            </div>
-                        <div class="panel-body" style="width:20%;float:left;padding: 1px">
-                            <label>SLS</label>
-                            <ul class="nav ">
-                                <li class="active"><a href="#Initialization" data-toggle="tab">Initialization OS</a>
-                                </li>
-                                <li><a href="#Package" data-toggle="tab">Install Package</a>
-                                </li>
-                                <li><a href="Nginx" data-toggle="tab">Nginx</a>
-                                </li>
-                                <li><a href="#Tomcat" data-toggle="tab">Tomcat</a>
-                                </li>
-                                <li><a href="#Scribe" data-toggle="tab">Scribe</a>
-                                </li>
-                                <li><a href="#Crontab" data-toggle="tab">Crontab</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="panel-body" style="width: 80%;float:right;padding: 30px 1px 1px 12px">
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-                                <div class="tab-pane fade in active" id="Initialization" style="width: 100% ">
-                                    <textarea class="form-control" rows="20" >Lorem ipsum dolor sit amet,</textarea>
-                                </div>
-                                <div class="tab-pane fade" id="Package" style="width: 100% ">
-                                    <textarea class="form-control" rows="20">prehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
-                                </div>
-                                <div class="tab-pane fade" id="Nginx" style="width: 100% ">
-                                    <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
-                                </div>
-                                <div class="tab-pane fade" id="Tomcat" style="width: 100% ">
-                                    <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
-                                </div>
-                                <div class="tab-pane fade" id="Scribe" style="width: 100% ">
-                                    <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
-                                </div>
-                                <div class="tab-pane fade" id="Crontab" style="width: 100% ">
-                                    <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                                   {% endfor %}
+                                               </td>
+                                            </tr>
+                                           {% endfor %}
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="form-group" style="padding-bottom: 1px">
+                                <label>SLS</label>
+                                <div class="panel panel-default">
+                                    <table width="100%">
+                                        <tr>
+                                            <td style="padding: 0px"  valign="top">
+                                                <div class="panel-body" style="width: 100%;padding-right: 0px">
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="active"><a href="#Initialization" data-toggle="tab">Initialization OS</a>
+                                                        </li>
+                                                        <li><a href="#Package" data-toggle="tab">Install Package</a>
+                                                        </li>
+                                                        <li><a href="Nginx" data-toggle="tab">Nginx</a>
+                                                        </li>
+                                                        <li><a href="#Tomcat" data-toggle="tab">Tomcat</a>
+                                                        </li>
+                                                        <li><a href="#Scribe" data-toggle="tab">Scribe</a>
+                                                        </li>
+                                                        <li><a href="#Crontab" data-toggle="tab">Crontab</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <input type='button' class='btn btn-outline btn-success btn-xs' value='Submit'/>
+                                                    <input type='button' class='btn btn-outline btn-success btn-xs' value='Submit'/>
+                                                </div>
+                                            </td>
+                                            <td width="80%">
+                                                <div class="panel-body" style="width: 100%;padding-left: 0px">
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane fade in active" id="Initialization" style="width: 100% ">
+                                                            <textarea class="form-control" rows="20" >Lorem ipsum dolor sit amet,</textarea>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="Package" style="width: 100% ">
+                                                            <textarea class="form-control" rows="20">prehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="Nginx" style="width: 100% ">
+                                                            <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="Tomcat" style="width: 100% ">
+                                                            <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="Scribe" style="width: 100% ">
+                                                            <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="Crontab" style="width: 100% ">
+                                                            <textarea class="form-control" rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            </div>
                         </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
                     </div>
                 </div>
             </div>
