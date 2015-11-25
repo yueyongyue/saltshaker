@@ -1,5 +1,6 @@
 {% extends "base.html" %}
   {% block content %}
+
       <div id="page-wrapper" xmlns="http://www.w3.org/1999/html">
             <div class="row">
                 <div class="col-lg-12">
@@ -18,8 +19,7 @@
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
                                      <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration:none">Target</a></label>
-                                  <div>
-                                  <form method="post" action="../execute/minions_shell_result.html" target="iframepage">     <!-- target iframe refresh minions_shell_result.html -->
+                            <form method="post" action="../execute/minions_shell_result.html" target="iframepage">     <!-- target iframe refresh minions_shell_result.html -->
                                      <div id="collapseOne" class="panel-collapse collapse on">
                                         <div class="panel-body" style="padding:0px">
                                            <table class="table table-striped table-bordered table-hover">
@@ -49,9 +49,8 @@
                                                {% endfor %}
                                            </table>
                                         </div>
-                                    </div>
-                                </div>
-                              </div>
+                                     </div>
+                            </div>
                             <div class="form-group">
                                 <label>Command</label>
                                 <textarea class="form-control" rows="3" name="cmd" id="shell_cmd"></textarea>
@@ -60,12 +59,12 @@
                                 <input type="submit" value="Submit" class="btn btn-default"/>
                                 <input type="reset" value="Reset" class="btn btn-default" />
                             </div>
-                           </form>
+                            </form>
                             <div class="form-group">
                                 <label>Command Result</label>
                                 <iframe src="../execute/minions_shell_result.html"  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="100%" height=100% id="iframepage" name="iframepage" onLoad="iFrameHeight()"></iframe>
                             </div>
-                         </div>
+                        </div>
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
@@ -73,9 +72,9 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-        </div>
+      </div>
 
-    <script type="text/javascript">
+      <script type="text/javascript">
         function selectAll(group){
            var checklist = document.getElementsByClassName(group);
             //alert(checklist)
@@ -101,4 +100,4 @@
         }
     </script>
 
-{% endblock %}
+  {% endblock %}
