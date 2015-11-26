@@ -5,6 +5,9 @@ from shaker.nodegroups import *
 def highstate(request):
     group = NodeGroups()
     all = group.list_groups_hosts()
-    return render(request,'states_config/highstate.html',{ 'list_groups': all } )
+    sapi = SaltAPI()
+    jids = sapi.deploy('echo','init.nginx-full')['return'][0]
+    #return render(request,'states_config/highstate.html',{ 'list_groups': all } )
+    return render(request,'states_config/highstate.html',{ 'result': jids } )
 
 

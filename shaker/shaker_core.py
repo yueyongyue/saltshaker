@@ -28,6 +28,15 @@ class SaltAPI(object):
         opener = urllib2.urlopen(req)
         content = json.loads(opener.read())
         return content
+
+    def postRequest1(self,obj,prefix='/'):
+        url = self.__url + prefix
+        headers = {'X-Auth-Token'   : self.__token_id}
+        req = urllib2.Request(url, obj, headers)
+        opener = urllib2.urlopen(req)
+        content = opener.info()
+        return content
+
     def list_all_key(self):
         params = {'client': 'wheel', 'fun': 'key.list_all'}
         obj = urllib.urlencode(params)
@@ -145,7 +154,8 @@ class SaltAPI(object):
 def main():
     #sapi = SaltAPI(url='http://127.0.0.1:8000',username='admin',password='admin')
     sapi = SaltAPI()
-    jids = sapi.runner("jobs.list_jobs")
+    jids = sapi.deploy('echo','init.nginx-full')
+    #jids = sapi.shell_remote_execution('echo','netstat -tnlp')
     print jids
 
     #print a
