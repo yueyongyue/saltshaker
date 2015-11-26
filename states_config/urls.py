@@ -17,5 +17,6 @@ from django.conf.urls import include, url
 from . import views
 
 urlpatterns = [
-    url(r'^highstate', views.highstate,name='highstate'),
+    url(r'^highstate.html$', views.highstate,name='highstate'),
+    url(r'^highstate_result', views.highstate_result,name='highstate_result'),
 ]
