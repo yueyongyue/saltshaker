@@ -116,8 +116,8 @@ class SaltAPI(object):
         jid = content['return'][0]['jid']
         return jid
     def target_deploy(self,tgt,arg):
-        ''' Based on the node group forms deployment '''
-        params = {'client': 'local_async', 'tgt': tgt, 'fun': 'state.sls', 'arg': arg, 'expr_form': 'nodegroup'}
+        ''' Based on the list forms deployment '''
+        params = {'client': 'local_async', 'tgt': tgt, 'fun': 'state.sls', 'arg': arg, 'expr_form': 'list'}
         obj = urllib.urlencode(params)
         self.token_id()
         content = self.postRequest(obj)
@@ -154,7 +154,7 @@ class SaltAPI(object):
 def main():
     #sapi = SaltAPI(url='http://127.0.0.1:8000',username='admin',password='admin')
     sapi = SaltAPI()
-    jids = sapi.deploy('echo','init.nginx-full')
+    jids = sapi.target_deploy('echo.example.sinanode.com.cn','nginx-test')
     #jids = sapi.shell_remote_execution('echo','netstat -tnlp')
     print jids
 

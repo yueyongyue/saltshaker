@@ -3,7 +3,7 @@ import os
 class HighState(object):
     def __init__(self):
         if os.path.isfile('/etc/salt/master.d/file_roots.conf') == True:
-            print ""
+            os.system("mkdir -p /srv/salt")
         else:
             file_roots = file("/etc/salt/master.d/file_roots.conf", "w+")
             add = ["file_roots:\n", "  base:\n", "    - /srv/salt\n"]
@@ -25,15 +25,23 @@ class HighState(object):
         files.writelines(content)
         files.close()
 
+    def del_sls(self, filename):
+        path = r"/srv/salt/" + filename + ".sls"
+        if os.path.exists(path):
+            os.remove(path)
+        else:
+            return "file not exit"
+
 
 
 def main():
     highstate = HighState()
     #a = highstate.list_sls("/srv/salt/")
-    b = ['12345\n','  67890f\n']
-    a = highstate.add_sls("rsync", b)
-    print a
-
+    #b = ['dfgdfgfgfdg\n','  fgfgfdgfgfgfg\n']
+    #a = highstate.add_sls("tomcat", b)
+    #print a
+    #filename = "test"
+    #a = highstate.del_sls(filename)
 
 
 if __name__ == '__main__':
