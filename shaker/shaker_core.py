@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import urllib2,urllib
+import os
+import time
 
 try:
     import json
@@ -16,7 +18,7 @@ class SaltAPI(object):
         params = {'eauth': 'pam', 'username': self.__user, 'password': self.__password}
         encode = urllib.urlencode(params)
         obj = urllib.unquote(encode)
-        content = self.postRequest(obj,prefix='/login')
+        content = self.postRequest(obj, prefix='/login')
         try:
             self.__token_id = content['return'][0]['token']
         except KeyError:
@@ -128,7 +130,7 @@ class SaltAPI(object):
         url = self.__url + '/jobs/'
         self.token_id()
         headers = {'X-Auth-Token': self.__token_id}
-        req = urllib2.Request(url,headers=headers)
+        req = urllib2.Request(url, headers=headers)
         opener = urllib2.urlopen(req)
         content = json.loads(opener.read())
         jid = content['return'][0]
@@ -154,9 +156,20 @@ class SaltAPI(object):
 def main():
     #sapi = SaltAPI(url='http://127.0.0.1:8000',username='admin',password='admin')
     sapi = SaltAPI()
-    jids = sapi.target_deploy('echo.example.sinanode.com.cn','nginx-test')
+    jid = sapi.target_deploy('echo.example.sinanode.com.cn','nginx-test')
     #jids = sapi.shell_remote_execution('echo','netstat -tnlp')
-    print jids
+    jids = "salt-run jobs.lookup_jid " + jid
+    #print jid
+    time.sleep(100)
+    result = os.popen(jids).readlines()
+    #if result == "":
+    #    result = "Execute time too long, Please Click "  jid + " show it"
+    #    print result
+    #else:
+    #    print result
+
+    print result
+
 
     #print a
 if __name__ == '__main__':
