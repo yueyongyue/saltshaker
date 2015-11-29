@@ -17,12 +17,12 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-import dashboard,minions,execute,jobs,states_config,code_update,groups,system_setup
+import dashboard,minions,execute,jobs,states_config,code_update,groups,system_setup,account
 
 urlpatterns = [
-    url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.STATIC_ROOT}),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.STATIC_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^index.html',include('dashboard.urls')),
+    url(r'^index.html', include('dashboard.urls')),
     url(r'^$', include('dashboard.urls')),
     url(r'minions/', include('minions.urls')),
     url(r'execute/', include('execute.urls')),
@@ -31,6 +31,6 @@ urlpatterns = [
     #url(r'code_update/', include('code_update.urls')),
     url(r'groups/', include('groups.urls')),
     #url(r'system_setup/', include('system_setup.urls')),
-    url(r'login/', include('dashboard.urls')),
+    url(r'login.html/', include('account.urls')),
 
 ]
