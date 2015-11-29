@@ -20,11 +20,14 @@ def highstate_result(request):
         host_list = request.POST.getlist("hosts_name")
         host_str = ",".join(host_list)
         jid = sapi.target_deploy(host_str, sls_name)
-        jids = "salt-run jobs.lookup_jid" + " " + jid
-        time.sleep(10)
-        detail = os.popen(jids).read()
-        test = "testestestet "
-        return render(request, 'states_config/highstate_result.html', {'result': detail, "jids": jid, "cmd": jids, "test": test})
+        jids = "salt-run jobs.lookup_jid " + jid
+        time.sleep(100)
+        result = os.popen(jids).read()
+        if result == "":
+            result = "Execute time too long, Please see jid:" + jid + " history."
+            return render(request, 'states_config/highstate_result.html', {'result': result})
+        else:
+            return render(request, 'states_config/highstate_result.html', {'result': result})
     return render(request, 'states_config/highstate_result.html')
 
 def add_sls(request):
@@ -41,9 +44,3 @@ def del_sls(request):
         sls_name = request.POST.get("filename")
         high.del_sls(sls_name)
         return HttpResponse(sls_name)
-'''
-jid = "20151129093930970477"
-jids = "salt-run jobs.lookup_jid" + " " + jid
-detail = os.popen(jids).read()
-print detail
-'''
