@@ -21,19 +21,25 @@
                                     <thead>
                                         <tr>
                                             <th>Minions</th>
+                                            <th>Version</th>
+                                            <th>Group</th>
                                             <th>Up/Down</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for value in status.up %}
+                                        {% for dic in status.up %}
                                         <tr class="odd gradeC">
-                                            <td>{{ value }}</td>
+                                            <td>{{ dic.host }}</td>
+                                            <td>{{ dic.version }}</td>
+                                            <td>{{ dic.group }}</td>
                                             <td style="text-align:center"><div class="btn-success btn-xs" style="width:50px">Up</div></td>
                                         </tr>
                                         {% endfor %}
-                                        {% for value in status.down %}
+                                        {% for dic in status.down %}
                                         <tr class="odd gradeC">
-                                            <td>{{ value }}</td>
+                                            <td>{{ dic.host }}</td>
+                                            <td>{{ dic.version }}</td>
+                                            <td>{{ dic.group }}</td>
                                             <td style="text-align:center"><div class="btn-danger btn-xs" style="width:50px">Down</div></td>
                                         </tr>
                                         {% endfor %}

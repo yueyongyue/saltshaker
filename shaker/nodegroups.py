@@ -64,14 +64,22 @@ class NodeGroups(object):
         cmd = "sed -i '/.*" + group + ".*/s/" + host + ",//g' /etc/salt/master.d/nodegroups.conf"
         os.system(cmd)
 
+    def hosts_in_group(self,host):
+        cmd = "grep " + host + " /etc/salt/master.d/nodegroups.conf | awk -F: '{print $1}'"
+        gname = os.popen(cmd).read().split('\n')[0].split()[0]
+        gname_dic = {'group': gname}
+        return gname_dic
+
+
 
 def main():
     host = NodeGroups()
-    c = host.list_groups_hosts()
+    #c = host.list_groups_hosts()
     #b = host.del_hosts('SAX','192.168.10.8')
     #print  b
     #a = host.list_hosts('DMP0001')
     #print a
+    c = host.hosts_in_group("echo.example.sinanode.com.cn")
     print c
 
 if __name__ == '__main__':

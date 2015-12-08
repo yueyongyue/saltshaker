@@ -2,6 +2,7 @@
 import urllib2,urllib
 import os
 import time
+from nodegroups import *
 
 try:
     import json
@@ -156,20 +157,33 @@ class SaltAPI(object):
 def main():
     #sapi = SaltAPI(url='http://127.0.0.1:8000',username='admin',password='admin')
     sapi = SaltAPI()
-    jid = sapi.target_deploy('echo.example.sinanode.com.cn','nginx-test')
+    #jid = sapi.target_deploy('echo.example.sinanode.com.cn','nginx-test')
     #jids = sapi.shell_remote_execution('echo','netstat -tnlp')
-    jids = "salt-run jobs.lookup_jid " + jid
+    #jids = "salt-run jobs.lookup_jid " + jid
     #print jid
-    time.sleep(100)
-    result = os.popen(jids).readlines()
+    #time.sleep(100)
+    #result = os.popen(jids).readlines()
     #if result == "":
     #    result = "Execute time too long, Please Click "  jid + " show it"
     #    print result
     #else:
     #    print result
+    status_all = sapi.runner_status('status')
+    b = NodeGroups()
 
-    print result
+    print status_all
+    for hosts in status_all['up']:
+        print hosts
+        version = sapi.remote_noarg_execution(hosts, 'grains.items')['saltversion']
+        version_dic = {'version': version}
+        group = b.hosts_in_group(hosts)
+        hosts_dic = {'host': hosts}
+        hosts_dic.update(group)
+        hosts_dic.update(version_dic)
+        print hosts_dic
 
+
+        print version_dic
 
     #print a
 if __name__ == '__main__':
