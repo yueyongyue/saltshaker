@@ -27,7 +27,7 @@ class NodeGroups(object):
             group = i.split('\n')[0]
             cmd = ''' sed -n "s/^  ''' + group + '''.*@/'/gp" /etc/salt/master.d/nodegroups.conf | sed -n "s/'//gp"'''
             hosts = os.popen(cmd).read().split('\n')[0].split(',')[0:-1]
-            sort_hosts = sorted(hosts)
+            sort_hosts = sorted(hosts, key=lambda ele: ele, reverse=True)
             group_host_dic = {group: sort_hosts}
             all_group_host.update(group_host_dic)
         return all_group_host
@@ -53,7 +53,7 @@ class NodeGroups(object):
     def list_hosts(self,group):
         cmd = ''' sed -n "s/^  ''' + group + '''.*@/'/gp" /etc/salt/master.d/nodegroups.conf | sed -n "s/'//gp"'''
         hosts = os.popen(cmd).read().split('\n')[0].split(',')[0:-1]
-        sort_hosts = sorted(hosts)
+        sort_hosts = sorted(hosts, key=lambda ele: ele, reverse=True)
         return sort_hosts
 
     def add_hosts(self,group,host):
@@ -77,10 +77,10 @@ def main():
     #c = host.list_groups_hosts()
     #b = host.del_hosts('SAX','192.168.10.8')
     #print  b
-    #a = host.list_hosts('DMP0001')
-    #print a
-    c = host.hosts_in_group("echo.example.sinanode.com.cn")
-    print c
+    a = host.list_hosts('Salt')
+    print a
+    #c = host.hosts_in_group("echo.example.sinanode.com.cn")
+    #print c
 
 if __name__ == '__main__':
     main()
