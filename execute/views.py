@@ -12,11 +12,11 @@ def shell_runcmd(request):
 def shell_result(request):
     sapi = SaltAPI()
     if request.POST:
-        cmd = request.POST.get("cmd")
+        cmd = request.POST.get("cmd").strip()
         host_list = request.POST.getlist("hosts_name")
         host_str = ",".join(host_list)
-        result = sapi.shell_remote_execution(host_str,cmd)
-        return render(request, 'execute/minions_shell_result.html', {'result': result})
+        result = sapi.shell_remote_execution(host_str, cmd)
+        return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd})
     return render(request, 'execute/minions_shell_result.html')
 
 def salt_runcmd(request):
