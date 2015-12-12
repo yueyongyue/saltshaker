@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from shaker.shaker_core import *
 from shaker.nodegroups import *
 from shaker.highstate import *
 import os
 import time
 
+@login_required(login_url="/account/login/")
 def highstate(request):
     group = NodeGroups()
     high = HighState()
@@ -13,6 +15,7 @@ def highstate(request):
     all_sls = high.list_sls('/srv/salt/')
     return render(request, 'states_config/highstate.html', {'list_groups': all_host, 'all_sls': all_sls})
 
+@login_required(login_url="/account/login/")
 def highstate_result(request):
     sapi = SaltAPI()
     if request.POST:
@@ -30,6 +33,7 @@ def highstate_result(request):
             return render(request, 'states_config/highstate_result.html', {'result': result})
     return render(request, 'states_config/highstate_result.html')
 
+@login_required(login_url="/account/login/")
 def add_sls(request):
     high = HighState()
     if request.POST:
@@ -38,6 +42,7 @@ def add_sls(request):
         high.add_sls(sls_name, sls_content)
         return HttpResponse(sls_content)
 
+@login_required(login_url="/account/login/")
 def del_sls(request):
     high = HighState()
     if request.POST:
