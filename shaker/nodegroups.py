@@ -66,7 +66,7 @@ class NodeGroups(object):
 
     def hosts_in_group(self,host):
         cmd = "grep " + host + " /etc/salt/master.d/nodegroups.conf | awk -F: '{print $1}'"
-        gname = os.popen(cmd).read().split('\n')[0].split()[0]
+        gname = os.popen(cmd).read()
         gname_dic = {'group': gname}
         return gname_dic
 
@@ -77,10 +77,10 @@ def main():
     #c = host.list_groups_hosts()
     #b = host.del_hosts('SAX','192.168.10.8')
     #print  b
-    a = host.list_hosts('Salt')
-    print a
-    #c = host.hosts_in_group("echo.example.sinanode.com.cn")
-    #print c
+    # = host.list_hosts('Salt')
+    #rint a
+    c = host.hosts_in_group("echoeee")
+    print c
 
 if __name__ == '__main__':
     main()

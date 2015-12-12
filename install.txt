@@ -13,6 +13,7 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
 
      官方文档http://docs.saltstack.cn/zh_CN/latest/topics/installation/ubuntu.ht
 
+<<<<<<< HEAD
 
      一键添加软件源仓库并导入PPA的key
      add-apt-repository ppa:saltstack/salt
@@ -25,6 +26,20 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
      apt-get update
 
      安装saltstack
+=======
+      
+     一键添加软件源仓库并导入PPA的key
+     add-apt-repository ppa:saltstack/salt  
+     
+     手动添加软件源仓库和导入PPA key                            
+     echo deb http://ppa.launchpad.net/saltstack/salt/ubuntu `lsb_release -sc` main | sudo tee /etc/apt/sources.list.d/saltstack.list
+     wget -q -O- "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x4759FA960E27C0A6" | sudo apt-key add -
+   
+     更新软件仓库
+     apt-get update
+   
+     安装saltstack                             
+>>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
      apt-get install salt-master
      apt-get install salt-minion
      apt-get install salt-syndic
@@ -34,7 +49,11 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
       pip install cherrypy==3.8.0
 
 4、配置api
+<<<<<<< HEAD
      使用系统pam进行认证，useradd admin && passwd admin
+=======
+     使用系统pam进行认证，useradd admin && passwd admin 
+>>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
      vim /etc/salt/master.d/saltapi.conf
       rest_cherrypy:
         port: 8000
@@ -42,18 +61,30 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
         disable_ssl: true
      external_auth:
         pam:
+<<<<<<< HEAD
           admin:
             - .*
             - '@runner'
             - '@wheel'
 
+=======
+          admin:                                                 
+            - .*
+            - '@runner'
+            - '@wheel'
+  
+>>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
      /etc/init.d/salt-master restart
     /etc/init.d/salt-api restart
     netstat -tnlp | grep 8000   看到8000端口监听在127.0.0.1上就可以了
 
 5、安装及配置Django
      pip install Django==1.8.4
+<<<<<<< HEAD
 
+=======
+     
+>>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
      django-admin startproject saltshaker
      django-admin startapp shaker
 
@@ -68,7 +99,14 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
                    'PORT': '3306', # Set to empty string for default. Not used with sqlite3.
          }
       }
+<<<<<<< HEAD
 
    python manage.py migrate        同步数据
    python manage.py runserver  0.0.0.0:9000     运行服务
    python manage.py createsuperuser          设置后台管理密码
+=======
+        
+   python manage.py migrate        同步数据
+     python manage.py runserver  0.0.0.0:9000     运行服务
+     python manage.py createsuperuser          设置后台管理密码
+>>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
