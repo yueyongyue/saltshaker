@@ -26,6 +26,7 @@ SECRET_KEY = 't@r05nl_m2jp8*=(rkn)r+$7n(jujyt@uviwy(4$$@+t&@yry8'
 DEBUG = True
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 60*30
 
 ALLOWED_HOSTS = []
 
