@@ -1,20 +1,17 @@
 saltshaker 环境搭建 Ubuntu 14.04.3 LTS
 
-1、安装pip            详细文档及使用http://www.ttlsa.com/python/how-to-install-and-use-pip-ttlsa/
+1、安装pip  详细文档及使用http://www.ttlsa.com/python/how-to-install-and-use-pip-ttlsa/
      下载pip
      wget "https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196" --no-check-certificate
 
      安装pip
-      tar -xzvf pip-7.1.2.tar.gz
-      cd  pip-7.1.2
-      python setup.py install
+     tar -xzvf pip-7.1.2.tar.gz
+     cd  pip-7.1.2
+     python setup.py install
 
 2、安装saltstack   版本 salt 2015.5.3 (Lithium)
 
      官方文档http://docs.saltstack.cn/zh_CN/latest/topics/installation/ubuntu.ht
-
-<<<<<<< HEAD
-
      一键添加软件源仓库并导入PPA的key
      add-apt-repository ppa:saltstack/salt
 
@@ -26,8 +23,7 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
      apt-get update
 
      安装saltstack
-=======
-      
+
      一键添加软件源仓库并导入PPA的key
      add-apt-repository ppa:saltstack/salt  
      
@@ -39,7 +35,6 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
      apt-get update
    
      安装saltstack                             
->>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
      apt-get install salt-master
      apt-get install salt-minion
      apt-get install salt-syndic
@@ -49,64 +44,42 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
       pip install cherrypy==3.8.0
 
 4、配置api
-<<<<<<< HEAD
      使用系统pam进行认证，useradd admin && passwd admin
-=======
-     使用系统pam进行认证，useradd admin && passwd admin 
->>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
      vim /etc/salt/master.d/saltapi.conf
-      rest_cherrypy:
+     rest_cherrypy:
         port: 8000
         host: 127.0.0.1
         disable_ssl: true
      external_auth:
         pam:
-<<<<<<< HEAD
           admin:
             - .*
             - '@runner'
             - '@wheel'
-
-=======
-          admin:                                                 
-            - .*
-            - '@runner'
-            - '@wheel'
   
->>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
-     /etc/init.d/salt-master restart
+    /etc/init.d/salt-master restart
     /etc/init.d/salt-api restart
     netstat -tnlp | grep 8000   看到8000端口监听在127.0.0.1上就可以了
 
 5、安装及配置Django
-     pip install Django==1.8.4
-<<<<<<< HEAD
-
-=======
-     
->>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
-     django-admin startproject saltshaker
-     django-admin startapp shaker
+      pip install Django==1.8.4
 
       vim settings.py       配置数据库
       DATABASES = {
                'default': {
                    'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-                    'NAME': 'saltshaker', # Or path to database file if using sqlite3.
-                    'USER': 'root', # Not used with sqlite3.
+                   'NAME': 'saltshaker', # Or path to database file if using sqlite3.
+                   'USER': 'root', # Not used with sqlite3.
                    'PASSWORD': 'sina', # Not used with sqlite3.
                    'HOST': 'localhost', # Set to empty string for localhost. Not used with sqlite3.
                    'PORT': '3306', # Set to empty string for default. Not used with sqlite3.
          }
       }
-<<<<<<< HEAD
 
    python manage.py migrate        同步数据
    python manage.py runserver  0.0.0.0:9000     运行服务
    python manage.py createsuperuser          设置后台管理密码
-=======
-        
+
    python manage.py migrate        同步数据
-     python manage.py runserver  0.0.0.0:9000     运行服务
-     python manage.py createsuperuser          设置后台管理密码
->>>>>>> 8476c5434f5b9d7f7e8d69c7ad73b62f237b6369
+   python manage.py runserver  0.0.0.0:9000     运行服务
+   python manage.py createsuperuser          设置后台管理密码
