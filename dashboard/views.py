@@ -10,11 +10,11 @@ def index(request):
     status_list = []
     sapi = SaltAPI()
     status = sapi.runner_status('status')
+    key_status = sapi.list_all_key()
     up = len(status['up'])
     status_list.append(up)
     down = len(status['down'])
     status_list.append(down)
-    key_status = sapi.list_all_key()
     accepted = len(key_status ['minions'])
     status_list.append(accepted)
     unaccepted = len(key_status ['minions_pre'])
