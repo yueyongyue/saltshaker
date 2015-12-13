@@ -95,6 +95,14 @@ class SaltAPI(object):
         content = self.postRequest(obj)
         ret = content['return'][0]
         return ret
+    def grains(self,tgt,arg):
+        ''' Grains.item '''
+        params = {'client': 'local', 'tgt': tgt, 'fun': 'grains.item', 'arg': arg}
+        obj = urllib.urlencode(params)
+        self.token_id()
+        content = self.postRequest(obj)
+        ret = content['return'][0]
+        return ret
     def target_remote_execution(self,tgt,fun,arg):
         ''' Use targeting for remote execution '''
         params = {'client': 'local', 'tgt': tgt, 'fun': fun, 'arg': arg, 'expr_form': 'nodegroup'}
@@ -174,25 +182,25 @@ def main():
     #b = sapi.runner("status")
     #print a
 
-    status_list = []
-    sapi = SaltAPI()
-    status = sapi.runner_status('status')
-    up = len(status['up'])
-    status_list.append(up)
-    down = len(status['down'])
-    status_list.append(down)
-    key_status = sapi.list_all_key()
-    accepted = len(key_status ['minions'])
-    status_list.append(accepted)
-    unaccepted = len(key_status ['minions_pre'])
-    status_list.append(unaccepted)
-    rejected = len(key_status ['minions_rejected'])
-    status_list.append(rejected)
-    print status_all
-    print up
-    print down
-    print status_list
-    print a
+    up_host = sapi.runner_status('status')['up']
+    os_list = []
+    os_release = []
+    os_all = []
+    for hostname in up_host:
+        osfullname = sapi.grains(hostname,'osfullname')[hostname]['osfullname']
+        osrelease = sapi.grains(hostname,'osrelease')[hostname]['osrelease']
+        os = osfullname + osrelease
+        os_list.append(os)
+    os_uniq = set(os_list)
+    for release in os_uniq:
+        num = os_list.count(release)
+        os_dic = {'value': num, 'name': release}
+        os_all.append(os_dic)
+    os_release = list(set(os_list))
+
+    print os_release
+    print os_all
+
 
 if __name__ == '__main__':
     main()

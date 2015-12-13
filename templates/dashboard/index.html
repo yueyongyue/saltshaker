@@ -163,7 +163,7 @@
                                     }
                                 }
                             },
-                            data: {{ status }},
+                            data: {{ status|safe }},
                             markPoint: {
                                 tooltip: {
                                     trigger: 'item',
@@ -223,7 +223,7 @@
                     legend: {
                         orient : 'vertical',
                         x : 'left',
-                        data:['Centos6.5','Centos5.4','Ubuntu14.02','Centos7.0','RedHat7']
+                        data:{{ os_release|safe }}
                     },
                     toolbox: {
                         show : true,
@@ -253,13 +253,7 @@
                             type:'pie',
                             radius : '55%',
                             center: ['50%', '56%'],
-                            data:[
-                                {value:335, name:'Centos6.5'},
-                                {value:310, name:'Centos5.4'},
-                                {value:234, name:'Ubuntu14.02'},
-                                {value:135, name:'Centos7.0'},
-                                {value:1548, name:'RedHat7'}
-                            ]
+                            data:{{ os_all|safe }}
                         }
                     ]
                 };
