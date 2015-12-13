@@ -76,18 +76,19 @@
 
       <script type="text/javascript">
         function selectAll(group){
-           var checklist = document.getElementsByClassName(group);
-            //alert(checklist)
-           if(document.getElementById(group).checked) {
+            var checklist = document.getElementsByClassName(group);
+            var checkspan = document.getElementsByTagName('span');
+            //alert(checkspan)
+            if(document.getElementById(group).checked) {
                for(var i=0;i<checklist.length;i++) {
                      checklist[i].checked = 1;
                   }
-           }
-           else {
+            }
+            else {
                for(var j=0;j<checklist.length;j++) {
                     checklist[j].checked = 0;
                 }
-           }
+            }
         }
         // iframe
         function iFrameHeight() {

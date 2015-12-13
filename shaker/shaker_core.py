@@ -169,22 +169,30 @@ def main():
     #else:
     #    print result
     status_all = sapi.runner_status('status')
-    b = NodeGroups()
+    #b = NodeGroups()
 
-    print status_all
-    for hosts in status_all['up']:
-        print hosts
-        version = sapi.remote_noarg_execution(hosts, 'grains.items')['saltversion']
-        version_dic = {'version': version}
-        group = b.hosts_in_group(hosts)
-        hosts_dic = {'host': hosts}
-        hosts_dic.update(group)
-        hosts_dic.update(version_dic)
-        print hosts_dic
-
-
-        print version_dic
-
+    #b = sapi.runner("status")
     #print a
+
+    status_list = []
+    sapi = SaltAPI()
+    status = sapi.runner_status('status')
+    up = len(status['up'])
+    status_list.append(up)
+    down = len(status['down'])
+    status_list.append(down)
+    key_status = sapi.list_all_key()
+    accepted = len(key_status ['minions'])
+    status_list.append(accepted)
+    unaccepted = len(key_status ['minions_pre'])
+    status_list.append(unaccepted)
+    rejected = len(key_status ['minions_rejected'])
+    status_list.append(rejected)
+    print status_all
+    print up
+    print down
+    print status_list
+    print a
+
 if __name__ == '__main__':
     main()
