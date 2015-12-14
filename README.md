@@ -2,6 +2,9 @@
 GUI For SaltStack
 
 Login
+![image](https://github.com/yueyongyue/saltshaker/blob/master/screenshots/2015-12-14_171227.png)
+
+Dashboart
 ![image](https://github.com/yueyongyue/saltshaker/blob/master/screenshots/2015-12-14_155129.png)
 
 Minion status
