@@ -24,7 +24,7 @@ def highstate_result(request):
         host_str = ",".join(host_list)
         jid = sapi.target_deploy(host_str, sls_name)
         jids = "salt-run jobs.lookup_jid " + jid
-        time.sleep(100)
+        time.sleep(60)
         result = os.popen(jids).read()
         if result == "":
             result = "Execute time too long, Please see jid:" + jid + " history."
