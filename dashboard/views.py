@@ -23,7 +23,7 @@ def index(request):
     rejected = len(key_status['minions_rejected'])
     status_list.append(rejected)
     # os release
-    up_host = sapi.runner_status('status')['up']
+    up_host = status['up']
     os_list = []
     os_all = []
     for hostname in up_host:
