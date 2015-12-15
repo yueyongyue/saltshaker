@@ -27,8 +27,11 @@ def index(request):
     os_list = []
     os_all = []
     for hostname in up_host:
-        osfullname = sapi.grains(hostname,'osfullname')[hostname]['osfullname']
-        osrelease = sapi.grains(hostname,'osrelease')[hostname]['osrelease']
+        info_all = sapi.remote_noarg_execution(hostname, 'grains.items')
+        #osfullname = sapi.grains(hostname,'osfullname')[hostname]['osfullname']
+        #osrelease = sapi.grains(hostname,'osrelease')[hostname]['osrelease']
+        osfullname = info_all['osfullname']
+        osrelease = info_all['osrelease']
         os = osfullname + osrelease
         os_list.append(os)
     os_uniq = set(os_list)
