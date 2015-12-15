@@ -14,10 +14,12 @@ class HighState(object):
         all_sls = {}
         list_filename = os.listdir(dir)
         for filename in list_filename:
-            content = open(dir+filename).readlines()
-            name = filename.split('.')[0]
-            dic_sls = {name: content}
-            all_sls.update(dic_sls)
+            print filename.split('.')
+            if os.path.isfile("/srv/salt/"+filename):
+                content = open(dir+filename).readlines()
+                name = filename.split('.')[0]
+                dic_sls = {name: content}
+                all_sls.update(dic_sls)
         return all_sls
 
     def add_sls(self, filename, content):
@@ -36,10 +38,10 @@ class HighState(object):
 
 def main():
     highstate = HighState()
-    #a = highstate.list_sls("/srv/salt/")
+    a = highstate.list_sls("/srv/salt/")
     #b = ['dfgdfgfgfdg\n','  fgfgfdgfgfgfg\n']
     #a = highstate.add_sls("tomcat", b)
-    #print a
+    print a
     #filename = "test"
     #a = highstate.del_sls(filename)
 
