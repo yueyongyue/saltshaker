@@ -6,14 +6,16 @@ from django.contrib.auth import login as auth_login
 
 def login_view(request):
     msg = []
-    if request.POST:
+    if request.GET:
+        request.session['login_from'] = request.META.get('HTTP_REFERER', '/')
+    elif request.POST:
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect(request.session['login_from'])
             else:
                 msg.append("Disabled account")
         else:
