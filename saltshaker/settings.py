@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import django_crontab.crontab
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,10 +27,14 @@ SECRET_KEY = 't@r05nl_m2jp8*=(rkn)r+$7n(jujyt@uviwy(4$$@+t&@yry8'
 DEBUG = True
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 60*30
+SESSION_COOKIE_AGE = 60*60
 
 ALLOWED_HOSTS = []
 
+# django-crontab
+CRONJOBS = [
+    ('*/1 * * * *', 'saltshaker.shaker.cron.dashboard_scheduled_job > /tmp/dashboard.tmp'),
+]
 
 # Application definition
 
@@ -40,6 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     'shaker',
     'groups',
 )
