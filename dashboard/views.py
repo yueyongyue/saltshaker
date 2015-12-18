@@ -2,48 +2,22 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from shaker.shaker_core import *
 import json
+import os
+
 
 
 
 @login_required(login_url="/account/login/")
 def index(request):
-    # minion status
-    status_list = []
-    sapi = SaltAPI()
-    status = sapi.runner_status('status')
-    key_status = sapi.list_all_key()
-    up = len(status['up'])
-    status_list.append(up)
-    down = len(status['down'])
-    status_list.append(down)
-    accepted = len(key_status['minions'])
-    status_list.append(accepted)
-    unaccepted = len(key_status['minions_pre'])
-    status_list.append(unaccepted)
-    rejected = len(key_status['minions_rejected'])
-    status_list.append(rejected)
-    # os release
-    up_host = status['up']
-    os_list = []
-    os_all = []
-    for hostname in up_host:
-        info_all = sapi.remote_noarg_execution(hostname, 'grains.items')
-        #osfullname = sapi.grains(hostname,'osfullname')[hostname]['osfullname']
-        #osrelease = sapi.grains(hostname,'osrelease')[hostname]['osrelease']
-        osfullname = info_all['osfullname']
-        osrelease = info_all['osrelease']
-        os = osfullname + osrelease
-        os_list.append(os)
-    os_uniq = set(os_list)
-    for release in os_uniq:
-        num = os_list.count(release)
-        os_dic = {'value': num, 'name': release}
-        os_all.append(os_dic)
-    os_release = list(set(os_list))
+    dashboard = open('/tmp/salt_dashboard.tmp')
+    data = dashboard.readlines()
+    status_list = data[0].split('\n')[0]
+    os_release = data[1].split('\n')[0]
+    os_all = data[2].split('\n')[0]
 
     return render(request, 'dashboard/index.html', {
-            'status': json.dumps(status_list),
-            'os_release': json.dumps(os_release),
-            'os_all': json.dumps(os_all),
+            'status': status_list,
+            'os_release': os_release,
+            'os_all': os_all,
             })
 

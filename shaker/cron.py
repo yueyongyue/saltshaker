@@ -1,11 +1,6 @@
 from shaker.shaker_core import *
 
-def dashboard_scheduled_job(self):
-    print "a"
-
-''''
-#class Dashboard(object):
-def dashboard_scheduled_job(self):
+def dashboard_scheduled_job():
     # minion status
     status_list = []
     sapi = SaltAPI()
@@ -29,8 +24,8 @@ def dashboard_scheduled_job(self):
         info_all = sapi.remote_noarg_execution(hostname, 'grains.items')
         #osfullname = sapi.grains(hostname,'osfullname')[hostname]['osfullname']
         #osrelease = sapi.grains(hostname,'osrelease')[hostname]['osrelease']
-        osfullname = info_all['osfullname']
-        osrelease = info_all['osrelease']
+        osfullname = info_all['osfullname'].decode('string-escape')
+        osrelease = info_all['osrelease'].decode('string-escape')
         os = osfullname + osrelease
         os_list.append(os)
     os_uniq = set(os_list)
@@ -40,22 +35,10 @@ def dashboard_scheduled_job(self):
         os_all.append(os_dic)
     os_release = list(set(os_list))
 
-    salt_dashboard = file("/tmp/salt_dashboard.tmp","w+")
-    #status_list_tmp = [status_list + "\n"]
-    #os_release_tmp = [os_release + "\n"]
-    #os_all_tmp = [os_all + "\n"]
-    print status_list
-    print os_release
-    print os_all
+    salt_dashboard = file("/tmp/salt_dashboard.tmp", "w+")
     salt_dashboard.writelines(str(status_list) + '\n')
     salt_dashboard.writelines(str(os_release) + '\n')
     salt_dashboard.writelines(str(os_all) + '\n')
     salt_dashboard.close()
 
-def main():
-    a = Dashboard()
-    a.dashboard_scheduled_job()
-
-if __name__ == '__main__':
-    main()
-'''
+dashboard = dashboard_scheduled_job()

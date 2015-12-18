@@ -32,9 +32,9 @@ SESSION_COOKIE_AGE = 60*60
 ALLOWED_HOSTS = []
 
 # django-crontab
-CRONJOBS = [
-    ('*/1 * * * *', 'saltshaker.shaker.cron.dashboard_scheduled_job > /tmp/dashboard.tmp'),
-]
+CRONJOBS = (
+    ('*/1 * * * *', 'shaker.cron.dashboard_scheduled_job'),
+)
 
 # Application definition
 
