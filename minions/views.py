@@ -11,7 +11,8 @@ def minions_status(request):
     sapi = SaltAPI()
     status_all = sapi.runner_status('status')
     for host_name in status_all['up']:
-        version = sapi.remote_noarg_execution(host_name, 'grains.items')['saltversion']
+        #version = sapi.remote_noarg_execution(host_name, 'grains.items')['saltversion']
+        version = "2015.5.5 (Lithium)"
         version_dic = {'version': version}
         group_dic = group.hosts_in_group(host_name)
         status_dic = {'host': host_name}

@@ -21,11 +21,11 @@ def dashboard_scheduled_job():
     os_list = []
     os_all = []
     for hostname in up_host:
-        info_all = sapi.remote_noarg_execution(hostname, 'grains.items')
-        #osfullname = sapi.grains(hostname,'osfullname')[hostname]['osfullname']
-        #osrelease = sapi.grains(hostname,'osrelease')[hostname]['osrelease']
-        osfullname = info_all['osfullname'].decode('string-escape')
-        osrelease = info_all['osrelease'].decode('string-escape')
+        #info_all = sapi.remote_noarg_execution(hostname, 'grains.items')
+        osfullname = sapi.grains(hostname,'osfullname')[hostname]['osfullname'].decode('string-escape')
+        osrelease = sapi.grains(hostname,'osrelease')[hostname]['osrelease'].decode('string-escape')
+        #osfullname = info_all['osfullname'].decode('string-escape')
+        #osrelease = info_all['osrelease'].decode('string-escape')
         os = osfullname + osrelease
         os_list.append(os)
     os_uniq = set(os_list)
