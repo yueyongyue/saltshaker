@@ -27,7 +27,7 @@ class NodeGroups(object):
             group = i.split('\n')[0]
             cmd = ''' sed -n "s/^  ''' + group + '''.*@/'/gp" /etc/salt/master.d/nodegroups.conf | sed -n "s/'//gp"'''
             hosts = os.popen(cmd).read().split('\n')[0].split(',')[0:-1]
-            sort_hosts = sorted(hosts, key=lambda ele: ele, reverse=True)
+            sort_hosts = sorted(hosts, key=lambda ele: ele)
             group_host_dic = {group: sort_hosts}
             all_group_host.update(group_host_dic)
         return all_group_host
@@ -53,7 +53,7 @@ class NodeGroups(object):
     def list_hosts(self,group):
         cmd = ''' sed -n "s/^  ''' + group + '''.*@/'/gp" /etc/salt/master.d/nodegroups.conf | sed -n "s/'//gp"'''
         hosts = os.popen(cmd).read().split('\n')[0].split(',')[0:-1]
-        sort_hosts = sorted(hosts, key=lambda ele: ele, reverse=True)
+        sort_hosts = sorted(hosts, key=lambda ele: ele)
         return sort_hosts
 
     def add_hosts(self,group,host):
