@@ -80,6 +80,3 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
    python manage.py runserver  0.0.0.0:9000     运行服务
    python manage.py createsuperuser          设置后台管理密码
 
-   python manage.py migrate        同步数据
-   python manage.py runserver  0.0.0.0:9000     运行服务
-   python manage.py createsuperuser          设置后台管理密码
