@@ -80,4 +80,7 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
    python manage.py runserver  0.0.0.0:9000     运行服务
    python manage.py createsuperuser          设置后台管理密码
 
+<<<<<<< HEAD
 test
+=======
+>>>>>>> 555c81265b3078c39c4dc46c61dd7ff4b808bc2f
