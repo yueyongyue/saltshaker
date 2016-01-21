@@ -82,9 +82,12 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 test
 =======
 >>>>>>> 555c81265b3078c39c4dc46c61dd7ff4b808bc2f
 =======
 add test from honglei
 >>>>>>> d4c3e0d8aa5176f59fb97897760c6e3bc1fccf2e
+=======
+>>>>>>> 43f8e45b61ce8293b00500cdd4cc817970e03226
