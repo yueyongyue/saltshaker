@@ -81,3 +81,4 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
    python manage.py createsuperuser          设置后台管理密码
 
 ## add test from honlei7 ##
+## yueyongyue
