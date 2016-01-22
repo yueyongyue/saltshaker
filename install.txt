@@ -80,5 +80,14 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
    python manage.py runserver  0.0.0.0:9000     运行服务
    python manage.py createsuperuser          设置后台管理密码
 
-## add test from honlei7 ##
-## yueyongyue
+## install on centos6.x ##
+1,rpm --import https://repo.saltstack.com/yum/redhat/6/x86_64/latest/SALTSTACK-GPG-KEY.pub
+2,yum clean all
+3,yum install salt-master salt-minion salt-api
+4,chkconfig salt-master salt-minion salt-api on
+
+## run saltshaker on nginx & uwsgi ##
+doc lists
+1,pip install uwsgi django-uwsgi
+2,https://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html
+3,install nginx by yourself  #www.nginx.org
