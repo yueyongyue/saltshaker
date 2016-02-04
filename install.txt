@@ -61,8 +61,9 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
     /etc/init.d/salt-api restart
     netstat -tnlp | grep 8000   看到8000端口监听在127.0.0.1上就可以了
 
-5、安装及配置Django
+5、安装及配置Django 和Django crontab
       pip install Django==1.8.4
+      pip install django-crontab
 
       vim settings.py       配置数据库
       DATABASES = {
