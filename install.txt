@@ -80,6 +80,7 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
    python manage.py migrate        同步数据
    python manage.py runserver  0.0.0.0:9000     运行服务
    python manage.py createsuperuser          设置后台管理密码
+   python manage.py crontab add              添加计划任务用于生成'/tmp/salt_dashboard.tmp' 文件
 
 install on centos6.x 
    1、rpm --import https://repo.saltstack.com/yum/redhat/6/x86_64/latest/SALTSTACK-GPG-KEY.pub
