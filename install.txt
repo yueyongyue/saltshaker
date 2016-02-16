@@ -45,6 +45,8 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
 
 4、配置api
      使用系统pam进行认证，useradd admin && passwd admin
+     用户名：admin
+     密码：admin
      vim /etc/salt/master.d/saltapi.conf
      rest_cherrypy:
         port: 8000
