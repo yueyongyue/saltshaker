@@ -12,8 +12,8 @@ class SaltAPI(object):
     __token_id = ''
     def __init__(self):
         self.__url = 'http://127.0.0.1:8000'
-        self.__user = 'saltapi'
-        self.__password = 'saltshaker'
+        self.__user = 'admin'
+        self.__password = 'admin'
     def token_id(self):
         ''' user login and get token id '''
         params = {'eauth': 'pam', 'username': self.__user, 'password': self.__password}
