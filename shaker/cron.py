@@ -1,9 +1,13 @@
 from shaker.shaker_core import *
+from minions.models import Minions_status
+from shaker.nodegroups import *
+
+
+sapi = SaltAPI()
 
 def dashboard_scheduled_job():
     # minion status
     status_list = []
-    sapi = SaltAPI()
     status = sapi.runner_status('status')
     key_status = sapi.list_all_key()
     up = len(status['up'])
@@ -22,8 +26,8 @@ def dashboard_scheduled_job():
     os_all = []
     for hostname in up_host:
         #info_all = sapi.remote_noarg_execution(hostname, 'grains.items')
-        osfullname = sapi.grains(hostname,'osfullname')[hostname]['osfullname'].decode('string-escape')
-        osrelease = sapi.grains(hostname,'osrelease')[hostname]['osrelease'].decode('string-escape')
+        osfullname = sapi.grains(hostname, 'osfullname')[hostname]['osfullname'].decode('string-escape')
+        osrelease = sapi.grains(hostname, 'osrelease')[hostname]['osrelease'].decode('string-escape')
         #osfullname = info_all['osfullname'].decode('string-escape')
         #osrelease = info_all['osrelease'].decode('string-escape')
         os = osfullname + osrelease
@@ -42,3 +46,54 @@ def dashboard_scheduled_job():
     salt_dashboard.close()
 
 dashboard = dashboard_scheduled_job()
+
+
+def minions_status_scheduled_job():
+    #status_up = []
+    #status_down = []
+    group = NodeGroups()
+    #sapi = SaltAPI()
+    status = Minions_status()
+    status_all = sapi.runner_status('status')
+    for host_name in status_all['up']:
+        version = sapi.remote_noarg_execution(host_name, 'grains.items')['saltversion']
+        #version = "2015.5.5 (Lithium)"
+        #version_dic = {'version': version}
+        #group_dic = group.hosts_in_group(host_name)
+        #status_dic = {'host': host_name}
+        #status_dic.update(group_dic)
+        #status_dic.update(version_dic)
+        #status_up += [status_dic]
+        #minion_id = Minions_status.objects.get(minion_id=host_name)
+        #minion_id.delete()
+        #status = Minions_status(minion_id=host_name)
+        #update(blog=b)
+        #if minion_id
+        try:
+            Minions_status.objects.get(minion_id=host_name)
+        except:
+            status.minion_id = host_name
+            status.minion_version = version
+            status.minion_status = 'Up'
+            status.save()
+        Minions_status.objects.filter(minion_id=host_name).update(minion_id=host_name, minion_version=version, minion_status='Up')
+    for host_name in status_all['down']:
+        #version_dic = {'version': ""}
+        #group_dic = group.hosts_in_group(host_name)
+        #status_dic = {'host': host_name}
+        #status_dic.update(group_dic)
+        #status_dic.update(version_dic)
+        #status_down += [status_dic]
+        #minion_id = Minions_status.objects.get(minion_id=host_name)
+        #minion_id.delete()
+        try:
+            minion_id = Minions_status.objects.get(minion_id=host_name)
+        except:
+            status.minion_id = host_name
+            status.minion_version = version
+            status.minion_status = 'Down'
+            status.save()
+        Minions_status.objects.filter(minion_id=host_name).update(minion_id=host_name, minion_version=version, minion_status='Down')
+
+minions_status = minions_status_scheduled_job()
+
