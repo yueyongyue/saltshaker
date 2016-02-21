@@ -47,7 +47,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_crontab',
     'shaker',
+    'account',
+    'code_update',
+    'dashboard',
+    'execute',
     'groups',
+    'jobs',
+    'minions',
+    'states_config',
+    'system_setup',
 )
 
 MIDDLEWARE_CLASSES = (
