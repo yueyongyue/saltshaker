@@ -1,6 +1,7 @@
 saltshaker 环境搭建 Ubuntu 14.04.3 LTS
 
 1、安装pip  详细文档及使用http://www.ttlsa.com/python/how-to-install-and-use-pip-ttlsa/
+
      下载pip
      wget "https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196" --no-check-certificate
 
@@ -11,19 +12,7 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
 
 2、安装saltstack   版本 salt 2015.5.3 (Lithium)
 
-     官方文档http://docs.saltstack.cn/zh_CN/latest/topics/installation/ubuntu.ht
-     一键添加软件源仓库并导入PPA的key
-     add-apt-repository ppa:saltstack/salt
-
-     手动添加软件源仓库和导入PPA key
-     echo deb http://ppa.launchpad.net/saltstack/salt/ubuntu `lsb_release -sc` main | sudo tee /etc/apt/sources.list.d/saltstack.list
-     wget -q -O- "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x4759FA960E27C0A6" | sudo apt-key add -
-
-     更新软件仓库
-     apt-get update
-
-     安装saltstack
-
+     官方文档http://docs.saltstack.cn/zh_CN/latest/topics/installation/ubuntu.html
      一键添加软件源仓库并导入PPA的key
      add-apt-repository ppa:saltstack/salt  
      
@@ -41,12 +30,19 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
      apt-get install salt-api
 
 3、安装cherrypy
-      pip install cherrypy==3.8.0
+
+     pip install cherrypy==3.8.0
 
 4、配置api
-     使用系统pam进行认证，useradd admin && passwd admin
-     用户名：admin
-     密码：admin
+
+     使用系统pam进行认证,添加系统用户和密码
+     useradd -M -s /sbin/nologin admin
+     passwd admin
+
+     用户名:admin
+     密码:admin
+
+     添加saltapi.conf 文件
      vim /etc/salt/master.d/saltapi.conf
      rest_cherrypy:
         port: 8000
@@ -63,12 +59,13 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
     /etc/init.d/salt-api restart
     netstat -tnlp | grep 8000   看到8000端口监听在127.0.0.1上就可以了
 
-5、安装及配置Django 和Django crontab
-      pip install Django==1.8.4
-      pip install django-crontab
+5、安装及配置Django 和 Django crontab
 
-      vim settings.py       配置数据库
-      DATABASES = {
+    pip install Django==1.8.4
+    pip install django-crontab
+
+    vim settings.py       配置数据库
+    DATABASES = {
                'default': {
                    'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
                    'NAME': 'saltshaker', # Or path to database file if using sqlite3.
@@ -76,21 +73,29 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
                    'PASSWORD': 'sina', # Not used with sqlite3.
                    'HOST': 'localhost', # Set to empty string for localhost. Not used with sqlite3.
                    'PORT': '3306', # Set to empty string for default. Not used with sqlite3.
-         }
-      }
+        }
+    }
 
-   python manage.py migrate        同步数据
-   python manage.py runserver  0.0.0.0:9000     运行服务
-   python manage.py createsuperuser          设置后台管理密码
+   python manage.py migrate                  同步数据
+   python manage.py runserver  0.0.0.0:9000  运行服务
+   python manage.py createsuperuser          设置后台管理员用户名和密码,此用户名和密码用于登陆web页面
    python manage.py crontab add              添加计划任务用于生成'/tmp/salt_dashboard.tmp' 文件
 
-install on centos6.x 
-   1、rpm --import https://repo.saltstack.com/yum/redhat/6/x86_64/latest/SALTSTACK-GPG-KEY.pub
-   2、yum clean all
-   3、yum install salt-master salt-minion salt-api
-   4、chkconfig salt-master salt-minion salt-api on
 
-run saltshaker on nginx & uwsgi
-   1、pip install uwsgi django-uwsgi
-   2、https://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html
-   3、install nginx by yourself  #www.nginx.org
+saltshaker 环境搭建 CentOS6.X
+
+1、安装saltstack   版本 salt 2015.5.3 (Lithium)
+
+   rpm --import https://repo.saltstack.com/yum/redhat/6/x86_64/latest/SALTSTACK-GPG-KEY.pub
+   yum clean all
+   yum install salt-master salt-minion salt-api salt-syndic
+
+2、其他软件安装和配置见saltsalt在Ubuntu中的安装
+
+
+
+使用 nginx 和 uwsgi 运行 saltshaker
+
+1、pip install uwsgi django-uwsgi
+2、https://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html
+3、yum install nginx
