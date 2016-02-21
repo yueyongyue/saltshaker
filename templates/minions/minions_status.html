@@ -22,25 +22,21 @@
                                         <tr>
                                             <th>Minions</th>
                                             <th>Version</th>
-                                            <th>Group</th>
+                                           <!-- <th>Group</th> -->
                                             <th>Up/Down</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for dic in status.up %}
+                                        {% for minions in status %}
                                         <tr class="odd gradeC">
-                                            <td>{{ dic.host }}</td>
-                                            <td>{{ dic.version }}</td>
-                                            <td>{{ dic.group }}</td>
-                                            <td style="text-align:center"><div class="btn-success btn-xs" style="width:50px">Up</div></td>
-                                        </tr>
-                                        {% endfor %}
-                                        {% for dic in status.down %}
-                                        <tr class="odd gradeC">
-                                            <td>{{ dic.host }}</td>
-                                            <td>{{ dic.version }}</td>
-                                            <td>{{ dic.group }}</td>
-                                            <td style="text-align:center"><div class="btn-danger btn-xs" style="width:50px">Down</div></td>
+                                            <td>{{ minions.minion_id }}</td>
+                                            <td>{{ minions.minion_version }}</td>
+                                            <!-- <td>{{ dic.group }}</td> -->
+                                            {% if minions.minion_status == 'Down' %}
+                                                <td style="text-align:center"><div class="btn-danger btn-xs" style="width:50px">{{ minions.minion_status }}</div></td>
+                                            {% else %}
+                                                <td style="text-align:center"><div class="btn-success btn-xs" style="width:50px">{{ minions.minion_status }}</div></td>
+                                            {% endif %}
                                         </tr>
                                         {% endfor %}
                                     </tbody>

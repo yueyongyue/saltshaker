@@ -2,31 +2,12 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from shaker.shaker_core import *
 from shaker.nodegroups import *
+from minions.models import Minions_status
+
 
 @login_required(login_url="/account/login/")
 def minions_status(request):
-    status_up = []
-    status_down = []
-    group = NodeGroups()
-    sapi = SaltAPI()
-    status_all = sapi.runner_status('status')
-    for host_name in status_all['up']:
-        #version = sapi.remote_noarg_execution(host_name, 'grains.items')['saltversion']
-        version = "2015.5.5 (Lithium)"
-        version_dic = {'version': version}
-        group_dic = group.hosts_in_group(host_name)
-        status_dic = {'host': host_name}
-        status_dic.update(group_dic)
-        status_dic.update(version_dic)
-        status_up += [status_dic]
-    for host_name in status_all['down']:
-        version_dic = {'version': ""}
-        group_dic = group.hosts_in_group(host_name)
-        status_dic = {'host': host_name}
-        status_dic.update(group_dic)
-        status_dic.update(version_dic)
-        status_down += [status_dic]
-    status = {'up': status_up, 'down': status_down}
+    status = Minions_status.objects.all()
     return render(request, 'minions/minions_status.html', {'status': status})
 
 @login_required(login_url="/account/login/")
