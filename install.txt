@@ -64,7 +64,7 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
     pip install Django==1.8.4
     pip install django-crontab
 
-    vim settings.py       配置数据库
+    vim settings.py       配置数据库和salt api 认证信息
     DATABASES = {
                'default': {
                    'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -76,6 +76,16 @@ saltshaker 环境搭建 Ubuntu 14.04.3 LTS
         }
     }
 
+    根据添加的系统用户信息,在settings.py 行尾添加如下信息,进行salt api 的认证配置
+
+    # SaltStack API
+
+    SALT_API_URL = 'http://127.0.0.1:8000'
+    SALT_API_USER = 'admin'
+    SALT_API_PASSWD = 'admin'
+
+
+   #执行如下命令
    python manage.py migrate                  同步数据
    python manage.py runserver  0.0.0.0:9000  运行服务
    python manage.py createsuperuser          设置后台管理员用户名和密码,此用户名和密码用于登陆web页面
