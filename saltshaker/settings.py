@@ -126,3 +126,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
+# SaltStack API
+
+SALT_API_URL = 'http://127.0.0.1:8000'
+SALT_API_USER = 'admin'
+SALT_API_PASSWD = 'admin'
+
+

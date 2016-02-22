@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import urllib2,urllib
-import os
-import time
+from django.conf import settings
 from nodegroups import *
 
 try:
@@ -11,9 +10,9 @@ except ImportError:
 class SaltAPI(object):
     __token_id = ''
     def __init__(self):
-        self.__url = 'http://127.0.0.1:8000'
-        self.__user = 'admin'
-        self.__password = 'admin'
+        self.__url = settings.SALT_API_URL
+        self.__user = settings.SALT_API_USER
+        self.__password = settings.SALT_API_PASSWD
     def token_id(self):
         ''' user login and get token id '''
         params = {'eauth': 'pam', 'username': self.__user, 'password': self.__password}
