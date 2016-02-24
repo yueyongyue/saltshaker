@@ -110,3 +110,4 @@ saltshaker 环境搭建 CentOS6.X
 2、https://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html
 3、yum install nginx
 
+####
