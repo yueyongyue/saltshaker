@@ -16,6 +16,7 @@ def minions_keys(request):
     if request.POST:
         hostname = request.POST.get("delete")
         sapi.delete_key(hostname)
+        Minions_status.objects.get(minion_id=hostname).delete()
         hostname = request.POST.get("accept")
         sapi.accept_key(hostname)
         hostname = request.POST.get("reject")
