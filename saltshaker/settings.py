@@ -57,7 +57,7 @@ INSTALLED_APPS = (
     'minions',
     'states_config',
     'system_setup',
-    'returners',
+    'returner',
 )
 
 MIDDLEWARE_CLASSES = (
