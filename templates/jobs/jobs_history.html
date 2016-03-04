@@ -25,10 +25,10 @@
                                             <th>Arg</th>
                                             <th>StartTime</th>
                                             <th>Target</th>
-                                            <th>User</th>
+                                            <th>Success</th>
                                         </tr>
                                     </thead>
-
+                                    <!--
                                     <tbody>
                                         {% for jid,info in jids.items %}
                                         <tr class="even gradeC">
@@ -46,25 +46,19 @@
                                         </tr>
                                         {% endfor %}
                                     </tbody>
-                                 <!--
-                                <tbody>
+                                    -->
+                                    <tbody>
                                         {% for info in jids %}
                                         <tr class="even gradeC">
                                             <td><div class="tooltip-demo"><a href="jobs_detail&{{ info.jid }}" data-toggle="tooltip" data-placement="left" title="jobs detail">{{ info.jid }}</a></div></td>
                                             <td>{{ info.fun }}</td>
-                                            <td>{% for arg in info.return %}
-                                                 <li style="list-style-type:none">
-                                                       {{ arg }}
-                                                 </li>
-                                                {% endfor %}
-                                            </td>
+                                            <td>{{ info.full_ret }}</td>
                                             <td>{{ info.alter_time }}</td>
-                                            <td style="table-layout: fixed;WORD-BREAK: break-all; WORD-WRAP: break-word">{{ info.id }}</td>
+                                            <td style="table-layout: fixed;WORD-BREAK: break-all; WORD-WRAP: break-word">{{ info.minion_id }}</td>
                                             <td>{{ info.success }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
-                                  -->
                                 </table>
                             </div>
                             <!-- /.table-responsive -->                  

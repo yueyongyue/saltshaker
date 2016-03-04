@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from shaker.shaker_core import *
 from django.contrib.auth.decorators import login_required
-from returners.models import Jids,Salt_returns
+from returner.models import Jids,Salt_returns
 import os
 
 @login_required(login_url="/account/login/")
 def jobs_history(request):
-    sapi = SaltAPI()
-    jids = sapi.runner("jobs.list_jobs")
-    #jids = Salt_returns.objects.all()
+    #sapi = SaltAPI()
+    #jids = sapi.runner("jobs.list_jobs")
+    jids = Salt_returns.objects.all()
     return render(request, 'jobs/jobs_history.html', {'jids': jids})
 
 @login_required(login_url="/account/login/")
