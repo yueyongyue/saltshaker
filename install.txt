@@ -110,8 +110,79 @@ saltshaker 环境搭建 CentOS6.X
 2、https://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html
 3、yum install nginx
 
-####gggggg
-hhhhh
-ggg
-fdfdfdfdf
+
+
+
+Return Data To Mysql
+
+1. vim /etc/salt/master     在行尾添加如下行 使用MasterJobCache-Master-SideReturner 这中存储模式
+
+   mysql.host: '127.0.0.1'
+   mysql.user: 'root'
+   mysql.pass: 'sina'
+   mysql.db: 'saltshaker'
+   mysql.port: 3306
+
+   #### Returner job cache to mysql #####
+   master_job_cache: mysql
+
+2. service salt-master restart
+
+3. 修改salt mysql.py 文件  /usr/lib/python2.7/dist-packages/salt/returners/mysql.py
+   默认数据库字段为 fun jid return id success full_ret alter_time 由于return 在python里面是关键字
+   无法在django的models里面创建此字段 所以修改字段为 fun jid returns minion_id success full_ret alter_time
+   即修改mysql.py的235行,内容如下
+   官方建表语句https://docs.saltstack.com/en/latest/ref/returners/all/salt.returners.mysql.html
+
+228   def returner(ret):
+229     '''
+230     Return data to a mysql server
+231     '''
+232     try:
+233         with _get_serv(ret, commit=True) as cur:
+234             sql = '''INSERT INTO `salt_returns`
+235                     (`fun`, `jid`, `returns`, `minion_id`, `success`, `full_ret` )
+236                     VALUES (%s, %s, %s, %s, %s, %s)'''
+237
+238             cur.execute(sql, (ret['fun'], ret['jid'],
+239                               json.dumps(ret['return']),
+240                               ret['id'],
+241                               ret.get('success', False),
+242                               json.dumps(ret)))
+243     except salt.exceptions.SaltMasterError as exc:
+244         log.critical(exc)
+245         log.critical('Could not store return with MySQL returner. MySQL server unavailable.')
+
+
+
+
+
+
+
+#########安装暂时忽律
+安装 django-celery (3.1.17)
+
+pip install django-celery
+
+安装 rbbitmq
+
+详细安装请产看官方文档 ubuntu 安装http://www.rabbitmq.com/install-debian.html
+Centos 安装http://www.rabbitmq.com/install-rpm.html
+
+添加rbbitmq 仓库
+
+echo 'deb http://www.rabbitmq.com/debian/ testing main' >> /etc/apt/sources.list
+
+避免安装时发生警告添加公钥
+
+wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+apt-key add rabbitmq-signing-key-public.asc
+
+安装rabbitmq
+
+apt-get install rabbitmq-server
+
+开启rabbitmq-management plugin管理插件
+/usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
+
 
