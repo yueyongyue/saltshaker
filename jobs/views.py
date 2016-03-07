@@ -8,8 +8,16 @@ import os
 def jobs_history(request):
     #sapi = SaltAPI()
     #jids = sapi.runner("jobs.list_jobs")
+    true = "true"
+    false = "false"
+    jid_list = []
     jids = Salt_returns.objects.all()
-    return render(request, 'jobs/jobs_history.html', {'jids': jids})
+    for jid in jids:
+        jid_dic = eval(jid.full_ret)
+        jid_dics = jid_dic.copy()
+        jid_dics.update({'alter_time': jid.alter_time})
+        jid_list.append(jid_dics)
+    return render(request, 'jobs/jobs_history.html', {'jids': jid_list})
 
 @login_required(login_url="/account/login/")
 def jobs_manage(request):
