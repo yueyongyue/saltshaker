@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from shaker.shaker_core import *
 from shaker.nodegroups import *
 from minions.models import Minions_status
+from returner.models import Salt_grains
 
 
 @login_required(login_url="/account/login/")
@@ -17,6 +18,7 @@ def minions_keys(request):
         hostname = request.POST.get("delete")
         sapi.delete_key(hostname)
         Minions_status.objects.get(minion_id=hostname).delete()
+        Salt_grains.objects.get(minion_id=hostname).delete()
         hostname = request.POST.get("accept")
         sapi.accept_key(hostname)
         hostname = request.POST.get("reject")
