@@ -68,3 +68,12 @@ class Salt_events(models.Model):
     def __unicode__(self):
         return u'%s %s %s %s' % (self.tag, self.data, self.alter_time, self.minion_id)
 
+class Salt_grains(models.Model):
+    class Meta:
+        db_table = 'salt_grains'
+    minion_id = models.CharField(max_length=255, null=True, blank=True)
+    grains = models.TextField(null=True, blank=True)
+
+    def __unicode__(self):
+        return u'%s %s' % (self.minion_id, self.grains)
+
