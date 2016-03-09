@@ -134,4 +134,34 @@ SALT_API_URL = 'http://127.0.0.1:8000'
 SALT_API_USER = 'admin'
 SALT_API_PASSWD = 'admin'
 
+# django logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(module)s %(process)d] [%(name)s:%(lineno)d] [%(levelname)s]- %(message)s'
+        },
+    },
+    'filters': {
+    },
+    'handlers': {
+        'shaker_default': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '/var/log/saltshaker/all.log',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['shaker_default'],
+            'level': 'INFO',
+            'propagate': False
+        },
+    }
+}
 
