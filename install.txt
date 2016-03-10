@@ -155,7 +155,7 @@ Return Data To Mysql
 
 
 
-
+异步请求 Celery
 
 安装 django-celery (3.1.17)
 
