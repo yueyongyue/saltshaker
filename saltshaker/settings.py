@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import django_crontab.crontab
+# celery
+import djcelery
+from celery import Celery, platforms
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -59,6 +62,7 @@ INSTALLED_APPS = (
     'states_config',
     'system_setup',
     'returner',
+    'djcelery'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -129,7 +133,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # SaltStack API
-
 SALT_API_URL = 'http://127.0.0.1:8000'
 SALT_API_USER = 'admin'
 SALT_API_PASSWD = 'admin'
@@ -165,3 +168,11 @@ LOGGING = {
     }
 }
 
+# celery + rabbitmq
+platforms.C_FORCE_ROOT = True   # Running a worker with superuser privileges
+djcelery.setup_loader()
+BROKER_HOST = "127.0.0.1"
+BROKER_PORT = 5672
+BROKER_USER = "guest"
+BROKER_PASSWORD = "guest"
+BROKER_VHOST = "/"
