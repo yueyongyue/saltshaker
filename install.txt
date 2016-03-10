@@ -157,12 +157,13 @@ Return Data To Mysql
 
 
 
-
-
-#########安装暂时忽律
 安装 django-celery (3.1.17)
 
-pip install django-celery
+pip install django-celery==3.1.17
+
+安装 celery
+
+pip install celery==3.1.17
 
 安装 rbbitmq
 
@@ -184,5 +185,27 @@ apt-get install rabbitmq-server
 
 开启rabbitmq-management plugin管理插件
 /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
+
+
+配置django setting.py
+添加如下行到setting.py
+
+# celery + rabbitmq
+platforms.C_FORCE_ROOT = True   # Running a worker with superuser privileges
+djcelery.setup_loader()
+BROKER_HOST = "127.0.0.1"
+BROKER_PORT = 5672
+BROKER_USER = "guest"
+BROKER_PASSWORD = "guest"
+BROKER_VHOST = "/"
+
+执行如下命令创建djcelery的相关数据库表
+python manage.py makemigrations
+python manage.py migrate
+
+
+启动celery worker
+python manage.py celery worker --loglevel=info
+
 
 
