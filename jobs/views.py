@@ -10,8 +10,9 @@ def jobs_history(request):
     #jids = sapi.runner("jobs.list_jobs")
     true = "true"
     false = "false"
+    null = "null"
     jid_list = []
-    jids = Salt_returns.objects.all()
+    jids = Salt_returns.objects.all().order_by('-id')[:100]
     for jid in jids:
         jid_dic = eval(jid.full_ret)
         jid_dics = jid_dic.copy()
