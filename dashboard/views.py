@@ -3,12 +3,15 @@ from django.contrib.auth.decorators import login_required
 from dashboard.models import *
 from returner.models import *
 import logging
+from shaker.tasks import dashboard_task,grains_task
 
 
 logger = logging.getLogger('django')
 
 @login_required(login_url="/account/login/")
 def index(request):
+    dashboard_task.delay()
+    grains_task.delay()
     try:
         dashboard_status = Dashboard_status.objects.get(id=1)
     except:
