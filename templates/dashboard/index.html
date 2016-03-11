@@ -12,11 +12,25 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Minios Status
+                            Master Status
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body" style="height:250px">
-                            <div id="main" style="height:250px"></div>
+                            <div id="main2" style="height:250px"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Minion status
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" style="height:250px">
+                           <div id="main" style="height:250px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -29,22 +43,8 @@
                             OS Release
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body" style="height:250px">
-                           <div id="main1" style="height:250px"></div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-6 -->
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Line Chart Example
-                        </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="main2" style="height:400px"></div>
+                            <div id="main1" style="height:400px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -324,14 +324,13 @@
                     color: 'rgba(0,0,0,0)'
                 }
             };
-            var radius = [40, 55];
+            var radius = [40, 45];
             option = {
                 legend: {
                     x : 'center',
                     y : 'center',
                     data:[
-                        'GoogleMaps','Facebook','Youtube',
-                        'Twitter', 'Skype', 'Messenger'
+
                     ]
                 },
                 title : {
@@ -345,7 +344,7 @@
                         dataView : {show: true, readOnly: false},
                         magicType : {
                             show: true,
-                            type: ['pie', 'funnel'],
+                            type: [],
                             option: {
                                 funnel: {
                                     width: '20%',
@@ -372,74 +371,49 @@
                 series : [
                     {
                         type : 'pie',
-                        center : ['20%', '30%'],
+                        center : ['13%', '30%'],
                         radius : radius,
                         x: '0%', // for funnel
                         itemStyle : labelFromatter,
                         data : [
-                            {name:'other', value:46, itemStyle : labelBottom},
-                            {name:'GoogleMaps', value:54,itemStyle : labelTop}
+                            {name:'other', value:10, itemStyle : labelBottom},
+                            {name:'CPU', value:90,itemStyle : labelTop}
                         ]
                     },
                     {
                         type : 'pie',
-                        center : ['50%', '30%'],
+                        center : ['38%', '30%'],
                         radius : radius,
                         x:'20%', // for funnel
                         itemStyle : labelFromatter,
                         data : [
                             {name:'other', value:56, itemStyle : labelBottom},
-                            {name:'Facebook', value:44,itemStyle : labelTop}
+                            {name:'Men', value:44,itemStyle : labelTop}
                         ]
                     },
                     {
                         type : 'pie',
-                        center : ['80%', '30%'],
+                        center : ['63%', '30%'],
                         radius : radius,
                         x:'40%', // for funnel
                         itemStyle : labelFromatter,
                         data : [
                             {name:'other', value:65, itemStyle : labelBottom},
-                            {name:'Youtube', value:35,itemStyle : labelTop}
+                            {name:'Load', value:35,itemStyle : labelTop}
                         ]
                     },
                     {
                         type : 'pie',
-                        center : ['20%', '70%'],
+                        center : ['88%', '30%'],
                         radius : radius,
-                        y: '55%',   // for funnel
-                        x: '0%',    // for funnel
+                        //y: '55%',   // for funnel
+                        x: '6%',    // for funnel
                         itemStyle : labelFromatter,
                         data : [
                             {name:'other', value:78, itemStyle : labelBottom},
-                            {name:'Twitter', value:22,itemStyle : labelTop}
+                            {name:'IO', value:22,itemStyle : labelTop}
                         ]
                     },
-                    {
-                        type : 'pie',
-                        center : ['50%', '70%'],
-                        radius : radius,
-                        y: '55%',   // for funnel
-                        x:'20%',    // for funnel
-                        itemStyle : labelFromatter,
-                        data : [
-                            {name:'other', value:78, itemStyle : labelBottom},
-                            {name:'Skype', value:22,itemStyle : labelTop}
-                        ]
-                    },
-                    {
-                        type : 'pie',
-                        center : ['80%', '70%'],
-                        radius : radius,
-                        y: '55%',   // for funnel
-                        x:'40%', // for funnel
-                        itemStyle : labelFromatter,
-                        data : [
-                            {name:'other', value:78, itemStyle : labelBottom},
-                            {name:'Messenger', value:22,itemStyle : labelTop}
-                        ]
-                    }
-
                 ]
             };
 
