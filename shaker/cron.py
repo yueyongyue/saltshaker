@@ -3,8 +3,9 @@ from minions.models import Minions_status
 from shaker.nodegroups import *
 from dashboard.models import *
 from returner.models import *
+import logging
 
-
+logger = logging.getLogger('django')
 sapi = SaltAPI()
 
 def dashboard_scheduled_job():
