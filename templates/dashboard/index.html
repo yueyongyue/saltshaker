@@ -16,7 +16,22 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body" style="height:250px">
-                            <div id="main2" style="height:250px"></div>
+                            <div style="height:250px">
+                                <div class="list-group">
+                                    {% for info in check_service %}
+                                    <div class="list-group-item">
+                                        {% for key,value in info.items %}
+                                            {{ key }}
+                                            {% if value == 'Up' %}
+                                                <span class="pull-right text-muted btn-success btn-xs fa fa-arrow-circle-up"></span>
+                                            {% else %}
+                                                <span class="pull-right text-muted btn-danger btn-xs fa fa-arrow-circle-down"></span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -43,8 +58,8 @@
                             OS Release
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="main1" style="height:400px"></div>
+                        <div class="panel-body" style="height:250px">
+                            <div id="main1" style="height:250px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -57,8 +72,8 @@
                             Donut Chart Example
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                           <div id="main3" style="height:400px"></div>
+                        <div class="panel-body" style="height:250px">
+                           <div id="main2" style="height:250px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -71,8 +86,8 @@
                             Morris.js Usage
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                           <div id="main4" style="height:400px"></div>
+                        <div class="panel-body" style="height:350px">
+                           <div id="main3" style="height:350px"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
