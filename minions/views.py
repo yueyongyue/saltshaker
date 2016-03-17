@@ -15,14 +15,17 @@ def minions_status(request):
 def minions_keys(request):
     sapi = SaltAPI()
     if request.POST:
-        hostname = request.POST.get("delete")
-        sapi.delete_key(hostname)
-        Minions_status.objects.get(minion_id=hostname).delete()
-        Salt_grains.objects.get(minion_id=hostname).delete()
-        hostname = request.POST.get("accept")
-        sapi.accept_key(hostname)
-        hostname = request.POST.get("reject")
-        sapi.reject_key(hostname)
+        minion_id_a = request.POST.get("accept")
+        minion_id_r = request.POST.get("reject")
+        minion_id_d = request.POST.get("delete")
+        if minion_id_a:
+            sapi.accept_key(minion_id_a)
+        elif minion_id_r:
+            sapi.reject_key(minion_id_r)
+        else:
+            sapi.delete_key(minion_id_d)
+            Minions_status.objects.get(minion_id=minion_id_d).delete()
+            Salt_grains.objects.get(minion_id=minion_id_d).delete()
     keys_all = sapi.list_all_key()
     return render(request, 'minions/minions_keys.html', {'key': keys_all})
 
