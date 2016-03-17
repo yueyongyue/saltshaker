@@ -28,7 +28,7 @@
 
     <!-- Custom Fonts -->
     <link href="{% static "bower_components/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,8 +44,8 @@
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="../index.html"><img src="../static/images/logo.png"></a>
-                <a class="navbar-brand" href="../index.html" style="padding-top: 25px;padding-left: 0px">SaltShaker</a>
+                <a class="navbar-brand" href="/"><img src="/static/images/logo.png"></a>
+                <a class="navbar-brand" href="/" style="padding-top: 25px;padding-left: 0px">SaltShaker</a>
                 <div id="myAlert" class="alert alert-success" style="margin-left: 970px;margin-top:10px;margin-bottom:3px;padding: 3px;display: none">
                     <a href="#" class="close" data-dismiss="alert">&times;</a>
                     <strong>成功！</strong>结果是成功的。
@@ -122,7 +122,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="../account/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="/account/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -144,19 +144,19 @@
                             </div>
                         </li>
                         <li>
-                            <a href="../index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-group fa-fw"></i> Minions<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../minions/minions_status.html">Minions Status</a>
+                                    <a href="/minions/minions_status/">Minions Status</a>
                                 </li>
                                 <li>
-                                    <a href="../minions/minions_keys.html">Minions Keys Manage</a>
+                                    <a href="/minions/minions_keys/">Minions Keys Manage</a>
                                 </li>
                                 <li>
-                                    <a href="../minions/minions_hardware_info.html">Minions Hardware Info</a>
+                                    <a href="/minions/minions_hardware_info/">Minions Hardware Info</a>
                                 </li>
                                 <!--
                                 <li>
@@ -169,7 +169,7 @@
                             <a href="#"><i class="fa fa-play fa-fw"></i> Execute<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../execute/minions_shell_runcmd.html">Run Shell Command</a>
+                                    <a href="/execute/minions_shell_runcmd/">Run Shell Command</a>
                                 </li>
                                 <!--
                                 <li>
@@ -182,13 +182,13 @@
                             <a href="#"><i class="fa fa-indent fa-fw"></i> Jobs<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../jobs/jobs_history.html">Jobs History</a>
+                                    <a href="/jobs/jobs_history/">Jobs History</a>
                                 </li>
                                 <li>
-                                    <a href="../jobs/jobs_manage.html">Jobs Manage</a>
+                                    <a href="/jobs/jobs_manage/">Jobs Manage</a>
                                 </li>
                                 <li>
-                                    <a href="../jobs/jobs_schedule.html">Jobs Schedule</a>
+                                    <a href="/jobs/jobs_schedule/">Jobs Schedule</a>
                                 </li>
                             </ul>
                         </li>
@@ -196,7 +196,7 @@
                             <a href="#"><i class="fa fa-puzzle-piece fa-fw"></i> States Config<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../states_config/highstate.html">Highstate</a>
+                                    <a href="/states_config/highstate/">Highstate</a>
                                 </li>
                             </ul>
                         </li>
@@ -214,10 +214,10 @@
                             <a href="#"><i class="fa fa-group fa-fw"></i> Groups<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../groups/manage_group.html">Manage Group</a>
+                                    <a href="/groups/manage_group/">Manage Group</a>
                                 </li>
                                 <li>
-                                    <a href="../groups/manage_host.html">Manage Host</a>
+                                    <a href="/groups/manage_host/">Manage Host</a>
                                 </li>                          
                             </ul>
                         </li>
