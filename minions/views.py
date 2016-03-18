@@ -31,6 +31,7 @@ def minions_keys(request):
 
 @login_required(login_url="/account/login/")
 def minions_asset_info(request):
+    '''
     sapi = SaltAPI()
     up_host = sapi.runner_status('status')['up']
     jid = []
@@ -46,6 +47,14 @@ def minions_asset_info(request):
         disk_all = {}
         jid += [info_all]
     return render(request, 'minions/minions_asset_info.html', {'jyp': jid})
+    '''
+    salt_grains = Salt_grains.objects.all()
+    asset_list = []
+    for asset in salt_grains:
+        asset_dic = eval(asset.grains)
+        asset_dics = asset_dic.copy()
+        asset_list.append(asset_dics)
+    return render(request, 'minions/minions_asset_info.html', {'asset': asset_list})
 
 @login_required(login_url="/account/login/")
 def minions_servers_status(request):
