@@ -35,16 +35,16 @@
                              <div class="modal-body">
                                <form class="form-horizontal" id="add_data" method="post" action="/groups/add_group/">
                                  <fieldset>
-                                   <legend>输入您的主机组相关信息</legend>
+                                   <legend>Add</legend>
                                    <div class="form-group">
-                                     <label for="name" class="col-sm-3 control-label">Name (主机名)</label>
+                                     <label for="name" class="col-sm-3 control-label">Group Name</label>
                                      <div class="col-sm-9">
                                        <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
                                      </div>
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="privileges" class="col-sm-3 control-label">privileges (权限)</label>
+                                     <label for="privileges" class="col-sm-3 control-label">privileges</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="privileges" name="privileges" minlength="1" type="text" placeholder="privileges" required>
                                          <option>default1</option>
@@ -56,7 +56,7 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="owner" class="col-sm-3 control-label">owner (归属)</label>
+                                     <label for="owner" class="col-sm-3 control-label">owner</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="owner" name="owner" type="text"  required>
                                          {% if owners %}
@@ -71,7 +71,7 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="business" class="col-sm-3 control-label">Business (业务线)</label>
+                                     <label for="business" class="col-sm-3 control-label">Business</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="business" name="business" required>
                                          <option>default</option>
@@ -87,7 +87,7 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="informations" class="col-sm-3 control-label">informations (信息)</label>
+                                     <label for="informations" class="col-sm-3 control-label">informations</label>
                                      <div class="col-sm-9">
                                        <textarea class="form-control" id="informations" name="informations" minlength="1" required></textarea>
                                      </div>
@@ -97,7 +97,7 @@
                                      <div class="col-sm-offset-3 col-sm-9">
                                        <div class="checkbox">
                                          <label>
-                                           <input checked type="checkbox" name="enabled" value="true"> 是否启用
+                                           <input checked type="checkbox" name="enabled" value="true"> Enabled or Not
                                          </label>
                                        </div>
                                      </div>
@@ -151,17 +151,17 @@
                                <form id="modify_data" class="form-horizontal" method="POST" action="/groups/modify_group/">
                                <!-- jquery will append content here -->
                                    <div class="form-group">
-                                     <label for="name" class="col-sm-3 control-label">Name (主机名)</label>
+                                     <label for="name" class="col-sm-3 control-label">Group Name</label>
                                      <div class="col-sm-9">
                                        <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
                                      </div>
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="privileges" class="col-sm-3 control-label">privileges (权限)</label>
+                                     <label for="privileges" class="col-sm-3 control-label">privileges</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="privileges" name="privileges" minlength="1" type="text" placeholder="privileges" required>
-                                         <option>default1</option>
+                                         <option selected>default</option>
                                          <option>default[uninclude (rm -rf /),(reboot),(shutdown),(halt),(init)]</option>
                                          <option>all</option>
                                          <option>none</option>
@@ -170,9 +170,10 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="owner" class="col-sm-3 control-label">owner (归属)</label>
+                                     <label for="owner" class="col-sm-3 control-label">owner</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="owner" name="owner" type="text"  required>
+                                         <option selected>default</option>
                                          {% if owners %}
                                          {% for owner in owners %}
                                          <option>{{ owner }}</option>
@@ -185,10 +186,10 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="business" class="col-sm-3 control-label">Business (业务线)</label>
+                                     <label for="business" class="col-sm-3 control-label">Business</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="business" name="business" required>
-                                         <option>default</option>
+                                         <option selected>default</option>
                                          <option>a.com</option>
                                          <option>ad.a.com</option>
                                          <option>test</option>
@@ -201,7 +202,7 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="informations" class="col-sm-3 control-label">informations (信息)</label>
+                                     <label for="informations" class="col-sm-3 control-label">informations</label>
                                      <div class="col-sm-9">
                                        <textarea class="form-control" id="informations" name="informations" minlength="1" required></textarea>
                                      </div>
@@ -211,7 +212,7 @@
                                      <div class="col-sm-offset-3 col-sm-9">
                                        <div class="checkbox">
                                          <label>
-                                           <input checked type="checkbox" name="enabled" value="true"> 是否启用
+                                           <input id="enabled"  type="checkbox" name="enabled" value="true"> Enabled or Not
                                          </label>
                                        </div>
                                      </div>
@@ -312,19 +313,19 @@
                              <tbody>
                                {% if groups %}
                                {% for g in groups %}
-                               <tr id="{{ g.name }}" class="even gradeC">
+                               <tr id="{{ g.id }}" class="even gradeC">
                                    <td>
-                                     <input name="CHKlist" type="checkbox" value="{{ g.id }}"></input>
+                                     <input  name="CHKlist" type="checkbox" value="{{ g.id }}"></input>
                                    </td>
-                                   <td style="word-break:break-all">{{ g.id }}</td>
-                                   <td style="word-break:break-all">{{ g.name }}</td>
-                                   <td style="word-break:break-all">{{ g.business }}</td>
-                                   <td style="word-break:break-all">{{ g.informations }}</td>
-                                   <td style="word-break:break-all">{{ g.enabled }}</td>
-                                   <td style="word-break:break-all">{{ g.privileges }}</td>
-                                   <td style="word-break:break-all">{{ g.owner }}</td>
+                                   <td id="id" style="word-break:break-all">{{ g.id }}</td>
+                                   <td id="name" style="word-break:break-all">{{ g.name }}</td>
+                                   <td id="business" style="word-break:break-all">{{ g.business }}</td>
+                                   <td id="informations" style="word-break:break-all">{{ g.informations }}</td>
+                                   <td id="enabled" style="word-break:break-all">{{ g.enabled }}</td>
+                                   <td id="privileges" style="word-break:break-all">{{ g.privileges }}</td>
+                                   <td id="owner" style="word-break:break-all">{{ g.owner }}</td>
                                    
-                                   <td><button id="modify_group" name="modify_button" value="{{ g.name }}" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>|Edit</button></td>
+                                   <td><button id="modify_group" name="modify_button" value="{{ g.id }}" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>|Edit</button></td>
                                </tr>
                                {% endfor %}
                                {% endif %}
@@ -414,8 +415,19 @@
       // end delete //
       // modify //
       $("button#modify_group").click(function(){
-          var tmp_name=$(this).val();
+          var tmp_id=$(this).val();
+          var tmp_name=$("#"+tmp_id).find("#name").text();
+          var tmp_enabled=$("#"+tmp_id).find("#enabled").val();
+          var tmp_informations=$("#"+tmp_id).find("#informations").text();
+          var tmp_privileges=$("#"+tmp_id).find("#privileges").text();
+          var tmp_owner=$("#"+tmp_id).find("#owner").text();
+          var tmp_business=$("#"+tmp_id).find("#business").text();
           $('#modify_data').find('input#name').val(tmp_name);
+          $('#modify_data').find('input#enabled').attr("checked",true);
+          $('#modify_data').find('textarea#informations').val(tmp_informations);
+          $('#modify_data').find('select#privileges').find("option:selected").text(tmp_privileges);
+          $('#modify_data').find('select#owner').find("option:selected").text(tmp_owner);
+          $('#modify_data').find('select#business').find("option:selected").text(tmp_business);
           $('#modify_modal').modal('show')
       })
       // end modify //
