@@ -30,7 +30,7 @@ def minions_keys(request):
     return render(request, 'minions/minions_keys.html', {'key': keys_all})
 
 @login_required(login_url="/account/login/")
-def minions_hardware_info(request):
+def minions_asset_info(request):
     sapi = SaltAPI()
     up_host = sapi.runner_status('status')['up']
     jid = []
@@ -45,7 +45,7 @@ def minions_hardware_info(request):
             info_all.update(disk_dic)
         disk_all = {}
         jid += [info_all]
-    return render(request, 'minions/minions_hardware_info.html', {'jyp': jid})
+    return render(request, 'minions/minions_asset_info.html', {'jyp': jid})
 
 @login_required(login_url="/account/login/")
 def minions_servers_status(request):
