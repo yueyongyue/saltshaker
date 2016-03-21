@@ -58,7 +58,7 @@ def minions_asset_info(request):
     salt_grains = Salt_grains.objects.all()
     asset_list = []
     for asset in salt_grains:
-        asset_dic = eval(asset.grains)
+        asset_dic = {asset.minion_id.decode('string-escape'): eval(asset.grains)}
         asset_dics = asset_dic.copy()
         asset_list.append(asset_dics)
     return render(request, 'minions/minions_asset_info.html', {'asset': asset_list})
