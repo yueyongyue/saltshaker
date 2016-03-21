@@ -4,6 +4,7 @@ from minions.models import Minions_status
 from dashboard.models import *
 from returner.models import *
 import logging
+import time
 
 logger = logging.getLogger('django')
 sapi = SaltAPI()
@@ -34,21 +35,19 @@ def dashboard_task():
 @task()
 def grains_task():
     # grains data save to mysql
-    salt_grains = Salt_grains()
-    minions_status = Minions_status()
     status = sapi.runner_status('status')
     status_up = status['up']
-    status_down = status['down']
     for host_name in status_up:
         grains = sapi.remote_noarg_execution(host_name, 'grains.items')
         try:
             Salt_grains.objects.get(minion_id=host_name)
         except:
+            salt_grains = Salt_grains()
             salt_grains.grains = grains
             salt_grains.minion_id = host_name
             salt_grains.save()
         Salt_grains.objects.filter(minion_id=host_name).update(grains=grains, minion_id=host_name)
-
+    '''
     # minion status , version data save to mysql
     for host_name in status_up:
         salt_grains = Salt_grains.objects.filter(minion_id=host_name)
@@ -70,12 +69,12 @@ def grains_task():
             minions_status.minion_status = 'Down'
             minions_status.save()
         Minions_status.objects.filter(minion_id=host_name).update(minion_id=host_name, minion_version=version, minion_status='Down')
+    '''
 
 
-'''
 @task()
 def minions_status_task():
-    status = Minions_status()
+    #minion status , version data save to mysql
     status_all = sapi.runner_status('status')
     for host_name in status_all['up']:
         salt_grains = Salt_grains.objects.filter(minion_id=host_name)
@@ -83,6 +82,7 @@ def minions_status_task():
         try:
             Minions_status.objects.get(minion_id=host_name)
         except:
+            status = Minions_status()
             status.minion_id = host_name
             status.minion_version = version
             status.minion_status = 'Up'
@@ -92,9 +92,21 @@ def minions_status_task():
         try:
             Minions_status.objects.get(minion_id=host_name)
         except:
+            status = Minions_status()
             status.minion_id = host_name
             status.minion_version = version
             status.minion_status = 'Down'
             status.save()
         Minions_status.objects.filter(minion_id=host_name).update(minion_id=host_name, minion_version=version, minion_status='Down')
-'''
+
+
+@task()
+def accept_grains_task(minion_id):
+    # when accept key save grains to mysql
+    time.sleep(10)
+    grains = sapi.remote_noarg_execution(minion_id, 'grains.items')
+    salt_grains = Salt_grains()
+    salt_grains.grains = grains
+    salt_grains.minion_id = minion_id
+    salt_grains.save()
+
