@@ -40,18 +40,14 @@ def del_group(request):
 
 @login_required(login_url="/account/login/")
 def modify_group(request):
-    context={}
-    context["owners"]=User.objects.all()
-    if request.method=="GET":
-        _name=request.GET.get("name")
-        _info=Groups.objects.get(name=_name)
-        context["info"]=_info
+    _success=False
+    _error=False
     if request.method=="POST":
         _id=request.POST.get("id")
+        print _id
         _name=request.POST.get("name")
         _business=request.POST.get("business")
         _enabled=request.POST.get("enabled")
-        print _enabled
         _informations=request.POST.get("informations")
         _privileges=request.POST.get("privileges")
         _o=request.POST.get("owner")
@@ -60,8 +56,7 @@ def modify_group(request):
             _enabled=True
         else:
             _enabled=False
-        _save=request.POST.get("save")
-        if _save=="save":
+        try:
             _group=Groups.objects.get(id=_id)
             _name_before=_group.name
             _group.name=_name
@@ -71,11 +66,12 @@ def modify_group(request):
             _group.privileges=_privileges
             _group.owner=_owner
             _group.save()
-        _info=Groups.objects.get(name=_name)
-        context["info"]=_info
-        context["result"]="Edit Group " + _name_before + " OK!!"
+            _success="Modify Group "+ _name +" OK"
+        except Exception as e:
+            _error="Modify Group "+ _name +" failed"
+            
         
-    return render_to_response("groups/modify_group.html",context)
+    return manage_group(request,success=_success,error=_error)
 
 
 @login_required(login_url="/account/login/")
