@@ -149,7 +149,12 @@
                              <div class="modal-body">
 
                                <form id="modify_data" class="form-horizontal" method="POST" action="/groups/modify_group/">
-                               <!-- jquery will append content here -->
+                                   <div class="form-group">
+                                     <label for="name" class="col-sm-3 control-label">Id</label>
+                                     <div class="col-sm-9">
+                                       <input readonly class="form-control" id="id" name="id" minlength="1" type="text" placeholder="id" required>
+                                     </div>
+                                   </div>
                                    <div class="form-group">
                                      <label for="name" class="col-sm-3 control-label">Group Name</label>
                                      <div class="col-sm-9">
@@ -212,15 +217,9 @@
                                      <div class="col-sm-offset-3 col-sm-9">
                                        <div class="checkbox">
                                          <label>
-                                           <input id="enabled"  type="checkbox" name="enabled" value="true"> Enabled or Not
+                                           <input id="enabled"  type="checkbox" name="enabled" value=""> Enabled or Not
                                          </label>
                                        </div>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                     <div class="col-sm-offset-3 col-sm-9">
-                                       <button onclick="submit" id="add_commit" type="submit" class="btn btn-default">Submit</button>
                                      </div>
                                    </div>
                                </form>
@@ -321,7 +320,7 @@
                                    <td id="name" style="word-break:break-all">{{ g.name }}</td>
                                    <td id="business" style="word-break:break-all">{{ g.business }}</td>
                                    <td id="informations" style="word-break:break-all">{{ g.informations }}</td>
-                                   <td id="enabled" style="word-break:break-all">{{ g.enabled }}</td>
+                                   <td id="enabled" style="word-break:break-all">{{ g.enabled|lower }}</td>
                                    <td id="privileges" style="word-break:break-all">{{ g.privileges }}</td>
                                    <td id="owner" style="word-break:break-all">{{ g.owner }}</td>
                                    
@@ -417,18 +416,31 @@
       $("button#modify_group").click(function(){
           var tmp_id=$(this).val();
           var tmp_name=$("#"+tmp_id).find("#name").text();
-          var tmp_enabled=$("#"+tmp_id).find("#enabled").val();
+          var tmp_enabled=$("#"+tmp_id).find("#enabled").text();
           var tmp_informations=$("#"+tmp_id).find("#informations").text();
           var tmp_privileges=$("#"+tmp_id).find("#privileges").text();
           var tmp_owner=$("#"+tmp_id).find("#owner").text();
           var tmp_business=$("#"+tmp_id).find("#business").text();
+          $('#modify_data').find('input#id').val(tmp_id);
           $('#modify_data').find('input#name').val(tmp_name);
-          $('#modify_data').find('input#enabled').attr("checked",true);
+          if (tmp_enabled == "true")
+              {
+              $('#modify_data').find('input#enabled').attr("checked",true);
+              $('#modify_data').find('input#enabled').val(tmp_enabled);
+              }
+          else
+              {
+              $('#modify_data').find('input#enabled').attr("checked",false);
+              $('#modify_data').find('input#enabled').val(tmp_enabled);
+              }
           $('#modify_data').find('textarea#informations').val(tmp_informations);
           $('#modify_data').find('select#privileges').find("option:selected").text(tmp_privileges);
           $('#modify_data').find('select#owner').find("option:selected").text(tmp_owner);
           $('#modify_data').find('select#business').find("option:selected").text(tmp_business);
           $('#modify_modal').modal('show')
+          $('#modify_commit').click(function(){
+              $('#modify_data').submit();
+              });
       })
       // end modify //
 
