@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from dashboard.models import *
 from returner.models import *
 import logging
-from shaker.tasks import dashboard_task, grains_task
+from shaker.tasks import dashboard_task, grains_task, minions_status_task
 from shaker.check_service import CheckPort, CheckProgress
 
 logger = logging.getLogger('django')
@@ -12,7 +12,8 @@ logger = logging.getLogger('django')
 def index(request):
     try:
         dashboard_task.delay()
-        grains_task.delay()
+        #grains_task.delay()
+        minions_status_task.delay()
     except:
         logger.error("Connection refused, don't connect rabbitmq service")
     try:

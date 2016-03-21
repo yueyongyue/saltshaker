@@ -4,7 +4,10 @@ from shaker.shaker_core import *
 from shaker.nodegroups import *
 from minions.models import Minions_status
 from returner.models import Salt_grains
+from shaker.tasks import accept_grains_task
+import logging
 
+logger = logging.getLogger('django')
 
 @login_required(login_url="/account/login/")
 def minions_status(request):
@@ -20,6 +23,10 @@ def minions_keys(request):
         minion_id_d = request.POST.get("delete")
         if minion_id_a:
             sapi.accept_key(minion_id_a)
+            try:
+                accept_grains_task.delay(minion_id_a)
+            except:
+                logger.error("Connection refused, don't connect rabbitmq service")
         elif minion_id_r:
             sapi.reject_key(minion_id_r)
         else:
@@ -31,6 +38,7 @@ def minions_keys(request):
 
 @login_required(login_url="/account/login/")
 def minions_asset_info(request):
+    '''
     sapi = SaltAPI()
     up_host = sapi.runner_status('status')['up']
     jid = []
@@ -46,6 +54,14 @@ def minions_asset_info(request):
         disk_all = {}
         jid += [info_all]
     return render(request, 'minions/minions_asset_info.html', {'jyp': jid})
+    '''
+    salt_grains = Salt_grains.objects.all()
+    asset_list = []
+    for asset in salt_grains:
+        asset_dic = {asset.minion_id.decode('string-escape'): eval(asset.grains)}
+        asset_dics = asset_dic.copy()
+        asset_list.append(asset_dics)
+    return render(request, 'minions/minions_asset_info.html', {'asset': asset_list})
 
 @login_required(login_url="/account/login/")
 def minions_servers_status(request):

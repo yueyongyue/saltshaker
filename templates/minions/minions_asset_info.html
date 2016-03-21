@@ -22,12 +22,10 @@
                                         <tr>
                                             <th>Minions</th>
                                             <th>Release</th>
-                                            <th>Interfaces</th>
-                                            <th>Mem</th>
-                                            <th>CPU</th>
-                                            <th>Disk Used</th>
+                                            <th>Info</th>
                                         </tr>
                                     </thead>
+                                    <!---
                                     <tbody>
                                         {% for key in jyp %}
                                         <tr class="odd gradeX">
@@ -71,6 +69,58 @@
                                                 {% endfor %}
                                             </td>
                                         </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                    -->
+                                <tbody>
+                                    {% for asset_info in asset %}
+                                        {% for minion_id,grains in asset_info.items %}
+                                            <tr class="odd gradeX">
+                                                <td>{{ minion_id }}</td>
+                                                <td>
+                                                    <li style="list-style-type:none">
+                                                          <span style="color: #009900">Release: </span>{{ grains.osfullname }}-{{ grains.osrelease }}
+                                                    </li>
+                                                    <li style="list-style-type:none">
+                                                          <span style="color: #009900">Kernel: </span>{{ grains.kernelrelease }}
+                                                    </li>
+                                                </td>
+                                                <td>
+                                                    <li style="list-style-type:none">
+                                                          <span style="color: #009900">Cores: </span>{{ grains.num_cpus }}
+                                                    </li>
+                                                    <li style="list-style-type:none">
+                                                          <span style="color: #009900">Mem: </span>{{ grains.mem_total }} MB
+                                                    </li>
+                                                    <li style="list-style-type:none">
+                                                          <span style="color: #009900">Model: </span>{{ grains.cpu_model }}
+                                                    </li>
+                                                    {% for inter,ip_list in grains.ip4_interfaces.items %}
+                                                        <li style="list-style-type:none">
+                                                           {% for ip in ip_list %}
+                                                               {% if inter = 'lo' %}
+                                                                  <span style="color: #009900; display: none">{{ inter }}: {{ ip }}</span>
+                                                               {% else %}
+                                                                  <span style="color: #009900">{{ inter|capfirst }}: </span>{{ ip }}
+                                                               {% endif %}
+                                                           {% endfor %}
+                                                        </li>
+                                                    {% endfor %}
+                                                     <li style="list-style-type:none">
+                                                           <span style="color: #009900">Manufacturer: </span>{{grains.manufacturer}}
+                                                    </li>
+                                                    <li style="list-style-type:none">
+                                                           <span style="color: #009900">Product: </span>{{ grains.productname }}
+                                                    </li>
+                                                    <li style="list-style-type:none">
+                                                           <span style="color: #009900">SN: </span>{{ grains.serialnumber }}
+                                                    </li>
+                                                    <li style="list-style-type:none">
+                                                           <span style="color: #009900">Server_ID: </span>{{ grains.server_id }}
+                                                    </li>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
                                     {% endfor %}
                                     </tbody>
                                 </table>
