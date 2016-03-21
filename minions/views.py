@@ -4,7 +4,10 @@ from shaker.shaker_core import *
 from shaker.nodegroups import *
 from minions.models import Minions_status
 from returner.models import Salt_grains
+from shaker.tasks import accept_grains_task
+import logging
 
+logger = logging.getLogger('django')
 
 @login_required(login_url="/account/login/")
 def minions_status(request):
@@ -20,6 +23,10 @@ def minions_keys(request):
         minion_id_d = request.POST.get("delete")
         if minion_id_a:
             sapi.accept_key(minion_id_a)
+            try:
+                accept_grains_task.delay(minion_id_a)
+            except:
+                logger.error("Connection refused, don't connect rabbitmq service")
         elif minion_id_r:
             sapi.reject_key(minion_id_r)
         else:
