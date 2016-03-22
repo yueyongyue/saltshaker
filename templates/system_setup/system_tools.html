@@ -10,7 +10,7 @@
             <!-- /.row -->
             <div class="row">
                 <!-- /.col-lg-6 -->
-                <div class="col-lg-6">
+                <div class="col-lg-6" style="width: 650px">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Queues Status
@@ -24,7 +24,7 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
-                <div class="col-lg-6">
+                <div class="col-lg-6" style="width: 350px">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Restart Server
@@ -180,7 +180,7 @@
                     },
                     dataZoom: {
                         show: true,
-                        start : 70
+                        start : 99
                     },
                     legend : {
                         data : ['series1']
@@ -193,7 +193,7 @@
                     xAxis : [
                         {
                             type : 'time',
-                            splitNumber:10
+                            splitNumber:5
                         }
                     ],
                     yAxis : [
@@ -216,9 +216,9 @@
                                 var value;
                                 while (len++ < 200) {
                                     d.push([
-                                        new Date(2016, 3, 22, 0, len * 100),
+                                        new Date(2016, 2, 22, 6, len * 1),
                                         3,
-                                        20
+                                        (Math.random()*100).toFixed(2) - 0
                                     ]);
                                 }
                                 return d;
