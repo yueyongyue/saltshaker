@@ -18,13 +18,14 @@ class Groups(models.Model):
         return self.name
 
 class Hosts(models.Model):
-    minion =    models.ForeignKey(Minions_status,related_name="%(app_label)s_%(class)s_related")
+    #minion        =    models.OneToOneField(Minions_status,related_name="%(app_label)s_%(class)s_related")
+    minion        =    models.ForeignKey(Minions_status,related_name="%(app_label)s_%(class)s_related",unique=True)
     name          =    models.CharField(max_length=50,unique=True)
     business      =    models.CharField(max_length=100)
     informations  =    models.CharField(max_length=200)
-    group         =    models.ForeignKey(Groups)
+    group         =    models.ForeignKey(Groups,related_name="%(app_label)s_%(class)s_related")
     enabled       =    models.BooleanField(default=True)
-    #owner         =   models.ForeignKey(User,related_name="%(app_label)s_%(class)s_related")
+    owner         =    models.ForeignKey(User,related_name="%(app_label)s_%(class)s_related")
     privileges    =    models.CharField(max_length=200)
 
     def __unicode__(self):
