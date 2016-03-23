@@ -157,6 +157,22 @@ LOGGING = {
             'backupCount': 5,
             'formatter': 'standard',
         },
+        'access': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '/var/log/saltshaker/access.log',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '/var/log/saltshaker/error.log',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
 
     },
     'loggers': {
@@ -164,6 +180,16 @@ LOGGING = {
             'handlers': ['shaker_default'],
             'level': 'INFO',
             'propagate': False
+        },
+        'access': {
+            'handlers': ['access'],
+            'level': 'INFO',
+            'propagate': True
+        },
+        'error': {
+            'handlers': ['error'],
+            'level': 'INFO',
+            'propagate': True
         },
     }
 }
