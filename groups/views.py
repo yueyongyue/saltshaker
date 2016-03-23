@@ -8,6 +8,10 @@ from groups.models import Groups,Hosts
 from groups.models import Groups,Hosts
 from minions.models import Minions_status
 
+import logging
+ErrorLogger = logging.getLogger("error")
+AccessLogger = logging.getLogger("access")
+
 #######################  manage group ###########################
 @login_required(login_url="/account/login/")
 def manage_group(request,*args,**kw):
@@ -21,6 +25,7 @@ def manage_group(request,*args,**kw):
         "success":_success,
         "error":_error,
         }
+    AccessLogger.info(request.path)
     return render_to_response("groups/manage_group.html",context)
 
 @login_required(login_url="/account/login/")
@@ -36,6 +41,7 @@ def del_group(request):
         _success="Delete opearation successed!"
     except Exception as e:
         _error="Delete error!"
+        ErrorLogger.error(str(e))
     #return render_to_response("groups/manage_group.html",context)
     #return HttpResponseRedirect("/groups/manage_group/",context) 
     return manage_group(request,success=_success,error=_error)
@@ -71,6 +77,7 @@ def modify_group(request):
             _success="Modify Group "+ _name +" OK"
         except Exception as e:
             _error="Modify Group "+ _name +" failed"
+            ErrorLogger.error(str(e))
             
         
     return manage_group(request,success=_success,error=_error)
@@ -100,6 +107,7 @@ def add_group(request):
             _success="Add Group "+_name+" OK!!"
         except Exception as e:
             _error="name already exists or too long!"
+            ErrorLogger.error(str(e))
             
     else:
         pass
@@ -124,6 +132,7 @@ def manage_host(request,*args,**kw):
         "success":_success,
         "error":_error,
         }
+    AccessLogger.info(request.path)
     return render_to_response("groups/manage_host.html",context)
 
 @login_required(login_url="/account/login/")
@@ -137,6 +146,8 @@ def del_host(request):
         _success="Delete opearation successed!"
     except Exception as e:
         _error="Delete opearation error!"
+        ErrorLogger.error(str(e))
+            
     return manage_host(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
 def modify_host(request):
@@ -174,6 +185,7 @@ def modify_host(request):
             _success="Modify Group "+ _name +" OK"
         except Exception as e:
             _error="Modify Group "+ _name +" failed"
+            ErrorLogger.error(str(e))
             
         
     return manage_host(request,success=_success,error=_error)
@@ -207,6 +219,7 @@ def add_host(request):
             _success="Add Host "+_name+" OK!!"
         except Exception as e:
             _error="name already exists or too long!"
+            ErrorLogger.error(str(e))
             
     else:
         pass
