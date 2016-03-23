@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+  {% block content %}
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">System Tools</h2>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6" style="width: 650px">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Queues Status
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" style="height:280px">
+                           <div id="main4" style="height:250px"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6" style="width: 350px">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Restart Server
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" style="height:280px">
+                            <div style="height:250px">
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        Salt Master <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        Salt Api  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        Salt Minion  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        RabbixMQ  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        RabbixMQ Management  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        Celery  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Restart Server
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" style="height:280px">
+                            <div style="height:250px">
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        Update Global Grains <span class="pull-right  btn btn-outline btn-success btn-xs">Update</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        Return Data Cycle  <span class="pull-right"><input class="form-control" placeholder="Enter text"></span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        Salt Minion  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        RabbixMQ  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        RabbixMQ Management  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        Celery  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Restart Server
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" style="height:280px">
+                            <div style="height:250px">
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        Salt Master <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        Salt Api  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        Salt Minion  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        RabbixMQ  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        RabbixMQ Management  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        Celery  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+      <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+      <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/bar'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main4'),'macarons');
+
+                var option = {
+                    title : {
+                        text : '',
+                        subtext : ''
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter : function (params) {
+                            var date = new Date(params.value[0]);
+                            data = date.getFullYear() + '-'
+                                   + (date.getMonth() + 1) + '-'
+                                   + date.getDate() + ' '
+                                   + date.getHours() + ':'
+                                   + date.getMinutes();
+                            return data + '<br/>'
+                                   + params.value[1] + ', '
+                                   + params.value[2];
+                        }
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    dataZoom: {
+                        show: true,
+                        start : 99
+                    },
+                    legend : {
+                        data : ['series1']
+                    },
+                    grid: {
+                        y2: 80,
+                        x: 30,
+                        x2: 40
+                    },
+                    xAxis : [
+                        {
+                            type : 'time',
+                            splitNumber:5
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name: 'series1',
+                            type: 'line',
+                            showAllSymbol: true,
+                            symbolSize: function (value){
+                                return Math.round(value[2]/10) + 2;
+                            },
+                            data: (function () {
+                                var d = [];
+                                var len = 0;
+                                var now = new Date();
+                                var value;
+                                while (len++ < 200) {
+                                    d.push([
+                                        new Date(2016, 2, 22, 6, len * 1),
+                                        3,
+                                        (Math.random()*100).toFixed(2) - 0
+                                    ]);
+                                }
+                                return d;
+                            })()
+                        }
+                    ]
+                };
+
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+  </script>
+
+  {% endblock %}
+

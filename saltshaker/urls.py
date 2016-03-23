@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'states_config/', include('states_config.urls')),
     #url(r'code_update/', include('code_update.urls')),
     url(r'groups/', include('groups.urls')),
-    #url(r'system_setup/', include('system_setup.urls')),
+    url(r'system_setup/', include('system_setup.urls')),
     #url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),
     url(r'account/', include('account.urls')),
 
