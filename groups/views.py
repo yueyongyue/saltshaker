@@ -15,6 +15,7 @@ AccessLogger = logging.getLogger("access")
 #######################  manage group ###########################
 @login_required(login_url="/account/login/")
 def manage_group(request,*args,**kw):
+    print request.session
     _groups = Groups.objects.all()
     _owners = User.objects.all()
     _success = kw.get("success",False)

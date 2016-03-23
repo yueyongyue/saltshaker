@@ -53,16 +53,16 @@
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form method="post" action="../account/login.html">
+                        <form method="post" action="/account/login/">
                             <fieldset>
                                 <div style="display:none"class="form-group">
-                                    <input id="next" class="form-control" placeholder="next" name="next"  value="" autofocus>
+                                    <input id="next" class="form-control" placeholder="next" name="next" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="username"  autofocus>
+                                    <input class="form-control" placeholder="E-mail" name="username" value=""  autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="Password" name="password" type="password">
                                 </div>
                                 {% if errors %}
                                     {% for error in errors %}
