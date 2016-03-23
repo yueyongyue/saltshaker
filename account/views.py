@@ -7,14 +7,10 @@ from django.contrib.auth import login as auth_login
 def login_view(request):
     msg = []
     if request.POST:
-        if len(request.POST.get('next')) >0:
-            _next=request.POST.get('next')
+        if len(request.POST.get('next')) > 0:
+            _next = request.POST.get('next')
         else:
-            _next="/"
-        
-        _remember = request.POST.get('remember')
-        #if _remember != "remember":
-        #    pass
+            _next = "/"
         username = request.POST.get('username')
         password = request.POST.get('password')
         
