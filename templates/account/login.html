@@ -55,6 +55,9 @@
                     <div class="panel-body">
                         <form method="post" action="../account/login.html">
                             <fieldset>
+                                <div style="display:none"class="form-group">
+                                    <input id="next" class="form-control" placeholder="next" name="next"  value="" autofocus>
+                                </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="E-mail" name="username"  autofocus>
                                 </div>
@@ -68,7 +71,7 @@
                                 {% endif %}
                                 <div class="checkbox">
                                     <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                        <input checked name="remember" type="checkbox" value="remember">Remember Me
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
@@ -96,6 +99,17 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static "dist/js/sb-admin-2.js" %}"></script>
-
+    <script type="text/javascript"> 
+      //get url param
+      $(document).ready(function(){
+       function getUrlParam(name){
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+         var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+         if (r!=null) return unescape(r[2]); return null; //返回参数值
+         }        
+         var next=getUrlParam('next');
+         $("input#next").val(next)
+      });
+    </script>
 </body>
 </html>
