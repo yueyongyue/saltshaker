@@ -19,4 +19,9 @@ from . import views
 urlpatterns = [
     url(r'login', views.login_view, name='login_view'),
     url(r'logout', views.logout_view, name='logout_view'),
+    url(r'add_user', views.add_user, name='add_user'),
+    url(r'del_user', views.del_user, name='del_user'),
+    url(r'set_password', views.set_password, name='set_password'),
+    url(r'setup_user', views.setup_user, name='setup_user'),
+    url(r'manage_user', views.add_user, name='manage_user'),
 ]

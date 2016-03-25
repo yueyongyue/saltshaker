@@ -112,8 +112,6 @@ def add_group(request):
             
     else:
         pass
-    #return render_to_response("groups/manage_group.html",context)
-    #return HttpResponseRedirect("/groups/manage_group/",context) 
     return manage_group(request,success=_success,error=_error)
 ###########################  end manage group ################################
 ###########################  mange Host #######################   
