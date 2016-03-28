@@ -78,7 +78,10 @@ def minions_status_task():
     status_all = sapi.runner_status('status')
     for host_name in status_all['up']:
         salt_grains = Salt_grains.objects.filter(minion_id=host_name)
-        version = eval(salt_grains[0].grains).get('saltversion').decode('string-escape')
+        try:
+            version = eval(salt_grains[0].grains).get('saltversion').decode('string-escape')
+        except:
+            logger.error("Don't get minion version")
         try:
             Minions_status.objects.get(minion_id=host_name)
         except:
@@ -103,10 +106,9 @@ def minions_status_task():
 @task()
 def accept_grains_task(minion_id):
     # when accept key save grains to mysql
-    time.sleep(10)
+    time.sleep(15)
     grains = sapi.remote_noarg_execution(minion_id, 'grains.items')
     salt_grains = Salt_grains()
     salt_grains.grains = grains
     salt_grains.minion_id = minion_id
     salt_grains.save()
-
