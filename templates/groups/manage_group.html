@@ -370,19 +370,30 @@
         $("#add_group").click(function(){
             $('#add_modal').modal('show')
 
-            var validator = $( "form#add" ).validate();
-            validator.showErrors({
-              {% if error %}
-                  "name": "{{ error }}",
-              {% endif %}
-              //"privileges": "select a privilege",
-              //"owner": "select a owner",
-                });
             $("#add_commit").click(function(){
-                $("#add_data").submit()
+                //$("#add_data").submit()
+                $.ajax({
+                    type:'POST',
+                    url:'/groups/add_groups/',
+                    data:$('form#add_data').serialize(),
+                    beforeSend:function(xhr,settings){
+                        //console.log(data)
+                    },
+                    complete:function(xhr,settings){
+                        //alert(data)
+                    },
+                    success:function(response,status,xhr){
+                        //alert(response)
+                    },
+                    error:function(xhr,errorText, errorStatus){
+                        //alert(errorStatus)
+                    },
+
+                }); 
+                window.location.reload(); 
             });
             
-            });
+        });
         // end add //
 
 
