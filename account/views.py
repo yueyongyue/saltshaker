@@ -151,8 +151,10 @@ def add_user(request):
         except Exception as e:
             _error="user already exists or too long!"
             ErrorLogger.error(str(e))
-            
     else:
         pass
     return manage_user(request,success=_success,error=_error)
 
+@login_required(login_url="/account/login/")
+def SuperUser(request):
+    return HttpResponse("coding")

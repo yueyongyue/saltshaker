@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'set_password', views.set_password, name='set_password'),
     url(r'setup_user', views.setup_user, name='setup_user'),
     url(r'manage_user', views.add_user, name='manage_user'),
+    url(r'superuser', views.SuperUser, name='manage_user'),
 ]

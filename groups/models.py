@@ -31,3 +31,20 @@ class Hosts(models.Model):
     def __unicode__(self):
         return self.name
 
+class Businesses(models.Model):
+    name          =    models.CharField(max_length=50,unique=True)
+    informations  =    models.CharField(max_length=200)
+    enabled       =    models.BooleanField(default=True)
+    owner         =    models.ForeignKey(User,related_name="%(app_label)s_%(class)s_related")
+    def __unicode__(self):
+        return self.name
+
+class Privileges(models.Model):
+    name          =    models.CharField(max_length=50,unique=True)
+    informations  =    models.CharField(max_length=200)
+    enabled       =    models.BooleanField(default=True)
+    owner         =    models.ForeignKey(User,related_name="%(app_label)s_%(class)s_related")
+
+    def __unicode__(self):
+        return self.name
+
