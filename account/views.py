@@ -6,12 +6,6 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-import logging
-ErrorLogger = logging.getLogger("error")
-AccessLogger = logging.getLogger("access")
-
-
-
 def login_view(request):
     msg = []
     if request.POST:
@@ -53,7 +47,6 @@ def manage_user(request,*args,**kw):
         "success":_success,
         "error":_error,
         }
-    AccessLogger.info(request.path)
     return render_to_response("account/manage_user.html",context)
 
 @login_required(login_url="/account/login/")
@@ -67,7 +60,6 @@ def del_user(request):
         _success = "Delete opearation successed!"
     except Exception as e:
         _error = "Delete opearation error!"
-        ErrorLogger.error(str(e))
             
     return manage_user(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
@@ -79,7 +71,6 @@ def set_password(request):
         _origin = request.POST.get("origin")
         _new = request.POST.get("new")
         _newagain = request.POST.get("newagain")
-        print _username,_origin,_new,_newagain
         if _new == _newagain and len(_new)>0:
             try:
                 _user=User.objects.get(username=_username)
@@ -92,7 +83,6 @@ def set_password(request):
                     _error = "Origin password is not correct!"
             except Exception as e:
                 _error="Set password for "+ _username +" failed"
-                ErrorLogger.error(str(e))
         else:
             _error="password error or the twice password not equal"
     return manage_user(request,success=_success,error=_error)
@@ -120,7 +110,6 @@ def setup_user(request):
             _user.save()
             _success = "modify user " + _username + " OK"
         except Exception as e:
-            print str(e)
             _error ="your don't have permission to do this!" 
        
     return manage_user(request,success=_success,error=_error)
@@ -150,7 +139,6 @@ def add_user(request):
             _success="Add user "+_username+" OK!!"
         except Exception as e:
             _error="user already exists or too long!"
-            ErrorLogger.error(str(e))
     else:
         pass
     return manage_user(request,success=_success,error=_error)

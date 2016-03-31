@@ -16,9 +16,8 @@ import django_crontab.crontab
 # celery
 import djcelery
 from celery import Celery, platforms
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -62,7 +61,8 @@ INSTALLED_APPS = (
     'states_config',
     'system_setup',
     'returner',
-    'djcelery'
+    'djcelery',
+    'middleware',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,6 +74,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    #customized middleware
+    'middleware.django_slow_log.SlowLogMiddleware',
+    'middleware.access_log.CustomerLogMiddleware',
 )
 
 ROOT_URLCONF = 'saltshaker.urls'
@@ -138,6 +141,10 @@ SALT_API_USER = 'admin'
 SALT_API_PASSWD = 'admin'
 
 # django logging
+CUSTOM_ACCESS_LOG_OPEN = True
+DJANGO_SLOW_LOG_OPEN = True
+DJANGO_SLOW_LOG_TIME_DELTA = 3000  # int ms
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -145,8 +152,24 @@ LOGGING = {
         'standard': {
             'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(module)s %(process)d] [%(name)s:%(lineno)d] [%(levelname)s]- %(message)s'
         },
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'error': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'debug_verbose': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+        'django_slow': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
     },
     'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        
+        },
     },
     'handlers': {
         'shaker_default': {
@@ -163,7 +186,7 @@ LOGGING = {
             'filename': '/var/log/saltshaker/access.log',
             'maxBytes': 1024 * 1024 * 5,
             'backupCount': 5,
-            'formatter': 'standard',
+            'formatter': 'verbose',
         },
         'error': {
             'level': 'ERROR',
@@ -171,7 +194,23 @@ LOGGING = {
             'filename': '/var/log/saltshaker/error.log',
             'maxBytes': 1024 * 1024 * 5,
             'backupCount': 5,
-            'formatter': 'standard',
+            'formatter': 'error',
+        },
+        'debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '/var/log/saltshaker/debug.log',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'debug_verbose',
+        },
+        'django_slow': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '/var/log/saltshaker/django_slow.log',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'django_slow',
         },
 
     },
@@ -188,12 +227,16 @@ LOGGING = {
         },
         'error': {
             'handlers': ['error'],
-            'level': 'INFO',
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'django_slow': {
+            'handlers': ['django_slow'],
+            'level': 'DEBUG',
             'propagate': True
         },
     }
 }
-
 # celery + rabbitmq
 platforms.C_FORCE_ROOT = True   # Running a worker with superuser privileges
 djcelery.setup_loader()
