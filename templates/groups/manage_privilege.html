@@ -42,6 +42,18 @@
                                        <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
                                      </div>
                                    </div>
+                                   <div class="form-group">
+                                     <label for="deny" class="col-sm-3 control-label">Deny</label>
+                                     <div class="col-sm-9">
+                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']" required>
+                                     </div>
+                                   </div>
+                                   <div class="form-group">
+                                     <label for="allow" class="col-sm-3 control-label">Allow</label>
+                                     <div class="col-sm-9">
+                                       <input class="form-control" id="allow" name="allow" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']">
+                                     </div>
+                                   </div>
 
                                    <div class="form-group">
                                      <label for="owner" class="col-sm-3 control-label">owner</label>
@@ -134,6 +146,18 @@
                                      </div>
                                    </div>
 
+                                   <div class="form-group">
+                                     <label for="deny" class="col-sm-3 control-label">Deny</label>
+                                     <div class="col-sm-9">
+                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']" required>
+                                     </div>
+                                   </div>
+                                   <div class="form-group">
+                                     <label for="allow" class="col-sm-3 control-label">Allow</label>
+                                     <div class="col-sm-9">
+                                       <input class="form-control" id="allow" name="allow" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']">
+                                     </div>
+                                   </div>
                                    <div class="form-group">
                                      <label for="owner" class="col-sm-3 control-label">owner</label>
                                      <div class="col-sm-9">
@@ -245,6 +269,8 @@
                                     </th>
                                     <th>ID</th>
                                     <th>privilege_Name</th>
+                                    <th>Deny</th>
+                                    <th>Allow</th>
                                     <th>informations</th>
                                     <th>enabled</th>
                                     <th>owner</th>
@@ -253,18 +279,20 @@
                              </thead>
                              <tbody>
                                {% if privileges %}
-                               {% for b in privileges %}
-                               <tr id="{{ b.id }}" class="even gradeC">
+                               {% for p in privileges %}
+                               <tr id="{{ p.id }}" class="even gradeC">
                                    <td>
-                                     <input  name="CHKlist" type="checkbox" value="{{ b.id }}"></input>
+                                     <input  name="CHKlist" type="checkbox" value="{{ p.id }}"></input>
                                    </td>
-                                   <td id="id" style="word-break:break-all">{{ b.id }}</td>
-                                   <td id="name" style="word-break:break-all">{{ b.name }}</td>
-                                   <td id="informations" style="word-break:break-all">{{ b.informations }}</td>
-                                   <td id="enabled" style="word-break:break-all">{{ b.enabled|lower }}</td>
-                                   <td id="owner" style="word-break:break-all">{{ b.owner.username }}</td>
+                                   <td id="id" style="word-break:break-all">{{ p.id }}</td>
+                                   <td id="name" style="word-break:break-all">{{ p.name }}</td>
+                                   <td id="deny" style="word-break:break-all">{{ p.deny }}</td>
+                                   <td id="allow" style="word-break:break-all">{{ p.allow }}</td>
+                                   <td id="informations" style="word-break:break-all">{{ p.informations }}</td>
+                                   <td id="enabled" style="word-break:break-all">{{ p.enabled|lower }}</td>
+                                   <td id="owner" style="word-break:break-all">{{ p.owner.username }}</td>
                                    
-                                   <td><button id="modify_privilege" name="modify_button" value="{{ b.id }}" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>|Edit</button></td>
+                                   <td><button id="modify_privilege" name="modify_button" value="{{ p.id }}" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>|Edit</button></td>
                                </tr>
                                {% endfor %}
                                {% endif %}
@@ -302,7 +330,7 @@
            //设置第一列为初始化排序的列
            "order": [[ 1, "desc" ]],
            //该值的含义为。初始化datatable，但对序号为0,10列的列不进行排序，别的列均可进行排序 
-           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,6 ] }]  
+           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,8 ] }]  
            });     
         // end data table
         // add //
@@ -347,11 +375,15 @@
       $("button#modify_privilege").click(function(){
           var tmp_id=$(this).val();
           var tmp_name=$("#"+tmp_id).find("#name").text();
+          var tmp_allow=$("#"+tmp_id).find("#allow").text();
+          var tmp_deny=$("#"+tmp_id).find("#deny").text();
           var tmp_enabled=$("#"+tmp_id).find("#enabled").text();
           var tmp_informations=$("#"+tmp_id).find("#informations").text();
           var tmp_owner=$("#"+tmp_id).find("#owner").text();
           $('#modify_data').find('input#id').val(tmp_id);
           $('#modify_data').find('input#name').val(tmp_name);
+          $('#modify_data').find('input#allow').val(tmp_allow);
+          $('#modify_data').find('input#deny').val(tmp_deny);
           if (tmp_enabled == "true")
               {
               $('#modify_data').find('input#enabled').attr("checked",true);

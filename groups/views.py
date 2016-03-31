@@ -11,14 +11,17 @@ from minions.models import Minions_status
 #######################  manage group ###########################
 @login_required(login_url="/account/login/")
 def manage_group(request,*args,**kw):
-    print request.session
     _groups = Groups.objects.all()
     _owners = User.objects.all()
+    _privileges = Privileges.objects.all()
+    _businesses = Businesses.objects.all()
     _success = kw.get("success",False)
     _error = kw.get("error",False)
     context={
         "groups":_groups,   
         "owners":_owners,
+        "privileges":_privileges,
+        "businesses":_businesses,
         "success":_success,
         "error":_error,
         }
@@ -328,6 +331,8 @@ def modify_privilege(request):
     if request.method=="POST":
         _id=request.POST.get("id")
         _name=request.POST.get("name")
+        _allow=request.POST.get("allow")
+        _deny=request.POST.get("deny")
         _enabled=request.POST.get("enabled")
         _informations=request.POST.get("informations")
         _o=request.POST.get("owner")
@@ -340,6 +345,8 @@ def modify_privilege(request):
             _privilege=Privileges.objects.get(id=_id)
             _name_before=_privilege.name
             _privilege.name=_name
+            _privilege.allow=_allow
+            _privilege.deny=_deny
             _privilege.enabled=_enabled
             _privilege.informations=_informations
             _privilege.owner=_owner
@@ -355,6 +362,8 @@ def add_privilege(request):
     _error=False
     if request.method=="POST":
         _name=request.POST.get("name")
+        _deny=request.POST.get("deny")
+        _allow=request.POST.get("allow")
         _o=request.POST.get("owner")
         _owner=User.objects.get(username=_o)
         _informations=request.POST.get("informations")
@@ -363,7 +372,7 @@ def add_privilege(request):
         else:
             _enabled=False
         try:
-            _privilege=Privileges(name=_name,owner=_owner,informations=_informations,enabled=_enabled)
+            _privilege=Privileges(name=_name,allow=_allow,deny=_deny,owner=_owner,informations=_informations,enabled=_enabled)
             _privilege.save()
             _success="Add privilege "+_name+" OK!!"
         except Exception as e:

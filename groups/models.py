@@ -41,6 +41,8 @@ class Businesses(models.Model):
 
 class Privileges(models.Model):
     name          =    models.CharField(max_length=50,unique=True)
+    deny          =    models.CharField(max_length=250)
+    allow         =    models.CharField(max_length=250)
     informations  =    models.CharField(max_length=200)
     enabled       =    models.BooleanField(default=True)
     owner         =    models.ForeignKey(User,related_name="%(app_label)s_%(class)s_related")

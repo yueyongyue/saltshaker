@@ -49,10 +49,13 @@
                                      <label for="privileges" class="col-sm-3 control-label">privileges</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="privileges" name="privileges" minlength="1" type="text" placeholder="privileges" required>
-                                         <option>default1</option>
-                                         <option>default[uninclude (rm -rf /),(reboot),(shutdown),(halt),(init)]</option>
-                                         <option>all</option>
-                                         <option>none</option>
+                                         {% if privileges %}
+                                         {% for privilege in privileges %}
+                                         <option>{{ privilege }}</option>
+                                         {% endfor %}
+                                         {% else %}
+                                         <option>unknown</option>
+                                         {% endif %}
                                        </select>
                                      </div>
                                    </div>
@@ -76,14 +79,13 @@
                                      <label for="business" class="col-sm-3 control-label">Business</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="business" name="business" required>
-                                         <option>default</option>
-                                         <option>a.com</option>
-                                         <option>ad.a.com</option>
-                                         <option>test</option>
-                                         <option>stocks</option>
-                                         <option>finance</option>
-                                         <option>sports</option>
-                                         <option>newss</option>
+                                         {% if businesses %}
+                                         {% for business in businesses %}
+                                         <option>{{ business }}</option>
+                                         {% endfor %}
+                                         {% else %}
+                                         <option>unknown</option>
+                                         {% endif %}
                                        </select>
                                      </div>
                                    </div>
@@ -169,9 +171,13 @@
                                      <div class="col-sm-9">
                                        <select class="form-control" id="privileges" name="privileges" minlength="1" type="text" placeholder="privileges" required>
                                          <option selected>default</option>
-                                         <option>default[uninclude (rm -rf /),(reboot),(shutdown),(halt),(init)]</option>
-                                         <option>all</option>
-                                         <option>none</option>
+                                         {% if privileges %}
+                                         {% for privilege in privileges %}
+                                         <option>{{ privilege }}</option>
+                                         {% endfor %}
+                                         {% else %}
+                                         <option>unknown</option>
+                                         {% endif %}
                                        </select>
                                      </div>
                                    </div>
@@ -197,13 +203,13 @@
                                      <div class="col-sm-9">
                                        <select class="form-control" id="business" name="business" required>
                                          <option selected>default</option>
-                                         <option>a.com</option>
-                                         <option>ad.a.com</option>
-                                         <option>test</option>
-                                         <option>stocks</option>
-                                         <option>finance</option>
-                                         <option>sports</option>
-                                         <option>newss</option>
+                                         {% if businesses %}
+                                         {% for business in businesses %}
+                                         <option>{{ business }}</option>
+                                         {% endfor %}
+                                         {% else %}
+                                         <option>unknown</option>
+                                         {% endif %}
                                        </select>
                                      </div>
                                    </div>
