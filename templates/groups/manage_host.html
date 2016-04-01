@@ -355,14 +355,14 @@
                                       <input id="CHKall" type="checkbox" name="CHKall" value="CHKall"></input>
                                     </th>
                                     <th>ID</th>
-                                    <th>Host_Name</th>
-                                    <th>minion_id</th>
-                                    <th>group_name</th>
-                                    <th>business</th>
-                                    <th style="display:none">informations</th>
-                                    <th>enabled</th>
-                                    <th>privileges</th>
-                                    <th>owner</th>
+                                    <th style="display:none">Host_Name</th>
+                                    <th>Minion_id</th>
+                                    <th>Group_name</th>
+                                    <th>Business</th>
+                                    <th style="display:none">Informations</th>
+                                    <th>Enabled</th>
+                                    <th style="display:none">Privileges</th>
+                                    <th>Owner</th>
                                     <th>Opearation</th>
                                  </tr>
                              </thead>
@@ -374,13 +374,13 @@
                                      <input  name="CHKlist" type="checkbox" value="{{ h.id }}"></input>
                                    </td>
                                    <td id="id" style="word-break:break-all">{{ h.id }}</td>
-                                   <td id="name" style="word-break:break-all">{{ h.name }}</td>
+                                   <td id="name" style="display:none;word-break:break-all">{{ h.name }}</td>
                                    <td id="minion" style="word-break:break-all">{{ h.minion.minion_id }}</td>
                                    <td id="group" style="word-break:break-all">{{ h.group.name }}</td>
                                    <td id="business" style="word-break:break-all">{{ h.business }}</td>
                                    <td id="informations" style="display:none;word-break:break-all">{{ h.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ h.enabled|lower }}</td>
-                                   <td id="privileges" style="word-break:break-all">{{ h.privileges }}</td>
+                                   <td id="privileges" style="display:none;word-break:break-all">{{ h.privileges }}</td>
                                    <td id="owner" style="word-break:break-all">{{ h.owner.username }}</td>
                                    
                                    <td><button id="modify_host" name="modify_button" value="{{ h.id }}" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>|Edit</button></td>

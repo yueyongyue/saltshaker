@@ -307,11 +307,11 @@
                                     </th>
                                     <th>ID</th>
                                     <th>Group_Name</th>
-                                    <th>business</th>
-                                    <th>informations</th>
-                                    <th>enabled</th>
-                                    <th>privileges</th>
-                                    <th>owner</th>
+                                    <th>Business</th>
+                                    <th style="display:none">Informations</th>
+                                    <th>Enabled</th>
+                                    <th style="display:none">Privileges</th>
+                                    <th>Owner</th>
                                     <th>Opearation</th>
                                  </tr>
                              </thead>
@@ -324,10 +324,10 @@
                                    </td>
                                    <td id="id" style="word-break:break-all">{{ g.id }}</td>
                                    <td id="name" style="word-break:break-all">{{ g.name }}</td>
-                                   <td id="business" style="word-break:break-all">{{ g.business }}</td>
+                                   <td id="business" style="display:none; word-break:break-all">{{ g.business }}</td>
                                    <td id="informations" style="word-break:break-all">{{ g.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ g.enabled|lower }}</td>
-                                   <td id="privileges" style="word-break:break-all">{{ g.privileges }}</td>
+                                   <td id="privileges" style="display:none;word-break:break-all">{{ g.privileges }}</td>
                                    <td id="owner" style="word-break:break-all">{{ g.owner }}</td>
                                    
                                    <td><button id="modify_group" name="modify_button" value="{{ g.id }}" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>|Edit</button></td>

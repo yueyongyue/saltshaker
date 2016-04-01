@@ -50,7 +50,6 @@ def modify_group(request):
     _error=False
     if request.method=="POST":
         _id=request.POST.get("id")
-        print _id
         _name=request.POST.get("name")
         _business=request.POST.get("business")
         _enabled=request.POST.get("enabled")
@@ -196,7 +195,6 @@ def add_host(request):
         _owner=User.objects.get(username=_o)
         _business=request.POST.get("business")
         _informations=request.POST.get("informations")
-        print _minion,_group
         if request.POST.get("enabled") == "true":
             _enabled=True
         else:

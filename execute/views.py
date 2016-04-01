@@ -20,7 +20,7 @@ def shell_runcmd(request):
         _h=[]
         _hosts=Hosts.objects.filter(group=_group)
         for _host in _hosts:
-            _h.append(_host.name)
+            _h.append(_host.minion.minion_id)
             all[_group.name]=_h
     return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': all})
 
@@ -40,9 +40,15 @@ def shell_result(request):
                 _host = Hosts.objects.get(name=_h)
                 _deny=_h.privilege.deny
                 _allow=_h.privilege.allow
-                if cmd in _deny:
-                    error = "error occoureda:host"+ _host+"have no permition run " + cmd
-                    result.append(error)
+                if len(_deny) > 0:
+                    if cmd in _deny:
+                        error = "error occoureda:host"+ _host+"have no permition run " + cmd
+                        result.append(error)
+                if len(_allow) > 0:
+                    if cmd not in _allow:
+                        error = "error occoureda:host"+ _host+"have no permition run " + cmd
+                        result.append(error)
+                        
             if len(result) > 0:
                 return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
         else:

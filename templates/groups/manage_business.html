@@ -244,10 +244,10 @@
                                       <input id="CHKall" type="checkbox" name="CHKall" value="CHKall"></input>
                                     </th>
                                     <th>ID</th>
-                                    <th>business_Name</th>
-                                    <th>informations</th>
-                                    <th>enabled</th>
-                                    <th>owner</th>
+                                    <th>Business_Name</th>
+                                    <th style="display:none">Informations</th>
+                                    <th>Enabled</th>
+                                    <th>Owner</th>
                                     <th>Opearation</th>
                                  </tr>
                              </thead>
@@ -260,7 +260,7 @@
                                    </td>
                                    <td id="id" style="word-break:break-all">{{ b.id }}</td>
                                    <td id="name" style="word-break:break-all">{{ b.name }}</td>
-                                   <td id="informations" style="word-break:break-all">{{ b.informations }}</td>
+                                   <td id="informations" style="display:none;word-break:break-all">{{ b.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ b.enabled|lower }}</td>
                                    <td id="owner" style="word-break:break-all">{{ b.owner.username }}</td>
                                    

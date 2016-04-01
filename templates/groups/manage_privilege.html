@@ -45,7 +45,7 @@
                                    <div class="form-group">
                                      <label for="deny" class="col-sm-3 control-label">Deny</label>
                                      <div class="col-sm-9">
-                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']" required>
+                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']" >
                                      </div>
                                    </div>
                                    <div class="form-group">
@@ -268,12 +268,12 @@
                                       <input id="CHKall" type="checkbox" name="CHKall" value="CHKall"></input>
                                     </th>
                                     <th>ID</th>
-                                    <th>privilege_Name</th>
+                                    <th>Privilege_Name</th>
                                     <th>Deny</th>
                                     <th>Allow</th>
-                                    <th>informations</th>
-                                    <th>enabled</th>
-                                    <th>owner</th>
+                                    <th style="display:none" >Informations</th>
+                                    <th>Enabled</th>
+                                    <th>Owner</th>
                                     <th>Opearation</th>
                                  </tr>
                              </thead>
@@ -288,7 +288,7 @@
                                    <td id="name" style="word-break:break-all">{{ p.name }}</td>
                                    <td id="deny" style="word-break:break-all">{{ p.deny }}</td>
                                    <td id="allow" style="word-break:break-all">{{ p.allow }}</td>
-                                   <td id="informations" style="word-break:break-all">{{ p.informations }}</td>
+                                   <td id="informations" style="display:none;word-break:break-all">{{ p.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ p.enabled|lower }}</td>
                                    <td id="owner" style="word-break:break-all">{{ p.owner.username }}</td>
                                    
