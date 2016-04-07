@@ -187,6 +187,12 @@ apt-get install rabbitmq-server
 开启rabbitmq-management plugin管理插件
 /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
 
+rabbitmqctl stop
+/etc/init.d/rabbitmq-server start
+此时可以访问 127.0.0.1:15672
+用户名:guest
+密码:guest
+
 
 配置django setting.py
 添加如下行到setting.py
@@ -204,10 +210,7 @@ BROKER_VHOST = "/"
 python manage.py makemigrations
 python manage.py migrate
 
-
 启动celery worker
 python manage.py celery worker --loglevel=info
 
 
-ggggg
-fffffffffff
