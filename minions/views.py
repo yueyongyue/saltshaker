@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from shaker.shaker_core import *
-from shaker.nodegroups import *
 from minions.models import Minions_status
 from returner.models import Salt_grains
 from shaker.tasks import accept_grains_task
@@ -25,14 +24,20 @@ def minions_keys(request):
             sapi.accept_key(minion_id_a)
             try:
                 accept_grains_task.delay(minion_id_a)
-            except:
-                logger.error("Connection refused, don't connect rabbitmq service")
+            except Exception as e:
+                logger.error(e)
         elif minion_id_r:
             sapi.reject_key(minion_id_r)
         else:
             sapi.delete_key(minion_id_d)
-            Minions_status.objects.get(minion_id=minion_id_d).delete()
-            Salt_grains.objects.get(minion_id=minion_id_d).delete()
+            try:
+                Minions_status.objects.get(minion_id=minion_id_d).delete()
+            except Exception as e:
+                logger.error(e)
+            try:
+                Salt_grains.objects.get(minion_id=minion_id_d).delete()
+            except Exception as e:
+                logger.error(e)
     keys_all = sapi.list_all_key()
     return render(request, 'minions/minions_keys.html', {'key': keys_all})
 
