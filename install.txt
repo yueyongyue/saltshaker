@@ -207,6 +207,7 @@ BROKER_PASSWORD = "guest"
 BROKER_VHOST = "/"
 
 执行如下命令创建djcelery的相关数据库表
+mkdir /var/log/saltshaker
 python manage.py makemigrations
 python manage.py migrate
 
