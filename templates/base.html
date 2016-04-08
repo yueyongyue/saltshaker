@@ -46,10 +46,15 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="/"><img src="/static/images/logo.png"></a>
                 <a class="navbar-brand" href="/" style="padding-top: 25px;padding-left: 0px">SaltShaker</a>
-                <div id="myAlert" class="alert alert-success" style="margin-left: 970px;margin-top:10px;margin-bottom:3px;padding: 3px;display: none">
+                <div id="myAlert" class="alert alert-success" style="margin-left: 800px;margin-bottom:3px;padding: 3px;display: none">
                     <a href="#" class="close" data-dismiss="alert">&times;</a>
                     <strong>成功！</strong>结果是成功的。
                 </div>
+                <div class="alert alert-success alert-dismissable" style="margin-left: 700px;margin-top:3px;padding: 3px;;display: none">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>.
+                            </div>
+
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -57,52 +62,31 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-alerts">
+                    <ul class="dropdown-menu dropdown-alerts" style="width: 400px">
+                        {% if alert_info == "" %}
                         <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
+                            <div class="alert alert-success alert-dismissable" style="margin-bottom:2px;display: none">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <p class="alert-link">{{ alert_info }}</p>
+                            </div>
                         </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
+                        {% else %}
+                            {% if "Success" in alert_info %}
+                                <li>
+                                    <div class="alert alert-success alert-dismissable" style="margin-bottom:2px">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <p class="alert-link">{{ alert_info }}</p>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <div class="alert alert-danger alert-dismissable" style="margin-bottom:2px">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <p class="alert-link">{{ alert_info }}</p>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endif %}
                         <li>
                             <a class="text-center" href="#">
                                 <strong>See All Alerts</strong>

@@ -16,6 +16,7 @@ def minions_status(request):
 @login_required(login_url="/account/login/")
 def minions_keys(request):
     sapi = SaltAPI()
+    alert_info = ""
     if request.POST:
         minion_id_a = request.POST.get("accept")
         minion_id_r = request.POST.get("reject")
@@ -24,7 +25,9 @@ def minions_keys(request):
             sapi.accept_key(minion_id_a)
             try:
                 accept_grains_task.delay(minion_id_a)
+                alert_info = "Minion: " + minion_id_a + "Accept Key Success"
             except Exception as e:
+                alert_info = "Minion: " + minion_id_a + "Accept Key Fault"
                 logger.error(e)
         elif minion_id_r:
             sapi.reject_key(minion_id_r)
@@ -32,14 +35,17 @@ def minions_keys(request):
             sapi.delete_key(minion_id_d)
             try:
                 Minions_status.objects.get(minion_id=minion_id_d).delete()
+                alert_info = "Minion: " + minion_id_d + "Delete Key Success"
             except Exception as e:
                 logger.error(e)
             try:
                 Salt_grains.objects.get(minion_id=minion_id_d).delete()
+                alert_info = "Minion: " + minion_id_d + "Delete Key Success"
             except Exception as e:
                 logger.error(e)
     keys_all = sapi.list_all_key()
-    return render(request, 'minions/minions_keys.html', {'key': keys_all})
+
+    return render(request, 'minions/minions_keys.html', {'key': keys_all, 'alert_info': alert_info})
 
 @login_required(login_url="/account/login/")
 def minions_asset_info(request):
