@@ -81,6 +81,7 @@ def minions_status_task():
         try:
             version = eval(salt_grains[0].grains).get('saltversion').decode('string-escape')
         except:
+            version = 'NULL'
             logger.error("Don't get minion version")
         try:
             Minions_status.objects.get(minion_id=host_name)
