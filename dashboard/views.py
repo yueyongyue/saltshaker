@@ -5,6 +5,8 @@ from returner.models import *
 import logging
 from shaker.tasks import dashboard_task, grains_task, minions_status_task
 from shaker.check_service import CheckPort, CheckProgress
+import subprocess
+import time
 
 logger = logging.getLogger('django')
 
@@ -52,10 +54,18 @@ def index(request):
     celery_status = CheckProgress('Celery', 'celery worker')
     check_service = [salt_master_stauts, salt_api_status, rabbitmy_status, rabbitmy_m_status, celery_status]
 
+    queued = subprocess.Popen("rabbitmqctl list_queues |grep -w celery |head -n 1 |awk '{printf $2}'",stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
+    queued_stdout, queued_stderr = queued.communicate()
+    queued_count = [1, 10, 3, 5, 6, 0, int(queued_stdout)]
+
+    now_time = [time.strftime('%H:%M',time.localtime())]
+
 
 
     return render(request, 'dashboard/index.html', {'status': status_list,
                                                     'os_release': os_release,
                                                     'os_all': os_all,
                                                     'check_service': check_service,
+                                                    'queue_count': queued_count,
+                                                    'now_time': now_time,
                                                     })
