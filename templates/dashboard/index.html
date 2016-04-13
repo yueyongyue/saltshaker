@@ -41,7 +41,7 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Minion status
+                            Queues status
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body" style="height:250px">
@@ -55,7 +55,7 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            OS Release
+                            Minion status
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body" style="height:250px">
@@ -69,7 +69,7 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Donut Chart Example
+                            OS Release
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body" style="height:250px">
@@ -127,13 +127,13 @@
                         y: 30,
                         y2: 60,
                         x: 30,
-                        x2: 20
+                        x2: 25
                     },
                     xAxis : [
                         {
                             type : 'category',
                             boundaryGap : false,
-                            data : ['17:01','17:02','17:03','17:04','17:05','17:06',{{ now_time|safe }}]
+                            data : {{ now_time|safe }}
                         }
                     ],
                     yAxis : [
@@ -146,7 +146,7 @@
                             name:'queue',
                             type:'line',
                             stack: 'Total',
-                            data:{{ queue_count|safe }}
+                            data: {{ queue_count|safe }}
                         },
                     ]
                 };
