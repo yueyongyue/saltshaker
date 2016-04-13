@@ -4,6 +4,8 @@ from shaker.nodegroups import *
 from dashboard.models import *
 from returner.models import *
 import logging
+import subprocess
+import time
 
 logger = logging.getLogger('django')
 sapi = SaltAPI()
@@ -114,3 +116,15 @@ def grains_scheduled_job():
         Salt_grains.objects.filter(minion_id=host_name.minion_id).update(grains=grains, minion_id=host_name.minion_id)
 
 salt_grains = grains_scheduled_job()
+
+def dashboard_queue_scheduled_job():
+    queued = subprocess.Popen("rabbitmqctl list_queues |grep -w celery |head -n 1 |awk '{printf $2}'", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    queued_stdout, queued_stderr = queued.communicate()
+    now_time = time.strftime('%H:%M:%S', time.localtime())
+    logger.error(queued_stderr)
+    dashboard_queue = Dashboard_queue()
+    dashboard_queue.count = int(queued_stdout)
+    dashboard_queue.update_time = now_time
+    dashboard_queue.save()
+
+dashboard_queue = dashboard_queue_scheduled_job()

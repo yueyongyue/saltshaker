@@ -54,11 +54,15 @@ def index(request):
     celery_status = CheckProgress('Celery', 'celery worker')
     check_service = [salt_master_stauts, salt_api_status, rabbitmy_status, rabbitmy_m_status, celery_status]
 
-    queued = subprocess.Popen("rabbitmqctl list_queues |grep -w celery |head -n 1 |awk '{printf $2}'",stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
-    queued_stdout, queued_stderr = queued.communicate()
-    queued_count = [1, 10, 3, 5, 6, 0, int(queued_stdout)]
+    queue_count = []
+    now_time = []
+    queue_len = len(Dashboard_queue.objects.all())
+    queue_all = Dashboard_queue.objects.all()[queue_len-5:queue_len]
+    for i in queue_all:
+        queue_count.append(int(i.count))
+        now_time.append(i.update_time.decode('string-escape'))
 
-    now_time = [time.strftime('%H:%M',time.localtime())]
+    #ow_time = [time.strftime('%H:%M',time.localtime())]
 
 
 
@@ -66,6 +70,6 @@ def index(request):
                                                     'os_release': os_release,
                                                     'os_all': os_all,
                                                     'check_service': check_service,
-                                                    'queue_count': queued_count,
+                                                    'queue_count': queue_count,
                                                     'now_time': now_time,
                                                     })
