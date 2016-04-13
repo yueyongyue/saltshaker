@@ -1,6 +1,8 @@
 # saltshaker
-GUI For SaltStack
 SaltShaker-GitHub交流学习QQ群:106485742
+
+GUI For SaltStack
+
 
 Login
 ![image](https://github.com/yueyongyue/saltshaker/blob/master/screenshots/2015-12-14_171227.png)
