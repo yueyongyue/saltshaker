@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from dashboard.models import *
@@ -6,6 +7,7 @@ import logging
 from shaker.tasks import dashboard_task, grains_task, minions_status_task
 from shaker.check_service import CheckPort, CheckProgress
 import time
+import json
 
 logger = logging.getLogger('django')
 
@@ -54,8 +56,16 @@ def index(request):
     check_service = [salt_master_stauts, salt_api_status, rabbitmy_status, rabbitmy_m_status, celery_status]
 
 
+    return render(request, 'dashboard/index.html', {'status': status_list,
+                                                    'os_release': os_release,
+                                                    'os_all': os_all,
+                                                    'check_service': check_service,
+                                                    })
+
+
+def get_queue(request):
     queue_count = []
-    now_time = []
+    time_list = []
     queue_len = len(Dashboard_queue.objects.all())
     if queue_len < 6:
         queue_all = Dashboard_queue.objects.all()[:6]
@@ -63,15 +73,9 @@ def index(request):
         queue_all = Dashboard_queue.objects.all()[queue_len-6:queue_len]
     for i in queue_all:
         queue_count.append(int(i.count))
-        now_time.append(i.update_time.decode('string-escape'))
+        time_list.append(i.update_time.decode('string-escape'))
     if len(queue_count) == 0:
         queue_count = [0]
-        now_time = [time.strftime('%H:%M', time.localtime())]
+        time_list = [time.strftime('%H:%M', time.localtime())]
 
-    return render(request, 'dashboard/index.html', {'status': status_list,
-                                                    'os_release': os_release,
-                                                    'os_all': os_all,
-                                                    'check_service': check_service,
-                                                    'queue_count': queue_count,
-                                                    'now_time': now_time,
-                                                    })
+    return HttpResponse(json.dumps({"time_list": time_list, "queue_count": queue_count}), content_type = 'application/json')
