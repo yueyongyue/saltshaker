@@ -18,4 +18,5 @@ from . import views
 
 urlpatterns = [
     url(r'^system_tools', views.system_tools, name='system_tools'),
+    url(r'^update_grains', views.update_grains, name='update_grains'),
 ]
