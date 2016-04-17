@@ -35,9 +35,10 @@ ALLOWED_HOSTS = []
 
 # django-crontab
 CRONJOBS = (
-    ('*/1 * * * *', 'shaker.cron.dashboard_scheduled_job'),
-    ('*/1 * * * *', 'shaker.cron.minions_status_scheduled_job'),
-    ('*/1 * * * *', 'shaker.cron.grains_scheduled_job'),
+    #('*/1 * * * *', 'shaker.cron.dashboard_scheduled_job'),
+    #('*/1 * * * *', 'shaker.cron.minions_status_scheduled_job'),
+    #('*/1 * * * *', 'shaker.cron.grains_scheduled_job'),
+    ('*/1 * * * *', 'shaker.cron.dashboard_queue_scheduled_job'),
 )
 
 # Application definition

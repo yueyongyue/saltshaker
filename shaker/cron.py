@@ -118,13 +118,20 @@ def grains_scheduled_job():
 salt_grains = grains_scheduled_job()
 
 def dashboard_queue_scheduled_job():
-    queued = subprocess.Popen("rabbitmqctl list_queues |grep -w celery |head -n 1 |awk '{printf $2}'", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    queued_stdout, queued_stderr = queued.communicate()
-    now_time = time.strftime('%H:%M:%S', time.localtime())
-    logger.error(queued_stderr)
-    dashboard_queue = Dashboard_queue()
-    dashboard_queue.count = int(queued_stdout)
-    dashboard_queue.update_time = now_time
-    dashboard_queue.save()
-
-dashboard_queue = dashboard_queue_scheduled_job()
+    for i in range(0, 6):
+        queued = subprocess.Popen("/usr/sbin/rabbitmqctl list_queues |grep -w celery |head -n 1 |awk '{printf $2}'", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        queued_stdout, queued_stderr = queued.communicate()
+        now_time = time.strftime('%H:%M:%S', time.localtime())
+        logger.error(queued_stderr)
+        if len(Dashboard_queue.objects.all()) < 6:
+            dashboard_queue = Dashboard_queue()
+            dashboard_queue.count = int(queued_stdout)
+            dashboard_queue.update_time = now_time
+            dashboard_queue.save()
+        else:
+            dashboard_queue = Dashboard_queue()
+            dashboard_queue.count = int(queued_stdout)
+            dashboard_queue.update_time = now_time
+            dashboard_queue.save()
+            Dashboard_queue.objects.all()[0].delete()
+        time.sleep(9)
