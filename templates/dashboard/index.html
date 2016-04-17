@@ -99,7 +99,6 @@
             [
                 'echarts',
                 'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
-                'echarts/chart/bar'
             ],
             function (ec) {
                 // 基于准备好的dom，初始化echarts图表
@@ -117,7 +116,7 @@
                         feature : {
                             mark : {show: true},
                             dataView : {show: true, readOnly: false},
-                            magicType : {show: true, type: ['line', 'bar']},
+                            magicType : {show: true, type: []},
                             restore : {show: true},
                             saveAsImage : {show: true}
                         }
@@ -134,25 +133,7 @@
                         {
                             type : 'category',
                             boundaryGap : false,
-                            data : (function(){
-                                    var arr=[];
-                                        $.ajax({
-                                        type : "get",
-                                        async : false, //同步执行
-                                        url : "/dashboard/get_queue",
-                                        data : {},
-                                        dataType : "json", //返回数据形式为json
-                                        success : function(result) {
-                                            //alert(result.time_list[2]);
-                                            for(var i=0;i<result.time_list.length;i++){
-                                               console.log(result.time_list[i]);
-                                               arr.push(result.time_list[i]);
-                                            }
-                                        },
-
-                                   })
-                                   return arr;
-                                })()
+                            data : ['00:01:00','00:02:00','00:03:00','00:04:00','00:05:00','00:06:00'],
                         }
                     ],
                     yAxis : [
@@ -165,83 +146,43 @@
                             name:'queue',
                             type:'line',
                             stack: 'Total',
-                            data: (function(){
-                                    var arr=[];
-                                        $.ajax({
-                                        type : "get",
-                                        async : false, //同步执行
-                                        url : "/dashboard/get_queue",
-                                        data : {},
-                                        dataType : "json", //返回数据形式为json
-                                        success : function(result) {
-                                            //alert(result.queue_count[2]);
-                                            for(var i=0;i<result.queue_count.length;i++){
-                                               console.log(result.queue_count[i]);
-                                               arr.push(result.queue_count[i]);
-                                            }
-
-                                        },
-                                   })
-                                   return arr;
-                                })()
+                            data: [3,6,2,0,4,5,],
                         },
                     ]
                 };
                 // 为echarts对象加载数据
                 myChart.setOption(option);
                 // 10s 刷新一次页面
-                window.setInterval(function () {refreshData()},1000);
+                window.setInterval(function () {refreshData()},10000);
 
                 function refreshData(){
 
                      //更新数据
+                    var queue_count_data = [];
+                    var time_list_data = [];
+                    $.ajax({
+                        type: "get",
+                        async: false, //同步执行
+                        url: "/dashboard/get_queue",
+                        data: {},
+                        dataType: "json", //返回数据形式为json
+                        success: function (result) {
+                            //alert(result.queue_count[2]);
+                            for (var i = 0; i < result.queue_count.length; i++) {
+                                queue_count_data.push(result.queue_count[i]);
+                                time_list_data.push(result.time_list[i]);
+                            }
+                        },
+                    });
+
                     var option = myChart.getOption();
-                    option.series[0].data = get_queue_count();
-                    option.xAxis[0].data = get_time_list();
+                    option.series[0].data = queue_count_data;
+                    option.xAxis[0].data = time_list_data;
                     myChart.setOption(option);
                 }
             }
         );
 
-        function get_queue_count(){
-            var arr=[];
-                $.ajax({
-                type : "get",
-                async : false, //同步执行
-                url : "/dashboard/get_queue",
-                data : {},
-                dataType : "json", //返回数据形式为json
-                success : function(result) {
-                    //alert(result.queue_count[2]);
-                    for(var i=0;i<result.queue_count.length;i++){
-                       console.log(result.queue_count[i]);
-                       arr.push(result.queue_count[i]);
-                    }
-
-                },
-           })
-           return arr;
-        }
-
-        function get_time_list(){
-            var arr=[];
-                $.ajax({
-                type : "get",
-                async : false, //同步执行
-                url : "/dashboard/get_queue",
-                data : {},
-                dataType : "json", //返回数据形式为json
-                success : function(result) {
-                    //alert(result.time_list[2]);
-                    for(var i=0;i<result.time_list.length;i++){
-                       console.log(result.time_list[i]);
-                       arr.push(result.time_list[i]);
-                    }
-                },
-
-           })
-           return arr;
-        }
   </script>
 
       <script type="text/javascript">
