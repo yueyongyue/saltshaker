@@ -107,7 +107,7 @@ def minions_status_task():
 @task()
 def accept_grains_task(minion_id):
     # when accept key save grains to mysql
-    time.sleep(15)
+    time.sleep(30)
     grains = sapi.remote_noarg_execution(minion_id, 'grains.items')
     salt_grains = Salt_grains()
     salt_grains.grains = grains
