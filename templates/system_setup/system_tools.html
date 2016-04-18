@@ -15,30 +15,32 @@
                             Restart Server
                         </div>
                         <!-- /.panel-heading -->
+                        <form method="post" action="/system_setup/restart_server/">
                         <div class="panel-body" style="height:280px">
                             <div style="height:250px">
                                 <div class="list-group">
                                     <div class="list-group-item">
-                                        Salt Master <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                        Salt Master <button type="submit" name="restart" value="master" class="pull-right  btn btn-outline btn-primary btn-xs">Restart</button>
                                     </div>
                                     <div class="list-group-item">
-                                        Salt Api  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                        Salt Api  <button type="submit" name="restart" value="api" class="pull-right  btn btn-outline btn-primary btn-xs">Restart</button>
                                     </div>
                                     <div class="list-group-item">
-                                        Salt Minion  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                        Salt Minion  <button type="submit" name="restart" value="minion" class="pull-right  btn btn-outline btn-primary btn-xs">Restart</button>
                                     </div>
                                     <div class="list-group-item">
-                                        RabbixMQ  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                        RabbitMQ  <button type="submit" name="restart" value="rabbitmq" class="pull-right  btn btn-outline btn-primary btn-xs">Restart</button>
                                     </div>
                                     <div class="list-group-item">
-                                        RabbixMQ Management  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                        RabbitMQ Management  <button type="restart" name="management" value="update" class="pull-right  btn btn-outline btn-primary btn-xs">Restart</button>
                                     </div>
                                     <div class="list-group-item">
-                                        Celery  <span class="pull-right  btn btn-outline btn-primary btn-xs">Restart</span>
+                                        Celery  <button type="submit" name="restart" value="celery" class="pull-right  btn btn-outline btn-primary btn-xs">Restart</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        </form>
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
@@ -49,14 +51,13 @@
                             Restart Server
                         </div>
                         <!-- /.panel-heading -->
+                        <form method="post" action="/system_setup/update_grains/">
                         <div class="panel-body" style="height:280px">
                             <div style="height:250px">
                                 <div class="list-group">
-                                    <form method="post" action="/system_setup/update_grains/">
-                                        <div class="list-group-item">
-                                            Update Global Grains <button type="submit" class="pull-right  btn btn-outline btn-success btn-xs">Update</button>
-                                        </div>
-                                    </form>
+                                    <div class="list-group-item">
+                                        Update Global Grains <button type="submit" name="update" value="update" class="pull-right  btn btn-outline btn-success btn-xs">Update</button>
+                                    </div>
                                     <div class="list-group-item">
                                         Return Data Cycle  <span class="pull-right"><input class="form-control" placeholder="Enter text"></span>
                                     </div>
@@ -75,6 +76,7 @@
                                 </div>
                             </div>
                         </div>
+                        </form>
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
