@@ -14,8 +14,8 @@
                  <div class="panel-heading">
                      Manage Business
                      <!-- begin action -->
-                     <div class="btn-group">
-                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">       
+                     <div class="btn-group" style="float:right">
+                       <button type="button" class="btn btn-outline btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                        Action <span class="caret"></span>
                        </button>
                        <ul class="dropdown-menu">
@@ -77,7 +77,7 @@
 
                                    <div class="form-group">
                                      <div class="col-sm-offset-3 col-sm-9">
-                                       <button onclick="submit" id="add_commit" type="submit" class="btn btn-default">Submit</button>
+                                       <button onclick="submit" id="add_commit" type="submit" class="btn btn-outline btn-success btn-xs">Submit</button>
                                      </div>
                                    </div>
                                  </fieldset>
@@ -102,8 +102,8 @@
                                </form>
                              </div>
                              <div class="modal-footer">
-                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                               <button id="delete_commit" type="button" class="btn btn-primary" data-dismiss="modal" >Delete</button>
+                               <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
+                               <button id="delete_commit" type="button" class="btn btn-outline btn-danger btn-xs" data-dismiss="modal" >Delete</button>
                              </div>
                            </div>
                          </div>
@@ -169,8 +169,8 @@
                                </form>
                              </div>
                              <div class="modal-footer">
-                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                               <button id="modify_commit" type="button" class="btn btn-primary" data-dismiss="modal" >Save</button>
+                               <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
+                               <button id="modify_commit" type="button" class="btn btn-outline btn-primary btn-xs" data-dismiss="modal" >Save</button>
                              </div>
                            </div>
                          </div>
@@ -264,7 +264,7 @@
                                    <td id="enabled" style="word-break:break-all">{{ b.enabled|lower }}</td>
                                    <td id="owner" style="word-break:break-all">{{ b.owner.username }}</td>
                                    
-                                   <td><button id="modify_business" name="modify_button" value="{{ b.id }}" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>|Edit</button></td>
+                                   <td><button id="modify_business" name="modify_button" value="{{ b.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
                                </tr>
                                {% endfor %}
                                {% endif %}

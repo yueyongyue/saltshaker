@@ -14,8 +14,8 @@
                  <div class="panel-heading">
                      Manage User
                      <!-- begin action -->
-                     <div class="btn-group">
-                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">       
+                     <div class="btn-group" style="float:right">
+                       <button type="button" class="btn btn-outline btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                        Action <span class="caret"></span>
                        </button>
                        <ul class="dropdown-menu">
@@ -75,7 +75,7 @@
 
                                    <div class="form-group">
                                      <div class="col-sm-offset-3 col-sm-9">
-                                       <button onclick="submit" id="add_commit" type="submit" class="btn btn-default">Submit</button>
+                                       <button onclick="submit" id="add_commit" type="submit" class="btn btn-outline btn-success btn-xs">Submit</button>
                                      </div>
                                    </div>
                                  </fieldset>
@@ -100,8 +100,8 @@
                                </form>
                              </div>
                              <div class="modal-footer">
-                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                               <button id="delete_commit" type="button" class="btn btn-primary" data-dismiss="modal" >Delete</button>
+                               <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
+                               <button id="delete_commit" type="button" class="btn btn-outline btn-danger btn-xs" data-dismiss="modal" >Delete</button>
                              </div>
                            </div>
                          </div>
@@ -151,8 +151,8 @@
                                </form>
                              </div>
                              <div class="modal-footer">
-                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                               <button id="modify_commit" type="button" class="btn btn-primary" data-dismiss="modal" >Save</button>
+                               <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
+                               <button id="modify_commit" type="button" class="btn btn-outline btn-primary btn-xs" data-dismiss="modal" >Save</button>
                              </div>
                            </div>
                          </div>
@@ -197,8 +197,8 @@
                                  </form>
                                </div>
                                <div class="modal-footer">
-                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                 <button id="set_password_commit" type="button" class="btn btn-primary" data-dismiss="modal" >save</button>
+                                 <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
+                                 <button id="set_password_commit" type="button" class="btn btn-outline btn-primary btn-xs" data-dismiss="modal" >save</button>
                                </div>
                              </div>
                            </div>
@@ -293,8 +293,8 @@
                                    <td id="issuperuser" style="word-break:break-all">{{ u.is_superuser|lower }}</td>
                                    
                                    <td>
-                                       <button id="modify_user" name="modify_button" value="{{ u.id }}" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>|Edit</button>
-                                       <button id="set_password" name="set_password" value="{{ u.username }}" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>|set_password</button>
+                                       <button id="modify_user" name="modify_button" value="{{ u.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button>
+                                       <button id="set_password" name="set_password" value="{{ u.username }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Set_password</button>
                                    </td>
                                </tr>
                                {% endfor %}
