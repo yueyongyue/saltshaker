@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from groups.models import Businesses
+from account.models import UserProfiles
 
 def login_view(request):
     msg = []
@@ -35,17 +37,20 @@ def logout_view(request):
 @login_required(login_url="/account/login/")
 def manage_user(request,*args,**kw):
     _supermen = request.user
+    _businesses = Businesses.objects.all()
     _u=User.objects.get(username=_supermen)
     if _u.is_superuser == True:
-        _users = User.objects.all()
+        _users = UserProfiles.objects.all()
     else:
-        _users = [User.objects.get(username=_supermen)]
+        _userobject = User.objects.get(username=_supermen)
+        _users = [UserProfiles.objects.get(user=_userobject)]
     _success = kw.get("success",False)
     _error = kw.get("error",False)
     context={
         "users":_users,   
         "success":_success,
         "error":_error,
+        "businesses":_businesses,
         }
     return render_to_response("account/manage_user.html",context)
 
@@ -96,6 +101,12 @@ def setup_user(request):
         _email = request.POST.get("email")
         _issuperuser = request.POST.get("issuperuser")
         _login_user = request.user
+        
+        _business=request.POST.get("business")
+        _role=request.POST.get("role")
+        _telephone=request.POST.get("telephone")
+        _department=request.POST.get("department")
+
         if User.objects.get(username=_login_user).is_superuser == True:
             if _issuperuser is not None:
                 _issuperuser = True
@@ -103,11 +114,20 @@ def setup_user(request):
                 _issuperuser = False  
         else:
             _issuperuser = False
+        print _telephone
         try:
             _user = User.objects.get(username=_username)
             _user.email = _email
-            _user.issuperuser = _issuperuser
+            _user.is_superuser = _issuperuser
             _user.save()
+            # modify user profiles
+            _userobject=User.objects.get(username=_username)
+            _userprofile = UserProfiles.objects.get(user=_userobject)
+            _userprofile.business = _business
+            _userprofile.role = _role
+            _userprofile.department = _department
+            _userprofile.telephone = _telephone
+            _userprofile.save()
             _success = "modify user " + _username + " OK"
         except Exception as e:
             _error ="your don't have permission to do this!" 
@@ -119,11 +139,23 @@ def setup_user(request):
 def add_user(request):
     _success=False
     _error=False
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    
+    
     if request.method=="POST":
+        if _u.is_superuser != True:
+            _error = "You don't have permission to add user!"
+            return manage_user(request,success=_success,error=_error)
+
         _username=request.POST.get("username")
         _password=request.POST.get("password")
         _passwordagain=request.POST.get("passwordagain")
         _email=request.POST.get("email")
+        _business=request.POST.get("business")
+        _role=request.POST.get("role")
+        _telephone=request.POST.get("telephone")
+        _department=request.POST.get("department")
         if _password != _passwordagain:
             _error="the twice password you typed not equal"
             return manage_user(request,success=_success,error=_error)
@@ -136,6 +168,10 @@ def add_user(request):
             _user=User.objects.create_user(username=_username,password=_password,email=_email)
             _user.is_superuser=_superuser
             _user.save()
+            # add profile for user
+            _userobject=User.objects.get(username=_username)
+            _userprofile = UserProfiles(user=_userobject,business=_business,role=_role,department=_department,telephone=_telephone)
+            _userprofile.save()
             _success="Add user "+_username+" OK!!"
         except Exception as e:
             _error="user already exists or too long!"
