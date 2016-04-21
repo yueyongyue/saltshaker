@@ -46,36 +46,6 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="privileges" class="col-sm-3 control-label">privileges</label>
-                                     <div class="col-sm-9">
-                                       <select class="form-control" id="privileges" name="privileges" minlength="1" type="text" placeholder="privileges" required>
-                                         {% if privileges %}
-                                         {% for privilege in privileges %}
-                                         <option>{{ privilege }}</option>
-                                         {% endfor %}
-                                         {% else %}
-                                         <option>unknown</option>
-                                         {% endif %}
-                                       </select>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                     <label for="owner" class="col-sm-3 control-label">owner</label>
-                                     <div class="col-sm-9">
-                                       <select class="form-control" id="owner" name="owner" type="text"  required>
-                                         {% if owners %}
-                                         {% for owner in owners %}
-                                         <option>{{ owner }}</option>
-                                         {% endfor %}
-                                         {% else %}
-                                         <option>unknown</option>
-                                         {% endif %}
-                                       </select>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
                                      <label for="business" class="col-sm-3 control-label">Business</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="business" name="business" required>
@@ -163,38 +133,6 @@
                                      <label for="name" class="col-sm-3 control-label">Group Name</label>
                                      <div class="col-sm-9">
                                        <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                     <label for="privileges" class="col-sm-3 control-label">privileges</label>
-                                     <div class="col-sm-9">
-                                       <select class="form-control" id="privileges" name="privileges" minlength="1" type="text" placeholder="privileges" required>
-                                         <option selected>default</option>
-                                         {% if privileges %}
-                                         {% for privilege in privileges %}
-                                         <option>{{ privilege }}</option>
-                                         {% endfor %}
-                                         {% else %}
-                                         <option>unknown</option>
-                                         {% endif %}
-                                       </select>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                     <label for="owner" class="col-sm-3 control-label">owner</label>
-                                     <div class="col-sm-9">
-                                       <select class="form-control" id="owner" name="owner" type="text"  required>
-                                         <option selected>default</option>
-                                         {% if owners %}
-                                         {% for owner in owners %}
-                                         <option>{{ owner }}</option>
-                                         {% endfor %}
-                                         {% else %}
-                                         <option>unknown</option>
-                                         {% endif %}
-                                       </select>
                                      </div>
                                    </div>
 
@@ -310,8 +248,6 @@
                                     <th>Business</th>
                                     <th style="display:none">Informations</th>
                                     <th>Enabled</th>
-                                    <th style="display:none">Privileges</th>
-                                    <th>Owner</th>
                                     <th>Opearation</th>
                                  </tr>
                              </thead>
@@ -327,8 +263,6 @@
                                    <td id="business" style="display:none; word-break:break-all">{{ g.business }}</td>
                                    <td id="informations" style="word-break:break-all">{{ g.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ g.enabled|lower }}</td>
-                                   <td id="privileges" style="display:none;word-break:break-all">{{ g.privileges }}</td>
-                                   <td id="owner" style="word-break:break-all">{{ g.owner }}</td>
                                    
                                    <td><button id="modify_group" name="modify_button" value="{{ g.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
                                </tr>
@@ -369,7 +303,7 @@
            //设置第一列为初始化排序的列
            "order": [[ 1, "desc" ]],
            //该值的含义为。初始化datatable，但对序号为0,7列的列不进行排序，别的列均可进行排序 
-           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,8 ] }]  
+           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,6 ] }]  
            });     
         // end data table
         // add //
@@ -435,8 +369,6 @@
           var tmp_name=$("#"+tmp_id).find("#name").text();
           var tmp_enabled=$("#"+tmp_id).find("#enabled").text();
           var tmp_informations=$("#"+tmp_id).find("#informations").text();
-          var tmp_privileges=$("#"+tmp_id).find("#privileges").text();
-          var tmp_owner=$("#"+tmp_id).find("#owner").text();
           var tmp_business=$("#"+tmp_id).find("#business").text();
           $('#modify_data').find('input#id').val(tmp_id);
           $('#modify_data').find('input#name').val(tmp_name);
@@ -451,8 +383,6 @@
               $('#modify_data').find('input#enabled').val(tmp_enabled);
               }
           $('#modify_data').find('textarea#informations').val(tmp_informations);
-          $('#modify_data').find('select#privileges').find("option:selected").text(tmp_privileges);
-          $('#modify_data').find('select#owner').find("option:selected").text(tmp_owner);
           $('#modify_data').find('select#business').find("option:selected").text(tmp_business);
           $('#modify_modal').modal('show')
           $('#modify_commit').click(function(){

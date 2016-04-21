@@ -72,6 +72,21 @@
                                    </div>
 
                                    <div class="form-group">
+                                     <label label for="privilege" class="col-sm-3 control-label">Priveleges</label>
+                                     <div class="col-sm-offset-4 col-sm-8">
+                                       <div class="checkbox">
+                                           {% if privileges %}
+                                           {% for p in privileges %}
+                                           <input  type="checkbox" name="privilege" value={{ p.name }}> {{ p.name }}<br>
+                                           {% endfor %}
+                                           {% else %}
+                                           <input  type="checkbox" name="privilege" value='unkonwn'> unknown <br> 
+                                           {% endif %}
+                                       </div>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
                                      <label for="email" class="col-sm-3 control-label">Email</label>
                                      <div class="col-sm-9">
                                        <input class="form-control" id="email" name="email" minlength="1" type="text" placeholder="aaa@bbb.com" required>
@@ -89,12 +104,7 @@
                                        <input class="form-control" id="department" name="department" minlength="1" type="text" placeholder="xxx department" required>
                                      </div>
                                    </div>
-                                   <div class="form-group">
-                                     <label for="role" class="col-sm-3 control-label">Role</label>
-                                     <div class="col-sm-9">
-                                       <input class="form-control" id="role" name="role" minlength="1" type="text" placeholder="coder/tester/sa/other" required>
-                                     </div>
-                                   </div>
+
                                    <div class="form-group">
                                      <div class="col-sm-offset-3 col-sm-9">
                                        <div class="checkbox">
@@ -170,10 +180,25 @@
                                        <div class="checkbox">
                                            {% if businesses %}
                                            {% for b in businesses %}
-                                           <input checked type="checkbox" name="business" value={{ b.name }}> {{ b.name }}<br>
+                                           <input  type="checkbox" name="business" value={{ b.name }}> {{ b.name }}<br>
                                            {% endfor %}
                                            {% else %}
                                            <input  type="checkbox" name="business" value='unkonwn'> unknown <br> 
+                                           {% endif %}
+                                       </div>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <label label for="privilege" class="col-sm-3 control-label">Priveleges</label>
+                                     <div class="col-sm-offset-4 col-sm-8">
+                                       <div class="checkbox">
+                                           {% if privileges %}
+                                           {% for p in privileges %}
+                                           <input  type="checkbox" name="privilege" value={{ p.name }}> {{ p.name }}<br>
+                                           {% endfor %}
+                                           {% else %}
+                                           <input  type="checkbox" name="privilege" value='unkonwn'> unknown <br> 
                                            {% endif %}
                                        </div>
                                      </div>
@@ -196,12 +221,6 @@
                                      <label for="department" class="col-sm-3 control-label">Department</label>
                                      <div class="col-sm-9">
                                        <input class="form-control" id="department" name="department" minlength="1" type="text" placeholder="xxx department" required>
-                                     </div>
-                                   </div>
-                                   <div class="form-group">
-                                     <label for="role" class="col-sm-3 control-label">Role</label>
-                                     <div class="col-sm-9">
-                                       <input class="form-control" id="role" name="role" minlength="1" type="text" placeholder="coder/tester/sa/other" required>
                                      </div>
                                    </div>
 
@@ -342,12 +361,12 @@
                                     <th>ID</th>
                                     <th>UserName</th>
                                     <th>Email</th>
-                                    <th>Is superuser Or Not</th>
+                                    <th>Supermen</th>
                                     <th>Business</th>
                                     <th style="display:none">Department</th>
-                                    <th style="display:none">Role</th>
+                                    <th>Privilege</th>
                                     <th style="display:none">Telephone</th>
-                                    <th style="display:none">Opearation</th>
+                                    <th>Opearation</th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -361,9 +380,9 @@
                                    <td id="username" style="word-break:break-all">{{ u.user.username }}</td>
                                    <td id="email" style="word-break:break-all">{{ u.user.email }}</td>
                                    <td id="issuperuser" style="word-break:break-all">{{ u.user.is_superuser|lower }}</td>
-                                   <td id="business" style="word-break:break-all">{{ u.business }}</td>
+                                   <td id="business" style="word-break:break-all">{% for b in u.business.all %}{{ b.name }} {% endfor %}</td>
                                    <td id="department" style="display:none;word-break:break-all">{{ u.department }}</td>
-                                   <td id="role" style="display:none;word-break:break-all">{{ u.role }}</td>
+                                   <td id="privilege" style="word-break:break-all">{% for p in u.privilege.all %} {{ p.name }} {% endfor %}</td>
                                    <td id="telephone" style="display:none;word-break:break-all">{{ u.telephone }}</td>
                                    
                                    <td>
@@ -467,15 +486,15 @@
           var tmp_email=$("#"+tmp_id).find("#email").text();
           var tmp_issuperuser=$("#"+tmp_id).find("#issuperuser").text();
           var tmp_business=$("#"+tmp_id).find("#business").text();
-          var tmp_role=$("#"+tmp_id).find("#role").text();
+          var tmp_privilege=$("#"+tmp_id).find("#privilege").text();
           var tmp_telephone=$("#"+tmp_id).find("#telephone").text();
           var tmp_department=$("#"+tmp_id).find("#department").text();
           $('#modify_data').find('input#id').val(tmp_id);
           $('#modify_data').find('input#username').val(tmp_name);
           $('#modify_data').find('input#email').val(tmp_email);
           $('#modify_data').find('input#department').val(tmp_department);
-          $('#modify_data').find('input#business').val(tmp_business);
-          $('#modify_data').find('input#role').val(tmp_role);
+          //$('#modify_data').find('input#business').val(tmp_business);
+          //$('#modify_data').find('input#privilege').val(tmp_privilege);
           $('#modify_data').find('input#telephone').val(tmp_telephone);
           if (tmp_issuperuser == "true")
               {
@@ -487,6 +506,8 @@
               $('#modify_data').find('input#issuperuser').attr("checked",false);
               $('#modify_data').find('input#issuperuser').val(tmp_issuperuser);
               }
+
+
           $('#modify_modal').modal('show')
           $('#modify_commit').click(function(){
               $('#modify_data').submit();

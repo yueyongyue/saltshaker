@@ -33,7 +33,7 @@
                                <h4 class="modal-title" id="exampleModalLabel">Add privilege </h4>
                              </div>
                              <div class="modal-body">
-                               <form class="form-horizontal" id="add_data" method="post" action="/groups/add_privilege/">
+                               <form class="form-horizontal" id="add_data" method="post" action="/account/add_privilege/">
                                  <fieldset>
                                    <legend>Add</legend>
                                    <div class="form-group">
@@ -42,12 +42,7 @@
                                        <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
                                      </div>
                                    </div>
-                                   <div class="form-group">
-                                     <label for="deny" class="col-sm-3 control-label">Deny</label>
-                                     <div class="col-sm-9">
-                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']" >
-                                     </div>
-                                   </div>
+
                                    <div class="form-group">
                                      <label for="allow" class="col-sm-3 control-label">Allow</label>
                                      <div class="col-sm-9">
@@ -56,17 +51,9 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="owner" class="col-sm-3 control-label">owner</label>
+                                     <label for="deny" class="col-sm-3 control-label">Deny</label>
                                      <div class="col-sm-9">
-                                       <select class="form-control" id="owner" name="owner" type="text"  required>
-                                         {% if owners %}
-                                         {% for owner in owners %}
-                                         <option>{{ owner }}</option>
-                                         {% endfor %}
-                                         {% else %}
-                                         <option>unknown</option>
-                                         {% endif %}
-                                       </select>
+                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']" >
                                      </div>
                                    </div>
 
@@ -109,7 +96,7 @@
                                <h4 class="modal-title" id="exampleModalLabel">Are You Sure?</h4>
                              </div>
                              <div class="modal-body">
-                               <form id="delete_data" class="form-inline" method="POST" action="/groups/del_privilege/">
+                               <form id="delete_data" class="form-inline" method="POST" action="/account/del_privilege/">
                                <!-- jquery will append content here -->
                                </form>
                              </div>
@@ -132,7 +119,7 @@
                              </div>
                              <div class="modal-body">
 
-                               <form id="modify_data" class="form-horizontal" method="POST" action="/groups/modify_privilege/">
+                               <form id="modify_data" class="form-horizontal" method="POST" action="/account/modify_privilege/">
                                    <div class="form-group">
                                      <label for="name" class="col-sm-3 control-label">Id</label>
                                      <div class="col-sm-9">
@@ -147,30 +134,16 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="deny" class="col-sm-3 control-label">Deny</label>
-                                     <div class="col-sm-9">
-                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']" required>
-                                     </div>
-                                   </div>
-                                   <div class="form-group">
                                      <label for="allow" class="col-sm-3 control-label">Allow</label>
                                      <div class="col-sm-9">
                                        <input class="form-control" id="allow" name="allow" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']">
                                      </div>
                                    </div>
+
                                    <div class="form-group">
-                                     <label for="owner" class="col-sm-3 control-label">owner</label>
+                                     <label for="deny" class="col-sm-3 control-label">Deny</label>
                                      <div class="col-sm-9">
-                                       <select class="form-control" id="owner" name="owner" type="text"  required>
-                                         <option selected>default</option>
-                                         {% if owners %}
-                                         {% for owner in owners %}
-                                         <option>{{ owner }}</option>
-                                         {% endfor %}
-                                         {% else %}
-                                         <option>unknown</option>
-                                         {% endif %}
-                                       </select>
+                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']" required>
                                      </div>
                                    </div>
 
@@ -269,11 +242,10 @@
                                     </th>
                                     <th>ID</th>
                                     <th>Privilege_Name</th>
-                                    <th>Deny</th>
                                     <th>Allow</th>
+                                    <th>Deny</th>
                                     <th style="display:none" >Informations</th>
                                     <th>Enabled</th>
-                                    <th>Owner</th>
                                     <th>Opearation</th>
                                  </tr>
                              </thead>
@@ -286,11 +258,10 @@
                                    </td>
                                    <td id="id" style="word-break:break-all">{{ p.id }}</td>
                                    <td id="name" style="word-break:break-all">{{ p.name }}</td>
-                                   <td id="deny" style="word-break:break-all">{{ p.deny }}</td>
                                    <td id="allow" style="word-break:break-all">{{ p.allow }}</td>
+                                   <td id="deny" style="word-break:break-all">{{ p.deny }}</td>
                                    <td id="informations" style="display:none;word-break:break-all">{{ p.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ p.enabled|lower }}</td>
-                                   <td id="owner" style="word-break:break-all">{{ p.owner.username }}</td>
                                    
                                    <td><button id="modify_privilege" name="modify_button" value="{{ p.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
                                </tr>
@@ -330,7 +301,7 @@
            //设置第一列为初始化排序的列
            "order": [[ 1, "desc" ]],
            //该值的含义为。初始化datatable，但对序号为0,10列的列不进行排序，别的列均可进行排序 
-           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,8 ] }]  
+           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,7 ] }]  
            });     
         // end data table
         // add //
@@ -379,7 +350,6 @@
           var tmp_deny=$("#"+tmp_id).find("#deny").text();
           var tmp_enabled=$("#"+tmp_id).find("#enabled").text();
           var tmp_informations=$("#"+tmp_id).find("#informations").text();
-          var tmp_owner=$("#"+tmp_id).find("#owner").text();
           $('#modify_data').find('input#id').val(tmp_id);
           $('#modify_data').find('input#name').val(tmp_name);
           $('#modify_data').find('input#allow').val(tmp_allow);
@@ -395,7 +365,6 @@
               $('#modify_data').find('input#enabled').val(tmp_enabled);
               }
           $('#modify_data').find('textarea#informations').val(tmp_informations);
-          $('#modify_data').find('select#owner').find("option:selected").text(tmp_owner);
           $('#modify_modal').modal('show')
           $('#modify_commit').click(function(){
               $('#modify_data').submit();

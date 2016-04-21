@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from shaker.shaker_core import *
-from groups.models import Groups,Hosts,Businesses,Privileges
+from groups.models import Groups,Hosts
+from account.models import UserProfiles,Businesses,Privileges
 from minions.models import Minions_status
 
 
@@ -12,15 +13,11 @@ from minions.models import Minions_status
 @login_required(login_url="/account/login/")
 def manage_group(request,*args,**kw):
     _groups = Groups.objects.all()
-    _owners = User.objects.all()
-    _privileges = Privileges.objects.all()
     _businesses = Businesses.objects.all()
     _success = kw.get("success",False)
     _error = kw.get("error",False)
     context={
         "groups":_groups,   
-        "owners":_owners,
-        "privileges":_privileges,
         "businesses":_businesses,
         "success":_success,
         "error":_error,
@@ -54,9 +51,6 @@ def modify_group(request):
         _business=request.POST.get("business")
         _enabled=request.POST.get("enabled")
         _informations=request.POST.get("informations")
-        _privileges=request.POST.get("privileges")
-        _o=request.POST.get("owner")
-        _owner=User.objects.get(username=_o)
         if _enabled is not None:
             _enabled=True
         else:
@@ -68,8 +62,6 @@ def modify_group(request):
             _group.business=_business
             _group.enabled=_enabled
             _group.informations=_informations
-            _group.privileges=_privileges
-            _group.owner=_owner
             _group.save()
             _success="Modify Group "+ _name +" OK"
         except Exception as e:
@@ -84,13 +76,9 @@ def add_group(request):
     context={}
     _success=False
     _error=False
-    context["owners"]=User.objects.all()
     if request.method=="POST":
         _name=request.POST.get("name")
-        _privileges=request.POST.get("privileges")
         #_current_user=request.user
-        _o=request.POST.get("owner")
-        _owner=User.objects.get(username=_o)
         _business=request.POST.get("business")
         _informations=request.POST.get("informations")
         if request.POST.get("enabled") == "true":
@@ -98,7 +86,7 @@ def add_group(request):
         else:
             _enabled=False
         try:
-            _group=Groups(name=_name,privileges=_privileges,owner=_owner,business=_business,informations=_informations,enabled=_enabled)
+            _group=Groups(name=_name,business=_business,informations=_informations,enabled=_enabled)
             _group.save()
             _success="Add Group "+_name+" OK!!"
         except Exception as e:
@@ -112,14 +100,12 @@ def add_group(request):
 @login_required(login_url="/account/login/")
 def manage_host(request,*args,**kw):
     _hosts = Hosts.objects.all()
-    _owners = User.objects.all()
     _groups = Groups.objects.all()
     _minions = Minions_status.objects.filter(minion_config=False)
     _success = kw.get("success",False)
     _error = kw.get("error",False)
     context={
         "hosts":_hosts,   
-        "owners":_owners,
         "groups":_groups,
         "minions":_minions,
         "success":_success,
@@ -154,9 +140,6 @@ def modify_host(request):
         _business=request.POST.get("business")
         _enabled=request.POST.get("enabled")
         _informations=request.POST.get("informations")
-        _privileges=request.POST.get("privileges")
-        _o=request.POST.get("owner")
-        _owner=User.objects.get(username=_o)
         if _enabled is not None:
             _enabled=True
         else:
@@ -170,8 +153,6 @@ def modify_host(request):
             _host.business=_business
             _host.enabled=_enabled
             _host.informations=_informations
-            _host.privileges=_privileges
-            _host.owner=_owner
             _host.save()
             _success="Modify Group "+ _name +" OK"
         except Exception as e:
@@ -185,14 +166,11 @@ def add_host(request):
     _error=False
     if request.method=="POST":
         _m=request.POST.get("minion")
+        print _m
         _minion=Minions_status.objects.get(minion_id=_m)
         _g=request.POST.get("group")
         _group=Groups.objects.get(name=_g)
         _name=request.POST.get("name")
-        _privileges=request.POST.get("privileges")
-        #_current_user=request.user
-        _o=request.POST.get("owner")
-        _owner=User.objects.get(username=_o)
         _business=request.POST.get("business")
         _informations=request.POST.get("informations")
         if request.POST.get("enabled") == "true":
@@ -200,7 +178,7 @@ def add_host(request):
         else:
             _enabled=False
         try:
-            _host=Hosts(minion=_minion,group=_group,name=_name,privileges=_privileges,owner=_owner,business=_business,informations=_informations,enabled=_enabled)
+            _host=Hosts(minion=_minion,group=_group,name=_name,business=_business,informations=_informations,enabled=_enabled)
             _host.save()
             _minion_status=Minions_status.objects.get(minion_id=_m)
             _minion_status.minion_config=True
@@ -217,12 +195,10 @@ def add_host(request):
 @login_required(login_url="/account/login/")
 def manage_business(request,*args,**kw):
     _businesses = Businesses.objects.all()
-    _owners = User.objects.all()
     _success = kw.get("success",False)
     _error = kw.get("error",False)
     context={
         "businesses":_businesses,   
-        "owners":_owners,
         "success":_success,
         "error":_error,
         }
@@ -250,8 +226,6 @@ def modify_business(request):
         _name=request.POST.get("name")
         _enabled=request.POST.get("enabled")
         _informations=request.POST.get("informations")
-        _o=request.POST.get("owner")
-        _owner=User.objects.get(username=_o)
         if _enabled is not None:
             _enabled=True
         else:
@@ -262,7 +236,6 @@ def modify_business(request):
             _business.name=_name
             _business.enabled=_enabled
             _business.informations=_informations
-            _business.owner=_owner
             _business.save()
             _success="Modify Business "+ _name +" OK"
         except Exception as e:
@@ -275,15 +248,13 @@ def add_business(request):
     _error=False
     if request.method=="POST":
         _name=request.POST.get("name")
-        _o=request.POST.get("owner")
-        _owner=User.objects.get(username=_o)
         _informations=request.POST.get("informations")
         if request.POST.get("enabled") == "true":
             _enabled=True
         else:
             _enabled=False
         try:
-            _business=Businesses(name=_name,owner=_owner,informations=_informations,enabled=_enabled)
+            _business=Businesses(name=_name,informations=_informations,enabled=_enabled)
             _business.save()
             _success="Add business line "+_name+" OK!!"
         except Exception as e:

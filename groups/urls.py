@@ -27,13 +27,4 @@ urlpatterns = [
     url(r'^add_host', views.add_host,name='add_host'),
     url(r'^del_host', views.del_host,name='del_host'),
 
-    url(r'^manage_business', views.manage_business,name='manage_business'),
-    url(r'^modify_business', views.modify_business,name='modify_business'),
-    url(r'^add_business', views.add_business,name='add_business'),
-    url(r'^del_business', views.del_business,name='del_business'),
-
-    url(r'^manage_privilege', views.manage_privilege,name='manage_privilege'),
-    url(r'^modify_privilege', views.modify_privilege,name='modify_privilege'),
-    url(r'^add_privilege', views.add_privilege,name='add_privilege'),
-    url(r'^del_privilege', views.del_privilege,name='del_privilege'),
 ]
