@@ -61,8 +61,6 @@ def shell_result(request):
             _host = Hosts.objects.get(name=_h)
             minion_id_list.append(_host.minion.minion_id)
                         
-        if len(result) > 0:
-            return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
         #run cmd now
         host_str = ",".join(minion_id_list)
         # the type of result is dictionary
