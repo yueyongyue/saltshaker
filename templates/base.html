@@ -28,7 +28,7 @@
 
     <!-- Custom Fonts -->
     <link href="{% static "bower_components/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,12 +44,17 @@
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="../index.html"><img src="../static/images/logo.png"></a>
-                <a class="navbar-brand" href="../index.html" style="padding-top: 25px;padding-left: 0px">SaltShaker</a>
-                <div id="myAlert" class="alert alert-success" style="margin-left: 970px;margin-top:10px;margin-bottom:3px;padding: 3px;display: none">
+                <a class="navbar-brand" href="/"><img src="/static/images/logo.png"></a>
+                <a class="navbar-brand" href="/" style="padding-top: 25px;padding-left: 0px">SaltShaker</a>
+                <div id="myAlert" class="alert alert-success" style="margin-left: 800px;margin-bottom:3px;padding: 3px;display: none">
                     <a href="#" class="close" data-dismiss="alert">&times;</a>
                     <strong>成功！</strong>结果是成功的。
                 </div>
+                <div class="alert alert-success alert-dismissable" style="margin-left: 700px;margin-top:3px;padding: 3px;;display: none">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>.
+                            </div>
+
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -57,52 +62,31 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-alerts">
+                    <ul class="dropdown-menu dropdown-alerts" style="width: 400px">
+                        {% if alert_info == "" %}
                         <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
+                            <div class="alert alert-success alert-dismissable" style="margin-bottom:2px;display: none">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <p class="alert-link">{{ alert_info }}</p>
+                            </div>
                         </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
+                        {% else %}
+                            {% if "Success" in alert_info %}
+                                <li>
+                                    <div class="alert alert-success alert-dismissable" style="margin-bottom:2px">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <p class="alert-link">{{ alert_info }}</p>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <div class="alert alert-danger alert-dismissable" style="margin-bottom:2px">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <p class="alert-link">{{ alert_info }}</p>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endif %}
                         <li>
                             <a class="text-center" href="#">
                                 <strong>See All Alerts</strong>
@@ -122,7 +106,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="../account/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="/account/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -144,19 +128,19 @@
                             </div>
                         </li>
                         <li>
-                            <a href="../index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-group fa-fw"></i> Minions<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Minions<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../minions/minions_status.html">Minions Status</a>
+                                    <a href="/minions/minions_status/">Minions Status</a>
                                 </li>
                                 <li>
-                                    <a href="../minions/minions_keys.html">Minions Keys Manage</a>
+                                    <a href="/minions/minions_keys/">Minions Keys Manage</a>
                                 </li>
                                 <li>
-                                    <a href="../minions/minions_hardware_info.html">Minions Hardware Info</a>
+                                    <a href="/minions/minions_asset_info/">Minions Asset Info</a>
                                 </li>
                                 <!--
                                 <li>
@@ -169,7 +153,7 @@
                             <a href="#"><i class="fa fa-play fa-fw"></i> Execute<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../execute/minions_shell_runcmd.html">Run Shell Command</a>
+                                    <a href="/execute/minions_shell_runcmd/">Run Shell Command</a>
                                 </li>
                                 <!--
                                 <li>
@@ -182,13 +166,13 @@
                             <a href="#"><i class="fa fa-indent fa-fw"></i> Jobs<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../jobs/jobs_history.html">Jobs History</a>
+                                    <a href="/jobs/jobs_history/">Jobs History</a>
                                 </li>
                                 <li>
-                                    <a href="../jobs/jobs_manage.html">Jobs Manage</a>
+                                    <a href="/jobs/jobs_manage/">Jobs Manage</a>
                                 </li>
                                 <li>
-                                    <a href="../jobs/jobs_schedule.html">Jobs Schedule</a>
+                                    <a href="/jobs/jobs_schedule/">Jobs Schedule</a>
                                 </li>
                             </ul>
                         </li>
@@ -196,7 +180,7 @@
                             <a href="#"><i class="fa fa-puzzle-piece fa-fw"></i> States Config<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../states_config/highstate.html">Highstate</a>
+                                    <a href="/states_config/highstate/">Highstate</a>
                                 </li>
                             </ul>
                         </li>
@@ -214,23 +198,37 @@
                             <a href="#"><i class="fa fa-group fa-fw"></i> Groups<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../groups/manage_group.html">Manage Group</a>
+                                    <a href="/groups/manage_group/">Manage Group</a>
                                 </li>
                                 <li>
-                                    <a href="../groups/manage_host.html">Manage Host</a>
+                                    <a href="/groups/manage_host/">Manage Host</a>
                                 </li>                          
                             </ul>
                         </li>
-                        <!--
                         <li>
                             <a href="#"><i class="fa fa-cogs fa-fw"></i> System Setup<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="../blank.html">User Manager</a>
+                                    <a href="/system_setup/system_tools/"><i class="fa fa-wrench fa-fw"></i> System Tools</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-user"></i> User<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li> 
+                                            <a href="/account/manage_user/">Manage User</a>
+                                        </li>
+                                        <li>
+                                            <a href="/account/manage_business/">Manage Business</a>
+                                        </li>                          
+                                        <li>
+                                           <a href="/account/manage_privilege/">Manage Role Privilege</a>
+                                        </li>                          
+
+                                    </ul>
+                                    <!-- /.nav-third-level -->
                                 </li>
                             </ul>
                         </li>
-                        -->
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

@@ -1,4 +1,5 @@
 saltshaker 环境搭建 Ubuntu 14.04.3 LTS
+saltshaker 环境搭建 Centos6.x
 
 1、安装pip  详细文档及使用http://www.ttlsa.com/python/how-to-install-and-use-pip-ttlsa/
 
@@ -186,6 +187,12 @@ apt-get install rabbitmq-server
 开启rabbitmq-management plugin管理插件
 /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
 
+rabbitmqctl stop
+/etc/init.d/rabbitmq-server start
+此时可以访问 127.0.0.1:15672
+用户名:guest
+密码:guest
+
 
 配置django setting.py
 添加如下行到setting.py
@@ -200,12 +207,11 @@ BROKER_PASSWORD = "guest"
 BROKER_VHOST = "/"
 
 执行如下命令创建djcelery的相关数据库表
+mkdir /var/log/saltshaker
 python manage.py makemigrations
 python manage.py migrate
-
 
 启动celery worker
 python manage.py celery worker --loglevel=info
 
 
-ggggg

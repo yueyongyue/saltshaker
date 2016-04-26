@@ -1,10 +1,13 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from dashboard.models import *
 from returner.models import *
 import logging
-from shaker.tasks import dashboard_task, grains_task
+from shaker.tasks import dashboard_task, grains_task, minions_status_task
 from shaker.check_service import CheckPort, CheckProgress
+import time
+import json
 
 logger = logging.getLogger('django')
 
@@ -12,7 +15,8 @@ logger = logging.getLogger('django')
 def index(request):
     try:
         dashboard_task.delay()
-        grains_task.delay()
+        #grains_task.delay()
+        minions_status_task.delay()
     except:
         logger.error("Connection refused, don't connect rabbitmq service")
     try:
@@ -48,9 +52,8 @@ def index(request):
     salt_api_status = CheckPort('Salt Api', '127.0.0.1', 8000)
     rabbitmy_status = CheckPort('RabbixMQ', '127.0.0.1', 5672)
     rabbitmy_m_status = CheckPort('RabbixMQ Management', '127.0.0.1', 15672)
-    celery_statu = CheckProgress('Celery', 'celery worker')
-    check_service = [salt_master_stauts, salt_api_status, rabbitmy_status, rabbitmy_m_status, celery_statu]
-
+    celery_status = CheckProgress('Celery', 'celery worker')
+    check_service = [salt_master_stauts, salt_api_status, rabbitmy_status, rabbitmy_m_status, celery_status]
 
 
     return render(request, 'dashboard/index.html', {'status': status_list,
@@ -58,3 +61,21 @@ def index(request):
                                                     'os_all': os_all,
                                                     'check_service': check_service,
                                                     })
+
+
+def get_queue(request):
+    queue_count = []
+    time_list = []
+    queue_len = len(Dashboard_queue.objects.all())
+    if queue_len < 6:
+        queue_all = Dashboard_queue.objects.all()[:6]
+    else:
+        queue_all = Dashboard_queue.objects.all()[queue_len-6:queue_len]
+    for i in queue_all:
+        queue_count.append(int(i.count))
+        time_list.append(i.update_time.decode('string-escape'))
+    if len(queue_count) == 0:
+        queue_count = [0]
+        time_list = [time.strftime('%H:%M', time.localtime())]
+
+    return HttpResponse(json.dumps({"time_list": time_list, "queue_count": queue_count}), content_type = 'application/json')

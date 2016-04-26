@@ -19,6 +19,6 @@ from . import views
 urlpatterns = [
     url(r'^minions_status', views.minions_status,name='minions_status'),
     url(r'^minions_keys', views.minions_keys,name='minions_keys'),
-    url(r'^minions_hardware_info', views.minions_hardware_info,name='minions_hardware_info'),
+    url(r'^minions_asset_info', views.minions_asset_info,name='minions_asset_info'),
     url(r'^minions_servers_status', views.minions_servers_status,name='minions_servers_status'),
 ]

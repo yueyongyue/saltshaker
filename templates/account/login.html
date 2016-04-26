@@ -28,7 +28,7 @@
 
     <!-- Custom Fonts -->
     <link href="{% static "bower_components/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,21 +45,24 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="panel-heading" style="padding: 0px 0px 0px 85px;margin-top: 80px">
-                        <a class="navbar-brand" href="../index.html"><img src="../../static/images/logo.png"></a>
-                        <a class="navbar-brand" href="../index.html" style="padding-top: 25px;padding-left: 0px">SaltShaker</a>
+                        <p class="navbar-brand"><img src="/static/images/logo.png"></p>
+                        <p class="navbar-brand" style="padding-top: 25px;padding-left: 0px">SaltShaker</p>
                 </div>
                 <div class="login-panel panel panel-default" style="margin-top: 60px">
                     <div class="panel-heading">
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form method="post" action="../account/login.html">
+                        <form method="post" action="/account/login/">
                             <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="username"  autofocus>
+                                <div style="display:none"class="form-group">
+                                    <input id="next" class="form-control" placeholder="next" name="next" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="E-mail" name="username" value=""  autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password">
                                 </div>
                                 {% if errors %}
                                     {% for error in errors %}
@@ -68,7 +71,7 @@
                                 {% endif %}
                                 <div class="checkbox">
                                     <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                        <input checked name="remember" type="checkbox" value="remember">Remember Me
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
@@ -96,6 +99,17 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static "dist/js/sb-admin-2.js" %}"></script>
-
+    <script type="text/javascript"> 
+      //get url param
+      $(document).ready(function(){
+       function getUrlParam(name){
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+         var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+         if (r!=null) return unescape(r[2]); return null; //返回参数值
+         }        
+         var next=getUrlParam('next');
+         $("input#next").val(next)
+      });
+    </script>
 </body>
 </html>

@@ -22,3 +22,12 @@ class Dashboard_os(models.Model):
     def __unicode__(self):
         return u'%s %s' % (self.release, self.count)
 '''
+
+class Dashboard_queue(models.Model):
+    class Meta:
+        db_table = "dashboard_queue"
+    update_time = models.CharField(max_length=32, null=True, blank=True)
+    count = models.IntegerField(null=True, blank=True)
+
+    def __unicode__(self):
+        return u'%s %s' % (self.update_time, self.count)

@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from shaker.shaker_core import *
-from shaker.nodegroups import *
 from minions.models import Minions_status
 from returner.models import Salt_grains
+from shaker.tasks import accept_grains_task
+import logging
 
+logger = logging.getLogger('django')
 
 @login_required(login_url="/account/login/")
 def minions_status(request):
@@ -14,20 +16,41 @@ def minions_status(request):
 @login_required(login_url="/account/login/")
 def minions_keys(request):
     sapi = SaltAPI()
+    alert_info = ""
     if request.POST:
-        hostname = request.POST.get("delete")
-        sapi.delete_key(hostname)
-        Minions_status.objects.get(minion_id=hostname).delete()
-        Salt_grains.objects.get(minion_id=hostname).delete()
-        hostname = request.POST.get("accept")
-        sapi.accept_key(hostname)
-        hostname = request.POST.get("reject")
-        sapi.reject_key(hostname)
+        minion_id_a = request.POST.get("accept")
+        minion_id_r = request.POST.get("reject")
+        minion_id_d = request.POST.get("delete")
+        if minion_id_a:
+            sapi.accept_key(minion_id_a)
+            try:
+                accept_grains_task.delay(minion_id_a)
+                alert_info = "Minion: " + minion_id_a + " Accept Key Success"
+            except Exception as e:
+                alert_info = "Minion: " + minion_id_a + " Accept Key Fault"
+                logger.error(e)
+        elif minion_id_r:
+            sapi.reject_key(minion_id_r)
+        else:
+            sapi.delete_key(minion_id_d)
+            try:
+                Minions_status.objects.get(minion_id=minion_id_d).delete()
+            except Exception as e:
+                logger.error(e)
+            try:
+                Salt_grains.objects.get(minion_id=minion_id_d).delete()
+                alert_info = "Minion: " + minion_id_d + " Delete Key Success"
+            except Exception as e:
+                alert_info = "Minion: " + minion_id_d + " Delete Key Fault"
+                logger.error(e)
+
     keys_all = sapi.list_all_key()
-    return render(request, 'minions/minions_keys.html', {'key': keys_all})
+
+    return render(request, 'minions/minions_keys.html', {'key': keys_all, 'alert_info': alert_info})
 
 @login_required(login_url="/account/login/")
-def minions_hardware_info(request):
+def minions_asset_info(request):
+    '''
     sapi = SaltAPI()
     up_host = sapi.runner_status('status')['up']
     jid = []
@@ -42,7 +65,15 @@ def minions_hardware_info(request):
             info_all.update(disk_dic)
         disk_all = {}
         jid += [info_all]
-    return render(request, 'minions/minions_hardware_info.html', {'jyp': jid})
+    return render(request, 'minions/minions_asset_info.html', {'jyp': jid})
+    '''
+    salt_grains = Salt_grains.objects.all()
+    asset_list = []
+    for asset in salt_grains:
+        asset_dic = {asset.minion_id.decode('string-escape'): eval(asset.grains)}
+        asset_dics = asset_dic.copy()
+        asset_list.append(asset_dics)
+    return render(request, 'minions/minions_asset_info.html', {'asset': asset_list})
 
 @login_required(login_url="/account/login/")
 def minions_servers_status(request):

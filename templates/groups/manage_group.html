@@ -1,116 +1,400 @@
 {% extends "base.html" %}
   {% block content %}
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="page-header">Manage Group</h2>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Manage Group
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <table>
-                                    <tr>
-                                        <th style="padding:0px 5px 0px 0px">
-                                            <input id="AG" type="text" placeholder="Group Name" class="form-control" />
-                                        </th>
-                                        <th style="padding:0px 5px 0px 0px">
-                                            <input type="button" onClick="CreateTB()" value="Add" class="btn btn-outline btn-primary btn-xs" />
-                                        </th>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="TB">
-                                    <thead>
-                                        <tr>
-                                           <th>Group Name</th>
-                                           <th>Edit</th>
-                                           <th>Delete</th>
-                                        </tr>
-                                    </thead>
-                                     {% for groups in list_groups %}
-                                        <tr class="even gradeC">
-                                            <td><div>{{ groups }}</div><input type='text' style='display:none' class='form-control'></td>
-                                            <td><input type='button' class='btn btn-outline btn-success btn-xs' value='Edit' onclick=edit(this,'show','{{ groups }}')></td>
-                                            <td><input type='button' class='btn btn-outline btn-danger btn-xs' value='Delete' onclick=del(this,'{{ groups }}')></td>
-                                        </tr>
-                                        {% endfor %}
-                                </table>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-        </div>
+  <div id="page-wrapper">
+     <div class="row">
+         <div class="col-lg-12">
+             <h2 class="page-header">Manage Group</h2>
+         </div>
+         <!-- /.col-lg-12 -->
+     </div>
+     <!-- /.row -->
+     <div class="row">
+         <div class="col-lg-12">
+             <div class="panel panel-default">
+                 <div class="panel-heading">
+                     Manage Group
+                     <!-- begin action -->
+                     <div class="btn-group" style="float:right">
+                       <button type="button" class="btn btn-outline btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                       Action <span class="caret"></span>
+                       </button>
+                       <ul class="dropdown-menu">
+                         <li><a id="add_group" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
+                         <li role="separator" class="divider"></li>
+                         <li><a id="delete_group" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
+                       </ul>
+                     </div>
+                     <!-- end action -->
+                       <!-- begin modal  -->
+                       <!-- add modal -->
+                       <div id="add_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                         <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                             <div class="modal-header">
+                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                               <h4 class="modal-title" id="exampleModalLabel">Add Group</h4>
+                             </div>
+                             <div class="modal-body">
+                               <form class="form-horizontal" id="add_data" method="post" action="/groups/add_group/">
+                                 <fieldset>
+                                   <legend>Add</legend>
+                                   <div class="form-group">
+                                     <label for="name" class="col-sm-3 control-label">Group Name</label>
+                                     <div class="col-sm-9">
+                                       <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <label for="business" class="col-sm-3 control-label">Business</label>
+                                     <div class="col-sm-9">
+                                       <select class="form-control" id="business" name="business" required>
+                                         {% if businesses %}
+                                         {% for business in businesses %}
+                                         <option>{{ business }}</option>
+                                         {% endfor %}
+                                         {% else %}
+                                         <option>unknown</option>
+                                         {% endif %}
+                                       </select>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <label for="informations" class="col-sm-3 control-label">informations</label>
+                                     <div class="col-sm-9">
+                                       <textarea class="form-control" id="informations" name="informations" minlength="1" required></textarea>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <div class="col-sm-offset-3 col-sm-9">
+                                       <div class="checkbox">
+                                         <label>
+                                           <input checked type="checkbox" name="enabled" value="true"> Enabled or Not
+                                         </label>
+                                       </div>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <div class="col-sm-offset-3 col-sm-9">
+                                       <button onclick="submit" id="add_commit" type="submit" class="btn btn-outline btn-success btn-xs">Submit</button>
+                                     </div>
+                                   </div>
+                                 </fieldset>
+                               </form>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                       <!-- end add modal -->
+
+                       <!-- delete modal -->
+                       <div id="delete_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                         <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                             <div class="modal-header">
+                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                               <h4 class="modal-title" id="exampleModalLabel">Are You Sure?</h4>
+                             </div>
+                             <div class="modal-body">
+                               <form id="delete_data" class="form-inline" method="POST" action="/groups/del_group/">
+                               <!-- jquery will append content here -->
+                               </form>
+                             </div>
+                             <div class="modal-footer">
+                               <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
+                               <button id="delete_commit" type="button" class="btn btn-outline btn-danger btn-xs" data-dismiss="modal" >Delete</button>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                       <!-- end delete -->
+                       
+                       <!-- modify modal --> 
+                       <div id="modify_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                         <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                             <div class="modal-header">
+                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                               <h4 class="modal-title" id="exampleModalLabel">Modify</h4>
+                             </div>
+                             <div class="modal-body">
+
+                               <form id="modify_data" class="form-horizontal" method="POST" action="/groups/modify_group/">
+                                   <div class="form-group">
+                                     <label for="name" class="col-sm-3 control-label">Id</label>
+                                     <div class="col-sm-9">
+                                       <input readonly class="form-control" id="id" name="id" minlength="1" type="text" placeholder="id" required>
+                                     </div>
+                                   </div>
+                                   <div class="form-group">
+                                     <label for="name" class="col-sm-3 control-label">Group Name</label>
+                                     <div class="col-sm-9">
+                                       <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <label for="business" class="col-sm-3 control-label">Business</label>
+                                     <div class="col-sm-9">
+                                       <select class="form-control" id="business" name="business" required>
+                                         <option selected>default</option>
+                                         {% if businesses %}
+                                         {% for business in businesses %}
+                                         <option>{{ business }}</option>
+                                         {% endfor %}
+                                         {% else %}
+                                         <option>unknown</option>
+                                         {% endif %}
+                                       </select>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <label for="informations" class="col-sm-3 control-label">informations</label>
+                                     <div class="col-sm-9">
+                                       <textarea class="form-control" id="informations" name="informations" minlength="1" required></textarea>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <div class="col-sm-offset-3 col-sm-9">
+                                       <div class="checkbox">
+                                         <label>
+                                           <input id="enabled"  type="checkbox" name="enabled" value=""> Enabled or Not
+                                         </label>
+                                       </div>
+                                     </div>
+                                   </div>
+                               </form>
+                             </div>
+                             <div class="modal-footer">
+                               <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
+                               <button id="modify_commit" type="button" class="btn btn-outline btn-primary btn-xs" data-dismiss="modal" >Save</button>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                       <!-- end modify modal -->
+
+                       <!-- checkbox error modal -->
+                       <div id="checkbox_error_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                         <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                             <div class="modal-content">
+                               <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                               </div>
+                               <div class="modal-body">
+                                 <h4 class="modal-title" id="checkbox_error">There is no item selected</h4>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                       <!-- end checkbox error modal-->
+
+                       <!-- alert error modal -->
+                       {% if error %}
+                       <div id="error_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                         <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                             <div class="modal-content">
+                               <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                               </div>
+                               <div class="modal-body">
+                                 <h4 class="modal-title" id="error">{{ error }}</h4>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                       {% endif %}
+                       <!-- end alert error modal  -->
+                       
+                       <!-- alert success modal -->
+                       {% if success %}
+                       <div id="success_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                         <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                             <div class="modal-content">
+                               <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                               </div>
+                               <div class="modal-body">
+                                 <h4 id="success" class="modal-title">{{ success }}</h4>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                       {% endif %}
+                       <!-- end alert success modal  -->
+                 </div>
+                 <!-- /.panel-heading -->
+                 <div class="panel-body">
+                     <div class="dataTable_wrapper">
+                         <table id="datatable-demo" class="table table-striped table-bordered table-hover">
+                             <thead>
+                                 <tr>
+                                    <th>
+                                      <input id="CHKall" type="checkbox" name="CHKall" value="CHKall"></input>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Group_Name</th>
+                                    <th>Business</th>
+                                    <th style="display:none">Informations</th>
+                                    <th>Enabled</th>
+                                    <th>Opearation</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                               {% if groups %}
+                               {% for g in groups %}
+                               <tr id="{{ g.id }}" class="even gradeC">
+                                   <td>
+                                     <input  name="CHKlist" type="checkbox" value="{{ g.id }}"></input>
+                                   </td>
+                                   <td id="id" style="word-break:break-all">{{ g.id }}</td>
+                                   <td id="name" style="word-break:break-all">{{ g.name }}</td>
+                                   <td id="business" style="display:none; word-break:break-all">{{ g.business }}</td>
+                                   <td id="informations" style="word-break:break-all">{{ g.informations }}</td>
+                                   <td id="enabled" style="word-break:break-all">{{ g.enabled|lower }}</td>
+                                   
+                                   <td><button id="modify_group" name="modify_button" value="{{ g.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
+                               </tr>
+                               {% endfor %}
+                               {% endif %}
+                             </tbody>
+                         </table>
+                     </div>
+                     <!-- /.table-responsive -->
+                 </div>
+                 <!-- /.panel-body -->
+             </div>
+             <!-- /.panel -->
+         </div>
+         <!-- /.col-lg-12 -->
+     </div>
+     <!-- /.row -->
+   </div>
         <!-- /#page-wrapper -->
 
-    <script type="text/javascript">
-
-			//Create TR
-			var i = 1;
-			function CreateTB(){
-				var oTB = document.getElementById("TB");
-                var oTX = document.getElementById("AG");
-                var groups = oTX.value.replace(/(^\s*)|(\s*$)/g, "")// get add group name
-                if (oTX.value == ""){
-                    alert("Group name is null")
-                }
-                else{
-                    var oTR = oTB.insertRow(oTB.rows.length);
-				    var oTD2 = oTR.insertCell(0);
-                    oTD2.innerHTML = "<div>"+groups+"</div><input type='text' style='display:none; width:99%; height:22px; text-align:center;'>";
-				    var oTD4 = oTR.insertCell(1);
-				    oTD4.innerHTML = "<input type='button' class='btn btn-outline btn-success btn-xs' value='Edit' onclick=\"edit(this,'show')\">";
-				    var oTD5 = oTR.insertCell(2);
-				    oTD5.innerHTML = "<input type='button' class='btn btn-outline btn-danger btn-xs' value='Delete' onclick=del(this,'"+groups+"')>";
-			    i++;
-                    $.post("../groups/add_group", { groups_name: groups } );  //post add_group
-                }
-
-			}
-
-			//EDIT TR
-			function edit(o,otype,ogroup){
-				var oTR=o.parentNode.parentNode;
-				var oDiv1=oTR.cells[0].getElementsByTagName("div");
-				var oInpt1=oTR.cells[0].getElementsByTagName("input");
-				if (otype =="show"){
-					o.value="Submit";
-					o.setAttribute("onclick","edit(this,'hide','"+ogroup+"')");
-					oInpt1[0].value = oDiv1[0].childNodes[0].nodeValue;
-					oInpt1[0].style.display = "block";
-					oDiv1[0].style.display = "none";
-				}else if (otype =="hide"){
-					o.value="Edit";
-					o.setAttribute("onclick","edit(this,'show')");
-					oDiv1[0].childNodes[0].nodeValue = oInpt1[0].value;
-					oDiv1[0].style.display = "block";
-					oInpt1[0].style.display = "none";
-                    omodify_group=oInpt1[0].value.replace(/(^\s*)|(\s*$)/g, "");
-                    $.post("../groups/modify_group", { groups_name: ogroup , modify: omodify_group } );
-				}
-			}
-
-			//Delete TR
-			function del(o,ogroup){
-				var oTB = document.getElementById("TB");
-                var oDel = o.parentNode.parentNode.sectionRowIndex+1;
-                oTB.deleteRow(oDel);
-                $.post("../groups/del_group", { groups_name: ogroup } );
-			}
-	</script>
   {% endblock %}
+    {% block jquery%}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        //全选或全不选 
+        $("#CHKall").click(function(){
+            if(this.checked){    
+                $("input[name='CHKlist']").prop("checked", true);   
+            }else{    
+                $("input[name='CHKlist']").prop("checked", false); 
+            }    
+         });  
+        // end slelect all
+
+
+        //data table
+        $("#datatable-demo").DataTable( {
+           //设置第一列为初始化排序的列
+           "order": [[ 1, "desc" ]],
+           //该值的含义为。初始化datatable，但对序号为0,7列的列不进行排序，别的列均可进行排序 
+           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,6 ] }]  
+           });     
+        // end data table
+        // add //
+        $("#add_group").click(function(){
+            $('#add_modal').modal('show')
+
+            $("#add_commit").click(function(){
+                //$("#add_data").submit()
+                $.ajax({
+                    type:'POST',
+                    url:'/groups/add_groups/',
+                    data:$('form#add_data').serialize(),
+                    beforeSend:function(xhr,settings){
+                        //console.log(data)
+                    },
+                    complete:function(xhr,settings){
+                        //alert(data)
+                    },
+                    success:function(response,status,xhr){
+                        //alert(response)
+                    },
+                    error:function(xhr,errorText, errorStatus){
+                        //alert(errorStatus)
+                    },
+
+                }); 
+                window.location.reload(); 
+            });
+            
+        });
+        // end add //
+
+
+        // delete //
+        $("#delete_group").click(function(){
+           var ids=[];
+           $('input[name="CHKlist"]:checked').each(function(){
+               var id=$(this).val();
+               ids.push(id);
+           }); 
+           if (ids.length >0)
+               {
+               $("#delete_data").empty()
+               for (i in ids){     
+                   $("#delete_data").append(
+                       '<div class="form-group"><label class="control-label">ID: </label><input readonly name="id" value="'+ ids[i] +'" type="text" class="form-control"></input></div> <br>'
+                       );
+                   };
+                 $('#delete_modal').modal('show')
+               }
+             else 
+                {
+                   $('#checkbox_error_modal').modal('show')
+                }
+           $("#delete_commit").click(function(){
+                 $("#delete_data").submit()
+             });
+      });
+      // end delete //
+      // modify //
+      $("button#modify_group").click(function(){
+          var tmp_id=$(this).val();
+          var tmp_name=$("#"+tmp_id).find("#name").text();
+          var tmp_enabled=$("#"+tmp_id).find("#enabled").text();
+          var tmp_informations=$("#"+tmp_id).find("#informations").text();
+          var tmp_business=$("#"+tmp_id).find("#business").text();
+          $('#modify_data').find('input#id').val(tmp_id);
+          $('#modify_data').find('input#name').val(tmp_name);
+          if (tmp_enabled == "true")
+              {
+              $('#modify_data').find('input#enabled').attr("checked",true);
+              $('#modify_data').find('input#enabled').val(tmp_enabled);
+              }
+          else
+              {
+              $('#modify_data').find('input#enabled').attr("checked",false);
+              $('#modify_data').find('input#enabled').val(tmp_enabled);
+              }
+          $('#modify_data').find('textarea#informations').val(tmp_informations);
+          $('#modify_data').find('select#business').find("option:selected").text(tmp_business);
+          $('#modify_modal').modal('show')
+          $('#modify_commit').click(function(){
+              $('#modify_data').submit();
+              });
+      })
+      // end modify //
+
+      //show success and error modal //
+      $('#success_modal').modal('show')
+      $('#error_modal').modal('show')
+      //  end show success and error modal //
+    });  
+    </script>
+    {% endblock %}

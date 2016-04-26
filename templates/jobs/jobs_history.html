@@ -50,7 +50,7 @@
                                     <tbody>
                                         {% for info in jids %}
                                         <tr class="even gradeC">
-                                            <td><div class="tooltip-demo"><a href="jobs_detail&{{ info.jid }}" data-toggle="tooltip" data-placement="left" title="jobs detail">{{ info.jid }}</a></div></td>
+                                            <td><div class="tooltip-demo"><a href="/jobs/jobs_detail&{{ info.jid }}" data-toggle="tooltip" data-placement="left" title="jobs detail">{{ info.jid }}</a></div></td>
                                             <td>{{ info.fun }}</td>
                                             <td>{% for arg in info.fun_args %}{{ arg }}{% endfor %}</td>
                                             <td>{{ info.alter_time|date:"Y-m-d" }} {{ info.alter_time|time:"H:i:s" }}</td>

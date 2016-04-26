@@ -22,7 +22,7 @@ import dashboard,minions,execute,jobs,states_config,code_update,groups,system_se
 urlpatterns = [
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.STATIC_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^index.html', include('dashboard.urls')),
+    url(r'^dashboard/', include('dashboard.urls')),
     url(r'^$', include('dashboard.urls')),
     url(r'minions/', include('minions.urls')),
     url(r'execute/', include('execute.urls')),
@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'states_config/', include('states_config.urls')),
     #url(r'code_update/', include('code_update.urls')),
     url(r'groups/', include('groups.urls')),
-    #url(r'system_setup/', include('system_setup.urls')),
+    url(r'system_setup/', include('system_setup.urls')),
     #url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),
     url(r'account/', include('account.urls')),
 
