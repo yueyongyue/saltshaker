@@ -86,11 +86,67 @@ saltshaker 环境搭建 Centos6.x
     SALT_API_PASSWD = 'admin'
 
 
-   #执行如下命令
-   python manage.py migrate                  同步数据
-   python manage.py runserver  0.0.0.0:9000  运行服务
-   python manage.py createsuperuser          设置后台管理员用户名和密码,此用户名和密码用于登陆web页面
-   python manage.py crontab add              添加计划任务用于生成'/tmp/salt_dashboard.tmp' 文件
+6、异步请求 Celery
+
+    安装 django-celery (3.1.17)
+
+        pip install django-celery==3.1.17
+
+    安装 celery
+
+        pip install celery==3.1.17
+
+    安装 rbbitmq
+
+        详细安装请产看官方文档 ubuntu 安装http://www.rabbitmq.com/install-debian.html
+        Centos 安装http://www.rabbitmq.com/install-rpm.html
+
+        添加rbbitmq 仓库
+
+            echo 'deb http://www.rabbitmq.com/debian/ testing main' >> /etc/apt/sources.list
+
+        避免安装时发生警告添加公钥
+
+            wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+            apt-key add rabbitmq-signing-key-public.asc
+
+        apt-get install rabbitmq-server
+
+    开启rabbitmq-management plugin管理插件
+    /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
+
+    rabbitmqctl stop
+    /etc/init.d/rabbitmq-server start
+    此时可以访问 127.0.0.1:15672
+    用户名:guest
+    密码:guest
+
+
+    vim settings.py       配置celery和rabbitmq
+
+    # celery + rabbitmq
+
+    platforms.C_FORCE_ROOT = True   # Running a worker with superuser privileges
+    djcelery.setup_loader()
+    BROKER_HOST = "127.0.0.1"
+    BROKER_PORT = 5672
+    BROKER_USER = "guest"
+    BROKER_PASSWORD = "guest"
+    BROKER_VHOST = "/"
+
+7、 启动celery worker
+
+    python manage.py celery worker --loglevel=info
+
+8、 相关数据库同步
+
+    #执行如下命令
+    python manage.py migrate                  同步数据djnagohe和djcelery数据库
+    mkdir /var/log/saltshaker                 创建saltshaker日志存放目录
+    python manage.py runserver  0.0.0.0:9000  运行服务
+    python manage.py createsuperuser          设置后台管理员用户名和密码,此用户名和密码用于登陆web页面
+    python manage.py crontab add              添加计划任务用于获取queue队列数
+
 
 
 saltshaker 环境搭建 CentOS6.X
@@ -113,6 +169,8 @@ saltshaker 环境搭建 CentOS6.X
 
 
 
+如下内容请先忽略
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Return Data To Mysql
 
@@ -155,63 +213,6 @@ Return Data To Mysql
 245         log.critical('Could not store return with MySQL returner. MySQL server unavailable.')
 
 
-
-异步请求 Celery
-
-安装 django-celery (3.1.17)
-
-pip install django-celery==3.1.17
-
-安装 celery
-
-pip install celery==3.1.17
-
-安装 rbbitmq
-
-详细安装请产看官方文档 ubuntu 安装http://www.rabbitmq.com/install-debian.html
-Centos 安装http://www.rabbitmq.com/install-rpm.html
-
-添加rbbitmq 仓库
-
-echo 'deb http://www.rabbitmq.com/debian/ testing main' >> /etc/apt/sources.list
-
-避免安装时发生警告添加公钥
-
-wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
-apt-key add rabbitmq-signing-key-public.asc
-
-安装rabbitmq
-
-apt-get install rabbitmq-server
-
-开启rabbitmq-management plugin管理插件
-/usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
-
-rabbitmqctl stop
-/etc/init.d/rabbitmq-server start
-此时可以访问 127.0.0.1:15672
-用户名:guest
-密码:guest
-
-
-配置django setting.py
-添加如下行到setting.py
-
-# celery + rabbitmq
-platforms.C_FORCE_ROOT = True   # Running a worker with superuser privileges
-djcelery.setup_loader()
-BROKER_HOST = "127.0.0.1"
-BROKER_PORT = 5672
-BROKER_USER = "guest"
-BROKER_PASSWORD = "guest"
-BROKER_VHOST = "/"
-
-执行如下命令创建djcelery的相关数据库表
-mkdir /var/log/saltshaker
-python manage.py makemigrations
-python manage.py migrate
-
-启动celery worker
-python manage.py celery worker --loglevel=info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
