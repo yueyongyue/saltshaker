@@ -1,7 +1,7 @@
 saltshaker 环境搭建 Ubuntu 14.04.3 LTS
 saltshaker 环境搭建 Centos6.x
 
-1、安装pip  详细文档及使用http://www.ttlsa.com/python/how-to-install-and-use-pip-ttlsa/
+#####1、安装pip  详细文档及使用http://www.ttlsa.com/python/how-to-install-and-use-pip-ttlsa/
 
      下载pip
      wget "https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196" --no-check-certificate
