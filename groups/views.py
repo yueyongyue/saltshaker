@@ -166,19 +166,18 @@ def add_host(request):
     _error=False
     if request.method=="POST":
         _m=request.POST.get("minion")
-        print _m
         _minion=Minions_status.objects.get(minion_id=_m)
         _g=request.POST.get("group")
         _group=Groups.objects.get(name=_g)
         _name=request.POST.get("name")
-        _business=request.POST.get("business")
         _informations=request.POST.get("informations")
         if request.POST.get("enabled") == "true":
             _enabled=True
         else:
             _enabled=False
         try:
-            _host=Hosts(minion=_minion,group=_group,name=_name,business=_business,informations=_informations,enabled=_enabled)
+     
+            _host=Hosts(minion=_minion,group=_group,name=_name,informations=_informations,enabled=_enabled)
             _host.save()
             _minion_status=Minions_status.objects.get(minion_id=_m)
             _minion_status.minion_config=True
@@ -191,163 +190,3 @@ def add_host(request):
         pass
     return manage_host(request,success=_success,error=_error)
 ###########################  end manage Host ###########################
-###########################  mange business #######################   
-@login_required(login_url="/account/login/")
-def manage_business(request,*args,**kw):
-    _businesses = Businesses.objects.all()
-    _success = kw.get("success",False)
-    _error = kw.get("error",False)
-    context={
-        "businesses":_businesses,   
-        "success":_success,
-        "error":_error,
-        }
-    return render_to_response("groups/manage_business.html",context)
-
-@login_required(login_url="/account/login/")
-def del_business(request):
-    _success=False
-    _error=False
-    _ids=request.POST.getlist("id")
-    try:
-        _filter=Businesses.objects.filter(id__in=_ids)
-        _filter.delete()
-        _success="Delete opearation successed!"
-    except Exception as e:
-        _error="Delete opearation error!"
-            
-    return manage_business(request,success=_success,error=_error)
-@login_required(login_url="/account/login/")
-def modify_business(request):
-    _success=False
-    _error=False
-    if request.method=="POST":
-        _id=request.POST.get("id")
-        _name=request.POST.get("name")
-        _enabled=request.POST.get("enabled")
-        _informations=request.POST.get("informations")
-        if _enabled is not None:
-            _enabled=True
-        else:
-            _enabled=False
-        try:
-            _business=Businesses.objects.get(id=_id)
-            _name_before=_business.name
-            _business.name=_name
-            _business.enabled=_enabled
-            _business.informations=_informations
-            _business.save()
-            _success="Modify Business "+ _name +" OK"
-        except Exception as e:
-            _error="Modify Business "+ _name +" failed"
-        
-    return manage_business(request,success=_success,error=_error)
-@login_required(login_url="/account/login/")
-def add_business(request):
-    _success=False
-    _error=False
-    if request.method=="POST":
-        _name=request.POST.get("name")
-        _informations=request.POST.get("informations")
-        if request.POST.get("enabled") == "true":
-            _enabled=True
-        else:
-            _enabled=False
-        try:
-            _business=Businesses(name=_name,informations=_informations,enabled=_enabled)
-            _business.save()
-            _success="Add business line "+_name+" OK!!"
-        except Exception as e:
-            _error="name already exists or too long!"
-            
-    else:
-        pass
-    return manage_business(request,success=_success,error=_error)
-###########################  end mange business #######################   
-###########################  mange privilege #######################   
-
-@login_required(login_url="/account/login/")
-def manage_privilege(request,*args,**kw):
-    _privileges = Privileges.objects.all()
-    _owners = User.objects.all()
-    _success = kw.get("success",False)
-    _error = kw.get("error",False)
-    context={
-        "privileges":_privileges,   
-        "owners":_owners,
-        "success":_success,
-        "error":_error,
-        }
-    return render_to_response("groups/manage_privilege.html",context)
-
-@login_required(login_url="/account/login/")
-def del_privilege(request):
-    _success=False
-    _error=False
-    _ids=request.POST.getlist("id")
-    try:
-        _filter=Privileges.objects.filter(id__in=_ids)
-        _filter.delete()
-        _success="Delete opearation successed!"
-    except Exception as e:
-        _error="Delete opearation error!"
-            
-    return manage_privilege(request,success=_success,error=_error)
-@login_required(login_url="/account/login/")
-def modify_privilege(request):
-    _success=False
-    _error=False
-    if request.method=="POST":
-        _id=request.POST.get("id")
-        _name=request.POST.get("name")
-        _allow=request.POST.get("allow")
-        _deny=request.POST.get("deny")
-        _enabled=request.POST.get("enabled")
-        _informations=request.POST.get("informations")
-        _o=request.POST.get("owner")
-        _owner=User.objects.get(username=_o)
-        if _enabled is not None:
-            _enabled=True
-        else:
-            _enabled=False
-        try:
-            _privilege=Privileges.objects.get(id=_id)
-            _name_before=_privilege.name
-            _privilege.name=_name
-            _privilege.allow=_allow
-            _privilege.deny=_deny
-            _privilege.enabled=_enabled
-            _privilege.informations=_informations
-            _privilege.owner=_owner
-            _privilege.save()
-            _success="Modify privilege "+ _name +" OK"
-        except Exception as e:
-            _error="Modify privilege "+ _name +" failed"
-        
-    return manage_privilege(request,success=_success,error=_error)
-@login_required(login_url="/account/login/")
-def add_privilege(request):
-    _success=False
-    _error=False
-    if request.method=="POST":
-        _name=request.POST.get("name")
-        _deny=request.POST.get("deny")
-        _allow=request.POST.get("allow")
-        _o=request.POST.get("owner")
-        _owner=User.objects.get(username=_o)
-        _informations=request.POST.get("informations")
-        if request.POST.get("enabled") == "true":
-            _enabled=True
-        else:
-            _enabled=False
-        try:
-            _privilege=Privileges(name=_name,allow=_allow,deny=_deny,owner=_owner,informations=_informations,enabled=_enabled)
-            _privilege.save()
-            _success="Add privilege "+_name+" OK!!"
-        except Exception as e:
-            _error="name already exists or too long!"
-            
-    else:
-        pass
-    return manage_privilege(request,success=_success,error=_error)
-###########################  end manage privilege ###########################
