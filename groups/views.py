@@ -154,9 +154,9 @@ def modify_host(request):
             _host.enabled=_enabled
             _host.informations=_informations
             _host.save()
-            _success="Modify Group "+ _name +" OK"
+            _success="Modify Host "+ _name +" OK"
         except Exception as e:
-            _error="Modify Group "+ _name +" failed"
+            _error="Modify Host "+ _name +" failed"
             
         
     return manage_host(request,success=_success,error=_error)
