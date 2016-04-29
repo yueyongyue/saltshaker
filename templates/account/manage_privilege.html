@@ -19,9 +19,11 @@
                        Action <span class="caret"></span>
                        </button>
                        <ul class="dropdown-menu">
-                         <li><a id="add_host" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
+                         <li><a id="add_privilege" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
                          <li role="separator" class="divider"></li>
-                         <li><a id="delete_host" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
+                         <li><a id="modify_privilege" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | Modify </a></li>
+                         <li role="separator" class="divider"></li>
+                         <li><a id="delete_privilege" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
                        </ul>
                        <!-- begin all modal  -->
                        <!-- add  modal -->
@@ -305,7 +307,7 @@
            });     
         // end data table
         // add //
-        $("#add_host").click(function(){
+        $("#add_privilege").click(function(){
             $('#add_modal').modal('show')
 
             $("#add_commit").click(function(){
@@ -317,7 +319,7 @@
 
 
         // delete //
-        $("#delete_host").click(function(){
+        $("#delete_privilege").click(function(){
            var ids=[];
            $('input[name="CHKlist"]:checked').each(function(){
                var id=$(this).val();
@@ -343,8 +345,13 @@
       });
       // end delete //
       // modify //
-      $("button#modify_privilege").click(function(){
-          var tmp_id=$(this).val();
+      $("#modify_privilege").click(function(){
+          var ids=[];
+          $('input[name="CHKlist"]:checked').each(function(){
+              var id=$(this).val();
+              ids.push(id);
+          });
+          var tmp_id=ids[0];
           var tmp_name=$("#"+tmp_id).find("#name").text();
           var tmp_allow=$("#"+tmp_id).find("#allow").text();
           var tmp_deny=$("#"+tmp_id).find("#deny").text();

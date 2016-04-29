@@ -21,6 +21,10 @@
                        <ul class="dropdown-menu">
                          <li><a id="add_host" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
                          <li role="separator" class="divider"></li>
+                         <li><a id="modify_user" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | Modify </a></li>
+                         <li role="separator" class="divider"></li>
+                         <li><a id="set_password" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | SetPassword </a></li>
+                         <li role="separator" class="divider"></li>
                          <li><a id="delete_user" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
                        </ul>
                        <!-- begin all modal  -->
@@ -366,7 +370,7 @@
                                     <th style="display:none">Department</th>
                                     <th>Privilege</th>
                                     <th style="display:none">Telephone</th>
-                                    <th>Opearation</th>
+                                    <th style="display:none">Opearation</th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -385,7 +389,7 @@
                                    <td id="privilege" style="word-break:break-all">{% for p in u.privilege.all %} {{ p.name }} {% endfor %}</td>
                                    <td id="telephone" style="display:none;word-break:break-all">{{ u.telephone }}</td>
                                    
-                                   <td>
+                                   <td style="display:none">
                                        <button id="modify_user" name="modify_button" value="{{ u.user.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button>
                                        <button id="set_password" name="set_password" value="{{ u.user.username }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Set_password</button>
                                    </td>
@@ -469,8 +473,15 @@
       // end delete //
 
       // set passwotd //
-      $("button#set_password").click(function(){
-          var tmp_username = $(this).val();
+      $("#set_password").click(function(){
+          var ids=[];
+          $('input[name="CHKlist"]:checked').each(function(){
+              var id=$(this).val();
+              ids.push(id);
+          });
+          var tmp_id=ids[0];
+          var tmp_name=$("#"+tmp_id).find("#username").text();
+          var tmp_username = tmp_name;
           $('#set_password_form').find('input#username').val(tmp_username);
           $('#set_password_modal').modal('show');
           $("#set_password_commit").click(function(){
@@ -480,8 +491,13 @@
       // end set password //
 
       // modify //
-      $("button#modify_user").click(function(){
-          var tmp_id=$(this).val();
+      $("#modify_user").click(function(){
+          var ids=[];
+          $('input[name="CHKlist"]:checked').each(function(){
+              var id=$(this).val();
+              ids.push(id);
+          });
+          var tmp_id=ids[0];
           var tmp_name=$("#"+tmp_id).find("#username").text();
           var tmp_email=$("#"+tmp_id).find("#email").text();
           var tmp_issuperuser=$("#"+tmp_id).find("#issuperuser").text();

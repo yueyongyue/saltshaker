@@ -21,6 +21,8 @@
                        <ul class="dropdown-menu">
                          <li><a id="add_host" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
                          <li role="separator" class="divider"></li>
+                         <li><a id="modify_host" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | modify </a></li>
+                         <li role="separator" class="divider"></li>
                          <li><a id="delete_host" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
                        </ul>
                        <!-- begin all modal  -->
@@ -273,7 +275,7 @@
                                     <th>Group_name</th>
                                     <th style="display:none">Informations</th>
                                     <th>Enabled</th>
-                                    <th>Opearation</th>
+                                    <th style="display:none">Opearation</th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -289,8 +291,7 @@
                                    <td id="group" style="word-break:break-all">{{ h.group.name }}</td>
                                    <td id="informations" style="display:none;word-break:break-all">{{ h.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ h.enabled|lower }}</td>
-                                   
-                                   <td><button id="modify_host" name="modify_button" value="{{ h.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
+                                   <td style="display:none" ><button onclick="modify_host()" id="modify_host" name="modify_button" value="{{ h.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
                                </tr>
                                {% endfor %}
                                {% endif %}
@@ -312,6 +313,7 @@
   {% endblock %}
     {% block jquery%}
     <script type="text/javascript">
+
       $(document).ready(function(){
         //全选或全不选 
         $("#CHKall").click(function(){
@@ -370,8 +372,13 @@
       });
       // end delete //
       // modify //
-      $("button#modify_host").click(function(){
-          var tmp_id=$(this).val();
+      $("#modify_host").click(function (){
+          var ids=[];
+          $('input[name="CHKlist"]:checked').each(function(){
+              var id=$(this).val();
+              ids.push(id);
+          }); 
+          var tmp_id=ids[0]
           var tmp_name=$("#"+tmp_id).find("#name").text();
           var tmp_minion=$("#"+tmp_id).find("#minion").text();
           var tmp_group=$("#"+tmp_id).find("#group").text();

@@ -21,6 +21,8 @@
                        <ul class="dropdown-menu">
                          <li><a id="add_group" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
                          <li role="separator" class="divider"></li>
+                         <li><a id="modify_group" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | Modify </a></li>
+                         <li role="separator" class="divider"></li>
                          <li><a id="delete_group" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
                        </ul>
                      </div>
@@ -248,7 +250,7 @@
                                     <th>Business</th>
                                     <th style="display:none">Informations</th>
                                     <th>Enabled</th>
-                                    <th>Opearation</th>
+                                    <th style="display:none">Opearation</th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -264,7 +266,7 @@
                                    <td id="informations" style="word-break:break-all">{{ g.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ g.enabled|lower }}</td>
                                    
-                                   <td><button id="modify_group" name="modify_button" value="{{ g.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
+                                   <td style="display:none"><button id="modify_group" name="modify_button" value="{{ g.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
                                </tr>
                                {% endfor %}
                                {% endif %}
@@ -364,8 +366,13 @@
       });
       // end delete //
       // modify //
-      $("button#modify_group").click(function(){
-          var tmp_id=$(this).val();
+      $("#modify_group").click(function(){
+          var ids=[];
+          $('input[name="CHKlist"]:checked').each(function(){
+              var id=$(this).val();
+              ids.push(id);
+          }); 
+          var tmp_id=ids[0]
           var tmp_name=$("#"+tmp_id).find("#name").text();
           var tmp_enabled=$("#"+tmp_id).find("#enabled").text();
           var tmp_informations=$("#"+tmp_id).find("#informations").text();
