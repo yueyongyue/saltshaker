@@ -313,10 +313,11 @@
             $('#add_modal').modal('show')
 
             $("#add_commit").click(function(){
-                //$("#add_data").submit()
+                $("#add_data").submit()
+                /*
                 $.ajax({
                     type:'POST',
-                    url:'/groups/add_groups/',
+                    url:'/groups/add_group/',
                     data:$('form#add_data').serialize(),
                     beforeSend:function(xhr,settings){
                         //console.log(data)
@@ -333,6 +334,7 @@
 
                 }); 
                 window.location.reload(); 
+                */ 
             });
             
         });
