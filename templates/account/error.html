@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+  {% block content %}
+  <div id="page-wrapper">
+     <div class="row">
+         <div class="col-lg-12">
+             <h2 class="page-header">Manage User</h2>
+         </div>
+         <!-- /.col-lg-12 -->
+     </div>
+     <!-- /.row -->
+     <div class="row">
+         <div class="col-lg-12">
+             <div class="panel panel-default">
+                 <div class="panel-heading">
+                     Error Occurred
+                 <div class="panel-body">
+                     <div class="dataTable_wrapper">
+                     <h2>No Permission</h2>
+                     </div>
+                     <!-- /.table-responsive -->
+                 </div>
+                 <!-- /.panel-body -->
+             </div>
+             <!-- /.panel -->
+         </div>
+         <!-- /.col-lg-12 -->
+     </div>
+     <!-- /.row -->
+   </div>
+        <!-- /#page-wrapper -->
+
+  {% endblock %}
+    {% block jquery%}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        //全选或全不选 
+        $("#CHKall").click(function(){
+            if(this.checked){    
+                $("input[name='CHKlist']").prop("checked", true);   
+            }else{    
+                $("input[name='CHKlist']").prop("checked", false); 
+            }    
+         });  
+        // end slelect all
+
+        //data table
+        $("#datatable-demo").DataTable( {
+           //设置第一列为初始化排序的列
+           "order": [[ 1, "desc" ]],
+           //该值的含义为。初始化datatable，但对序号为0,10列的列不进行排序，别的列均可进行排序 
+           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,9 ] }]  
+           });     
+        // end data table
+        // add //
+        $("#add_host").click(function(){
+            $('#add_modal').modal('show')
+
+            $("#add_commit").click(function(){
+                $("#add_data").submit()
+            });
+            
+            });
+        // end add //
+
+
+        // delete //
+        $("#delete_user").click(function(){
+           var ids=[];
+           $('input[name="CHKlist"]:checked').each(function(){
+               var id=$(this).val();
+               ids.push(id);
+           }); 
+           if (ids.length >0)
+               {
+               $("#delete_data").empty()
+               for (i in ids){     
+                   $("#delete_data").append(
+                       '<div class="form-group"><label class="control-label">ID: </label><input readonly name="id" value="'+ ids[i] +'" type="text" class="form-control"></input></div> <br>'
+                       );
+                   };
+                 $('#delete_modal').modal('show')
+               }
+             else 
+                {
+                   $('#checkbox_error_modal').modal('show')
+                }
+           $("#delete_commit").click(function(){
+                 $("#delete_data").submit()
+             });
+      });
+      // end delete //
+
+      // set passwotd //
+      $("#set_password").click(function(){
+          var ids=[];
+          $('input[name="CHKlist"]:checked').each(function(){
+              var id=$(this).val();
+              ids.push(id);
+          });
+          var tmp_id=ids[0];
+          var tmp_name=$("#"+tmp_id).find("#username").text();
+          var tmp_username = tmp_name;
+          $('#set_password_form').find('input#username').val(tmp_username);
+          $('#set_password_modal').modal('show');
+          $("#set_password_commit").click(function(){
+              $("#set_password_form").submit()
+            });
+      });
+      // end set password //
+
+      // modify //
+      $("#modify_user").click(function(){
+          var ids=[];
+          $('input[name="CHKlist"]:checked').each(function(){
+              var id=$(this).val();
+              ids.push(id);
+          });
+          var tmp_id=ids[0];
+          var tmp_name=$("#"+tmp_id).find("#username").text();
+          var tmp_email=$("#"+tmp_id).find("#email").text();
+          var tmp_issuperuser=$("#"+tmp_id).find("#issuperuser").text();
+          var tmp_business=$("#"+tmp_id).find("#business").text();
+          var tmp_privilege=$("#"+tmp_id).find("#privilege").text();
+          var tmp_telephone=$("#"+tmp_id).find("#telephone").text();
+          var tmp_department=$("#"+tmp_id).find("#department").text();
+          $('#modify_data').find('input#id').val(tmp_id);
+          $('#modify_data').find('input#username').val(tmp_name);
+          $('#modify_data').find('input#email').val(tmp_email);
+          $('#modify_data').find('input#department').val(tmp_department);
+          //$('#modify_data').find('input#business').val(tmp_business);
+          //$('#modify_data').find('input#privilege').val(tmp_privilege);
+          $('#modify_data').find('input#telephone').val(tmp_telephone);
+          if (tmp_issuperuser == "true")
+              {
+              $('#modify_data').find('input#issuperuser').attr("checked",true);
+              $('#modify_data').find('input#isuperuser').val(tmp_issuperuser);
+              }
+          else
+              {
+              $('#modify_data').find('input#issuperuser').attr("checked",false);
+              $('#modify_data').find('input#issuperuser').val(tmp_issuperuser);
+              }
+
+
+          $('#modify_modal').modal('show')
+          $('#modify_commit').click(function(){
+              $('#modify_data').submit();
+              });
+      })
+      // end modify //
+
+      //show success and error modal //
+      $('#success_modal').modal('show')
+      $('#error_modal').modal('show')
+      //  end show success and error modal //
+    });  
+    </script>
+    {% endblock %}

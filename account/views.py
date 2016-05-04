@@ -58,6 +58,12 @@ def manage_user(request,*args,**kw):
 
 @login_required(login_url="/account/login/")
 def del_user(request):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        _users = UserProfiles.objects.all()
+    else:
+        return render_to_response("account/error.html",)
     _success = False
     _error = False
     _ids = request.POST.getlist("id")
@@ -96,16 +102,17 @@ def set_password(request):
 
 @login_required(login_url="/account/login/")
 def setup_user(request):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        _users = UserProfiles.objects.all()
+    else:
+        return render_to_response("account/error.html",)
     _success=False
     _error=False
     _supermen = request.user
     _u=User.objects.get(username=_supermen)
     if request.method == "POST":
-
-        if _u.is_superuser != True:
-             _error = "You don't have permission to set up user!"
-             return manage_user(request,success=_success,error=_error)
-
 
         _username = request.POST.get("username")
         _email = request.POST.get("email")
@@ -161,14 +168,14 @@ def setup_user(request):
 def add_user(request):
     _success=False
     _error=False
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
     
     if request.method=="POST":
-        if _u.is_superuser != True:
-            _error = "You don't have permission to add user!"
-            return manage_user(request,success=_success,error=_error)
-
+        _supermen = request.user
+        _u=User.objects.get(username=_supermen)
+        if _u.is_superuser == True:
+            _users = UserProfiles.objects.all()
+        else:
+            return render_to_response("account/error.html",)
         _username = request.POST.get("username")
         _password = request.POST.get("password")
         _passwordagain = request.POST.get("passwordagain")
@@ -218,6 +225,12 @@ def add_user(request):
 ###########################  mange business #######################   
 @login_required(login_url="/account/login/")
 def manage_business(request,*args,**kw):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        pass 
+    else:
+        return render_to_response("account/error.html",)
     _businesses = Businesses.objects.all()
     _success = kw.get("success",False)
     _error = kw.get("error",False)
@@ -230,6 +243,12 @@ def manage_business(request,*args,**kw):
 
 @login_required(login_url="/account/login/")
 def del_business(request):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        pass
+    else:
+        return render_to_response("account/error.html",)
     _success=False
     _error=False
     _ids=request.POST.getlist("id")
@@ -243,6 +262,12 @@ def del_business(request):
     return manage_business(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
 def modify_business(request):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        pass
+    else:
+        return render_to_response("account/error.html",)
     _success=False
     _error=False
     if request.method=="POST":
@@ -268,6 +293,12 @@ def modify_business(request):
     return manage_business(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
 def add_business(request):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        pass
+    else:
+        return render_to_response("account/error.html",)
     _success=False
     _error=False
     if request.method=="POST":
@@ -292,6 +323,12 @@ def add_business(request):
 
 @login_required(login_url="/account/login/")
 def manage_privilege(request,*args,**kw):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        pass
+    else:
+        return render_to_response("account/error.html",)
     _privileges = Privileges.objects.all()
     _success = kw.get("success",False)
     _error = kw.get("error",False)
@@ -304,6 +341,12 @@ def manage_privilege(request,*args,**kw):
 
 @login_required(login_url="/account/login/")
 def del_privilege(request):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        pass
+    else:
+        return render_to_response("account/error.html",)
     _success=False
     _error=False
     _ids=request.POST.getlist("id")
@@ -317,6 +360,12 @@ def del_privilege(request):
     return manage_privilege(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
 def modify_privilege(request):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        pass
+    else:
+        return render_to_response("account/error.html",)
     _success=False
     _error=False
     if request.method=="POST":
@@ -346,6 +395,12 @@ def modify_privilege(request):
     return manage_privilege(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
 def add_privilege(request):
+    _supermen = request.user
+    _u=User.objects.get(username=_supermen)
+    if _u.is_superuser == True:
+        pass
+    else:
+        return render_to_response("account/error.html",)
     _success=False
     _error=False
     if request.method=="POST":
