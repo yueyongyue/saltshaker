@@ -1,3 +1,7 @@
+# -*- coding:utf-8 -*-
+#!/bin/env python
+import re
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -54,23 +58,57 @@ def shell_result(request):
     line = "################################################################"
     result = {}
     minion_id_list = []
-
+    
     for _p in _privileges:
-        _deny.append(_p.deny)  
-        _allow.append(_p.allow)
+        if len(_p.deny) > 0:
+            _deny.append(_p.deny)  
+        if len(_p.allow) > 0:
+            _allow.append(_p.allow)
 
     if request.POST:
         cmd = request.POST.get("cmd").strip()
         if not _user.is_superuser:
-            if len(_allow) > 0:
-                if cmd not in _allow:
-                    error = "error occurred : You have no permition run [ " + cmd +" ]"
+            if _allow:
+                _number = 0
+                for _a in _allow:
+                    _commands_split = _a.split(',')
+                    for _cs in _commands_split:
+                        _cmd_cs = _cs.strip('\'\"').split()
+                        _cmd_cmd = cmd.strip().split()
+                        _len_cs = len(''.join(_cmd_cs))
+                        _len_cmd = len(''.join(_cmd_cmd))
+                        if _len_cs == _len_cmd:
+                           _compile = ""
+                           for _tmp in _cmd_cs:
+                               _compile = _compile + '.*' + str(_tmp)
+                           _compile = _compile + '.*'
+                           regex = re.compile(r''+_compile+'')
+                           if regex.search(cmd) is not None:
+                               _number = _number + 1
+                if _number  <= 0 :
+                    error = "error occurred : Allow Warn! You have no permition run [ " + cmd +" ]"
                     result["result"]=error
                     return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
 
-            if len(_deny) > 0: 
-                if cmd in _deny:
-                    error = "error occurred : You have no permition run [ " + cmd +" ]"
+            if _deny: 
+                _number = 0
+                for _a in _deny:
+                    _commands_split = _a.split(',')
+                    for _cs in _commands_split:
+                        _cmd_cs = _cs.strip('\'\"').split()
+                        _cmd_cmd = cmd.strip().split()
+                        _len_cs = len(''.join(_cmd_cs))
+                        _len_cmd = len(''.join(_cmd_cmd))
+                        if _len_cs == _len_cmd:
+                           _compile = ""
+                           for _tmp in _cmd_cs:
+                               _compile = _compile + '.*' + str(_tmp)
+                           _compile = _compile + '.*'
+                           regex = re.compile(r''+_compile+'')
+                           if regex.search(cmd) is not None:
+                               _number = _number + 1
+                if _number >0:
+                    error = "error occurred : Deny Warn! You have no permition run [ " + cmd +" ]"
                     result["result"]=error
                     return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
         else:

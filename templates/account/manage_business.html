@@ -218,7 +218,7 @@
                                     <th>Business_Name</th>
                                     <th style="display:none">Informations</th>
                                     <th>Enabled</th>
-                                    <th>Opearation</th>
+                                    <th style="display:none">Opearation</th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -233,7 +233,7 @@
                                    <td id="informations" style="display:none;word-break:break-all">{{ b.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ b.enabled|lower }}</td>
                                    
-                                   <td><button id="modify_business" name="modify_button" value="{{ b.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
+                                   <td><button style="display:none" id="modify_business" name="modify_button" value="{{ b.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
                                </tr>
                                {% endfor %}
                                {% endif %}

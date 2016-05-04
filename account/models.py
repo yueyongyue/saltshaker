@@ -13,8 +13,8 @@ class Businesses(models.Model):
 
 class Privileges(models.Model):
     name          =    models.CharField(max_length=50,unique=True)
-    deny          =    models.CharField(max_length=250,default='[]')
-    allow         =    models.CharField(max_length=250,default='[]')
+    deny          =    models.CharField(max_length=250,default='')
+    allow         =    models.CharField(max_length=250,default='')
     informations  =    models.CharField(max_length=200)
     enabled       =    models.BooleanField(default=True)
     def __unicode__(self):
