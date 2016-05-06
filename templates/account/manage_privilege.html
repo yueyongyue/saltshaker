@@ -265,7 +265,7 @@
                                    <td id="informations" style="display:none;word-break:break-all">{{ p.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ p.enabled|lower }}</td>
                                    
-                                   <td><button style="display:none" id="modify_privilege" name="modify_button" value="{{ p.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
+                                   <td style="display:none"><button id="modify_privilege" name="modify_button" value="{{ p.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
                                </tr>
                                {% endfor %}
                                {% endif %}
