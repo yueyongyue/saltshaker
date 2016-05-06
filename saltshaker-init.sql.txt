@@ -269,7 +269,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (2,'pbkdf2_sha256$20000$AFTU1y74DLX9$ZQTEGw5Px4iQBeNmsyjtZtClt6MD+kr6JmzGmoFrnpY=',NULL,1,'admin','','','admin@localhost',0,1,'2016-05-06 02:37:01');
+INSERT INTO `auth_user` VALUES (2,'pbkdf2_sha256$20000$AFTU1y74DLX9$ZQTEGw5Px4iQBeNmsyjtZtClt6MD+kr6JmzGmoFrnpY=','2016-05-06 03:32:40',1,'admin','','','admin@localhost',0,1,'2016-05-06 02:37:01');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -350,7 +350,7 @@ CREATE TABLE `celery_taskmeta` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `task_id` (`task_id`),
   KEY `celery_taskmeta_662f707d` (`hidden`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -359,7 +359,7 @@ CREATE TABLE `celery_taskmeta` (
 
 LOCK TABLES `celery_taskmeta` WRITE;
 /*!40000 ALTER TABLE `celery_taskmeta` DISABLE KEYS */;
-INSERT INTO `celery_taskmeta` VALUES (1,'806ff5cf-96dd-4ea3-ae00-ed183527f9a1','SUCCESS',NULL,'2016-05-06 02:23:58',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(2,'dad60b66-8a75-46d8-a2a4-9fc5873dc37b','SUCCESS',NULL,'2016-05-06 02:23:59',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(3,'7873fadf-0fda-45db-b0be-597057bba1c2','SUCCESS',NULL,'2016-05-06 02:38:39',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(4,'b09b56f9-3b50-4a69-b006-6b997722320c','SUCCESS',NULL,'2016-05-06 03:10:15',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(5,'13652dba-7c48-4826-8e01-cfe142088f20','SUCCESS',NULL,'2016-05-06 03:13:06',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(6,'f29c7633-fb6a-47c2-8fbf-77724751f7ad','SUCCESS',NULL,'2016-05-06 03:13:06',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA');
+INSERT INTO `celery_taskmeta` VALUES (1,'806ff5cf-96dd-4ea3-ae00-ed183527f9a1','SUCCESS',NULL,'2016-05-06 02:23:58',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(2,'dad60b66-8a75-46d8-a2a4-9fc5873dc37b','SUCCESS',NULL,'2016-05-06 02:23:59',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(3,'7873fadf-0fda-45db-b0be-597057bba1c2','SUCCESS',NULL,'2016-05-06 02:38:39',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(4,'b09b56f9-3b50-4a69-b006-6b997722320c','SUCCESS',NULL,'2016-05-06 03:10:15',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(5,'13652dba-7c48-4826-8e01-cfe142088f20','SUCCESS',NULL,'2016-05-06 03:13:06',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(6,'f29c7633-fb6a-47c2-8fbf-77724751f7ad','SUCCESS',NULL,'2016-05-06 03:13:06',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(7,'0e8fb0da-ce70-4c40-b003-df789cacd19d','SUCCESS',NULL,'2016-05-06 03:32:41',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(8,'f5bae4dd-e2e2-4dc4-9b63-ac64f4934517','SUCCESS',NULL,'2016-05-06 03:32:42',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(9,'9272ba9e-0cd4-4bb6-825d-4b3f896443ce','SUCCESS',NULL,'2016-05-06 03:34:13',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(10,'00a53afa-613f-4086-829c-b55e261d93b2','SUCCESS',NULL,'2016-05-06 04:00:51',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA'),(11,'ed2c373b-1820-4d55-9dd2-edc5373e1f74','SUCCESS',NULL,'2016-05-06 04:00:51',NULL,0,'eJxrYKotZIzgYGBgSM7IzEkpSs0rZIotZC7WAwBWuwcA');
 /*!40000 ALTER TABLE `celery_taskmeta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -403,7 +403,7 @@ CREATE TABLE `dashboard_queue` (
   `update_time` varchar(32) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=241 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -412,7 +412,7 @@ CREATE TABLE `dashboard_queue` (
 
 LOCK TABLES `dashboard_queue` WRITE;
 /*!40000 ALTER TABLE `dashboard_queue` DISABLE KEYS */;
-INSERT INTO `dashboard_queue` VALUES (235,'11:18:04',0),(236,'11:18:13',0),(237,'11:18:22',0),(238,'11:18:31',0),(239,'11:18:40',0),(240,'11:18:49',0);
+INSERT INTO `dashboard_queue` VALUES (1,'12:02:14',0),(2,'12:02:23',0),(3,'12:02:32',0),(4,'12:02:41',0),(5,'12:02:50',0);
 /*!40000 ALTER TABLE `dashboard_queue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -551,7 +551,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('8fwsxhqugotbr1pvyb6i4iaq4s4m93eo','MTU2ZGJjYThmNzM1NmE0Y2I1NzEwMzYwYWE2MGYwZWYyMzAwOWUzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImFmNmQ1OThjYTI0M2Y1NjFkNjg3ZGEyMzRiOTFmYTZjMjgxM2M5ZGMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=','2016-05-06 03:23:57');
+INSERT INTO `django_session` VALUES ('7g7tsgtr76ioezbpxlkso3ynto7pq0el','OGJkNTFkMjM4NWUxNWNlN2UxYjZiZDlkN2EzN2JhNjI2ODc2YWZmODp7Il9hdXRoX3VzZXJfaGFzaCI6IjliNDY2NzEyNGUxNWM5YTYwMjdjNWI0N2E4YjNhNGQ5OTI0MDQyNjAiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=','2016-05-06 04:32:40'),('8fwsxhqugotbr1pvyb6i4iaq4s4m93eo','MTU2ZGJjYThmNzM1NmE0Y2I1NzEwMzYwYWE2MGYwZWYyMzAwOWUzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImFmNmQ1OThjYTI0M2Y1NjFkNjg3ZGEyMzRiOTFmYTZjMjgxM2M5ZGMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=','2016-05-06 03:23:57');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -693,7 +693,7 @@ CREATE TABLE `djcelery_taskstate` (
   `runtime` double DEFAULT NULL,
   `retries` int(11) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
-  `worker_id` int(11),
+  `worker_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `task_id` (`task_id`),
   KEY `djcelery_taskstate_9ed39e2e` (`state`),
@@ -840,7 +840,7 @@ CREATE TABLE `minions_status` (
   `minion_status` varchar(128) DEFAULT NULL,
   `minion_config` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -849,7 +849,6 @@ CREATE TABLE `minions_status` (
 
 LOCK TABLES `minions_status` WRITE;
 /*!40000 ALTER TABLE `minions_status` DISABLE KEYS */;
-INSERT INTO `minions_status` VALUES (1,'salt-master','2015.5.8','Up',0);
 /*!40000 ALTER TABLE `minions_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -891,7 +890,7 @@ CREATE TABLE `salt_grains` (
   `minion_id` varchar(255) DEFAULT NULL,
   `grains` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -900,7 +899,6 @@ CREATE TABLE `salt_grains` (
 
 LOCK TABLES `salt_grains` WRITE;
 /*!40000 ALTER TABLE `salt_grains` DISABLE KEYS */;
-INSERT INTO `salt_grains` VALUES (2,'salt-master','{u\'biosversion\': u\'6.00\', u\'kernel\': u\'Linux\', u\'domain\': u\'\', u\'zmqversion\': u\'3.2.5\', u\'kernelrelease\': u\'2.6.32-431.el6.x86_64\', u\'selinux\': {u\'enforced\': u\'Enforcing\', u\'enabled\': True}, u\'serialnumber\': u\'VMware-56 4d 71 c1 62 e0 1a 09-39 f7 79 f7 b7 ca f6 9e\', u\'ip_interfaces\': {u\'lo\': [u\'127.0.0.1\', u\'::1\'], u\'eth0\': [u\'192.168.157.136\', u\'fe80::20c:29ff:feca:f69e\']}, u\'fqdn_ip6\': [], u\'mem_total\': 1869, u\'saltversioninfo\': [2015, 5, 8, 0], u\'SSDs\': [], u\'mdadm\': [], u\'id\': u\'salt-master\', u\'osrelease\': u\'6.5\', u\'ps\': u\'ps -efH\', u\'server_id\': 894500124, u\'fqdn\': u\'\', u\'ip6_interfaces\': {u\'lo\': [u\'::1\'], u\'eth0\': [u\'fe80::20c:29ff:feca:f69e\']}, u\'num_cpus\': 1, u\'hwaddr_interfaces\': {u\'lo\': u\'00:00:00:00:00:00\', u\'eth0\': u\'00:0c:29:ca:f6:9e\'}, u\'osfullname\': u\'CentOS\', u\'ip4_interfaces\': {u\'lo\': [u\'127.0.0.1\'], u\'eth0\': [u\'192.168.157.136\']}, u\'init\': u\'upstart\', u\'master\': u\'127.0.0.1\', u\'ipv4\': [u\'127.0.0.1\', u\'192.168.157.136\'], u\'ipv6\': [u\'::1\', u\'fe80::20c:29ff:feca:f69e\'], u\'cpu_flags\': [u\'fpu\', u\'vme\', u\'de\', u\'pse\', u\'tsc\', u\'msr\', u\'pae\', u\'mce\', u\'cx8\', u\'apic\', u\'sep\', u\'mtrr\', u\'pge\', u\'mca\', u\'cmov\', u\'pat\', u\'pse36\', u\'clflush\', u\'dts\', u\'mmx\', u\'fxsr\', u\'sse\', u\'sse2\', u\'ss\', u\'syscall\', u\'nx\', u\'pdpe1gb\', u\'rdtscp\', u\'lm\', u\'constant_tsc\', u\'up\', u\'arch_perfmon\', u\'pebs\', u\'bts\', u\'xtopology\', u\'tsc_reliable\', u\'nonstop_tsc\', u\'aperfmperf\', u\'unfair_spinlock\', u\'pni\', u\'pclmulqdq\', u\'ssse3\', u\'fma\', u\'cx16\', u\'pcid\', u\'sse4_1\', u\'sse4_2\', u\'x2apic\', u\'movbe\', u\'popcnt\', u\'aes\', u\'xsave\', u\'avx\', u\'f16c\', u\'rdrand\', u\'hypervisor\', u\'lahf_lm\', u\'ida\', u\'arat\', u\'epb\', u\'xsaveopt\', u\'pln\', u\'pts\', u\'dts\', u\'fsgsbase\', u\'smep\'], u\'localhost\': u\'localhost.localdomain\', u\'lsb_distrib_id\': u\'CentOS\', u\'fqdn_ip4\': [], u\'shell\': u\'/bin/bash\', u\'nodename\': u\'localhost.localdomain\', u\'saltversion\': u\'2015.5.8\', u\'lsb_distrib_release\': u\'6.5\', u\'pythonpath\': [u\'/usr/bin\', u\'/usr/lib64/python26.zip\', u\'/usr/lib64/python2.6\', u\'/usr/lib64/python2.6/plat-linux2\', u\'/usr/lib64/python2.6/lib-tk\', u\'/usr/lib64/python2.6/lib-old\', u\'/usr/lib64/python2.6/lib-dynload\', u\'/usr/lib64/python2.6/site-packages\', u\'/usr/lib64/python2.6/site-packages/gtk-2.0\', u\'/usr/lib/python2.6/site-packages\'], u\'saltpath\': u\'/usr/lib/python2.6/site-packages/salt\', u\'pythonversion\': [2, 6, 6, u\'final\', 0], u\'host\': u\'\', u\'os_family\': u\'RedHat\', u\'oscodename\': u\'Final\', u\'osfinger\': u\'CentOS-6\', u\'biosreleasedate\': u\'07/31/2013\', u\'manufacturer\': u\'VMware, Inc.\', u\'num_gpus\': 1, u\'virtual\': u\'VMware\', u\'cpu_model\': u\'Intel(R) Core(TM) i5-4210U CPU @ 1.70GHz\', u\'osmajorrelease\': u\'6\', u\'pythonexecutable\': u\'/usr/bin/python2.6\', u\'productname\': u\'VMware Virtual Platform\', u\'osarch\': u\'x86_64\', u\'cpuarch\': u\'x86_64\', u\'lsb_distrib_codename\': u\'Final\', u\'osrelease_info\': [6, 5], u\'locale_info\': {u\'detectedencoding\': u\'UTF-8\', u\'defaultlanguage\': u\'en_US\', u\'defaultencoding\': u\'UTF8\'}, u\'gpus\': [{u\'model\': u\'SVGA II Adapter\', u\'vendor\': u\'unknown\'}], u\'path\': u\'/sbin:/usr/sbin:/bin:/usr/bin\', u\'machine_id\': u\'baf573608ee67274b4119d960000000f\', u\'os\': u\'CentOS\'}');
 /*!40000 ALTER TABLE `salt_grains` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -942,4 +940,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-06 11:18:56
+-- Dump completed on 2016-05-06 12:05:22
