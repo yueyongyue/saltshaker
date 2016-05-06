@@ -23,12 +23,11 @@
                                             <th>Jid</th>
                                             <th>Fun</th>
                                             <th>Arg</th>
-                                            <th>Time</th>
+                                            <th>StartTime</th>
                                             <th>Target</th>
-                                            <th>Success</th>
+                                            <th>User</th>
                                         </tr>
                                     </thead>
-                                    <!--
                                     <tbody>
                                         {% for jid,info in jids.items %}
                                         <tr class="even gradeC">
@@ -43,19 +42,6 @@
                                             <td>{{ info.StartTime }}</td>
                                             <td style="table-layout: fixed;WORD-BREAK: break-all; WORD-WRAP: break-word">{{ info.Target }}</td>
                                             <td>{{ info.User }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                    -->
-                                    <tbody>
-                                        {% for info in jids %}
-                                        <tr class="even gradeC">
-                                            <td><div class="tooltip-demo"><a href="/jobs/jobs_detail&{{ info.jid }}" data-toggle="tooltip" data-placement="left" title="jobs detail">{{ info.jid }}</a></div></td>
-                                            <td>{{ info.fun }}</td>
-                                            <td>{% for arg in info.fun_args %}{{ arg }}{% endfor %}</td>
-                                            <td>{{ info.alter_time|date:"Y-m-d" }} {{ info.alter_time|time:"H:i:s" }}</td>
-                                            <td style="table-layout: fixed;WORD-BREAK: break-all; WORD-WRAP: break-word">{{ info.id }}</td>
-                                            <td>{{ info.success }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

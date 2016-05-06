@@ -1,24 +1,13 @@
 from django.shortcuts import render
 from shaker.shaker_core import *
 from django.contrib.auth.decorators import login_required
-from returner.models import Jids,Salt_returns
 import os
 
 @login_required(login_url="/account/login/")
 def jobs_history(request):
-    #sapi = SaltAPI()
-    #jids = sapi.runner("jobs.list_jobs")
-    true = "true"
-    false = "false"
-    null = "null"
-    jid_list = []
-    jids = Salt_returns.objects.all().order_by('-id')[:100]
-    for jid in jids:
-        jid_dic = eval(jid.full_ret)
-        jid_dics = jid_dic.copy()
-        jid_dics.update({'alter_time': jid.alter_time})
-        jid_list.append(jid_dics)
-    return render(request, 'jobs/jobs_history.html', {'jids': jid_list})
+    sapi = SaltAPI()
+    jids = sapi.runner("jobs.list_jobs")
+    return render(request, 'jobs/jobs_history.html', {'jids': jids})
 
 @login_required(login_url="/account/login/")
 def jobs_manage(request):
