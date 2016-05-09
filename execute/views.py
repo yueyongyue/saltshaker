@@ -10,6 +10,7 @@ from shaker.shaker_core import *
 from shaker.nodegroups import *
 from groups.models import Groups,Hosts
 from account.models import Businesses,Privileges,UserProfiles
+from execute.models import Command_history
 
 @login_required(login_url="/account/login/")
 def shell_runcmd(request):
@@ -37,7 +38,8 @@ def shell_runcmd(request):
                 all[_group.name]=_h
     except Exception as e:
         pass
-    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': all})
+    cmd_history = Command_history.objects.filter(user_id=_u)
+    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': all, 'cmd_history': cmd_history})
 
 @login_required(login_url="/account/login/")
 def shell_result(request):
@@ -125,6 +127,10 @@ def shell_result(request):
         host_str = ",".join(minion_id_list)
         # the type of result is dictionary
         result = sapi.shell_remote_execution(host_str, cmd)
+        cmd_history = Command_history()
+        cmd_history.user = _u
+        cmd_history.command = cmd
+        cmd_history.save()
         return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
     return render(request, 'execute/minions_shell_result.html')
 
