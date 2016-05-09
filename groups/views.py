@@ -86,6 +86,7 @@ def add_group(request):
         else:
             _enabled=False
         try:
+            print _name,_business,_informations,_enabled
             _group=Groups(name=_name,business=_business,informations=_informations,enabled=_enabled)
             _group.save()
             _success="Add Group "+_name+" OK!!"

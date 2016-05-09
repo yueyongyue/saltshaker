@@ -37,7 +37,6 @@
                              <div class="modal-body">
                                <form class="form-horizontal" id="add_data" method="post" action="/account/add_privilege/">
                                  <fieldset>
-                                   <legend>Add</legend>
                                    <div class="form-group">
                                      <label for="name" class="col-sm-3 control-label">Privilege Name</label>
                                      <div class="col-sm-9">
@@ -138,14 +137,14 @@
                                    <div class="form-group">
                                      <label for="allow" class="col-sm-3 control-label">Allow</label>
                                      <div class="col-sm-9">
-                                       <input class="form-control" id="allow" name="allow" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']">
+                                       <input class="form-control" id="allow" name="allow" minlength="1" type="text" placeholder="eg. 'command1','comman    d2','commandN'!!warning:if allow all,don't write anything">
                                      </div>
                                    </div>
 
                                    <div class="form-group">
                                      <label for="deny" class="col-sm-3 control-label">Deny</label>
                                      <div class="col-sm-9">
-                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. ['command1','command2','commandN']" required>
+                                       <input class="form-control" id="deny" name="deny" minlength="1" type="text" placeholder="eg. 'command1','comman    d2','commandN'!!warning:if allow all,don't write anything">
                                      </div>
                                    </div>
 
@@ -265,7 +264,7 @@
                                    <td id="informations" style="display:none;word-break:break-all">{{ p.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ p.enabled|lower }}</td>
                                    
-                                   <td><button style="display:none" id="modify_privilege" name="modify_button" value="{{ p.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
+                                   <td style="display:none"><button id="modify_privilege" name="modify_button" value="{{ p.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
                                </tr>
                                {% endfor %}
                                {% endif %}

@@ -93,6 +93,12 @@ def minions_status_task():
             status.save()
         Minions_status.objects.filter(minion_id=host_name).update(minion_id=host_name, minion_version=version, minion_status='Up')
     for host_name in status_all['down']:
+        salt_grains = Salt_grains.objects.filter(minion_id=host_name)
+        try:
+            version = eval(salt_grains[0].grains).get('saltversion').decode('string-escape')
+        except:
+            version = 'NULL'
+            logger.error("Don't get minion version")
         try:
             Minions_status.objects.get(minion_id=host_name)
         except:
