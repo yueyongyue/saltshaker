@@ -12,7 +12,21 @@ from minions.models import Minions_status
 #######################  manage group ###########################
 @login_required(login_url="/account/login/")
 def manage_group(request,*args,**kw):
-    _groups = Groups.objects.all()
+    _current_user = request.user
+    _u=User.objects.get(username=_current_user)
+    _user_profile = UserProfiles.objects.get(user=_u)
+    if _u.is_superuser == True:
+        _groups = Groups.objects.all()
+    else:
+        _bs = []
+        _tmp = _user_profile.business.all()
+        for _t in _tmp:
+            _bs.append(_t.name)
+        _groups = Groups.objects.filter(business__in = _bs)  
+
+    _success = kw.get("success",False)
+    _error = kw.get("error",False)
+
     _businesses = Businesses.objects.all()
     _success = kw.get("success",False)
     _error = kw.get("error",False)
@@ -86,6 +100,7 @@ def add_group(request):
         else:
             _enabled=False
         try:
+            print _name,_business,_informations,_enabled
             _group=Groups(name=_name,business=_business,informations=_informations,enabled=_enabled)
             _group.save()
             _success="Add Group "+_name+" OK!!"
@@ -99,8 +114,19 @@ def add_group(request):
 ###########################  mange Host #######################   
 @login_required(login_url="/account/login/")
 def manage_host(request,*args,**kw):
-    _hosts = Hosts.objects.all()
-    _groups = Groups.objects.all()
+    _current_user = request.user
+    _u=User.objects.get(username=_current_user)
+    _user_profile = UserProfiles.objects.get(user=_u)
+    if _u.is_superuser == True:
+        _groups = Groups.objects.all()
+    else:
+        _bs = []
+        _tmp = _user_profile.business.all()
+        for _t in _tmp:
+            _bs.append(_t.name)
+        _groups = Groups.objects.filter(business__in = _bs)  
+
+    _hosts = Hosts.objects.filter(group__in=_groups)
     _minions = Minions_status.objects.filter(minion_config=False)
     _success = kw.get("success",False)
     _error = kw.get("error",False)

@@ -39,7 +39,6 @@
                              <div class="modal-body">
                                <form class="form-horizontal" id="add_data" method="post" action="/groups/add_group/">
                                  <fieldset>
-                                   <legend>Add</legend>
                                    <div class="form-group">
                                      <label for="name" class="col-sm-3 control-label">Group Name</label>
                                      <div class="col-sm-9">
@@ -262,8 +261,8 @@
                                    </td>
                                    <td id="id" style="word-break:break-all">{{ g.id }}</td>
                                    <td id="name" style="word-break:break-all">{{ g.name }}</td>
-                                   <td id="business" style="display:none; word-break:break-all">{{ g.business }}</td>
-                                   <td id="informations" style="word-break:break-all">{{ g.informations }}</td>
+                                   <td id="business" style="word-break:break-all">{{ g.business }}</td>
+                                   <td id="informations" style="display:none;word-break:break-all">{{ g.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ g.enabled|lower }}</td>
                                    
                                    <td style="display:none"><button id="modify_group" name="modify_button" value="{{ g.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>

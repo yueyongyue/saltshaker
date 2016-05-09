@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from shaker.shaker_core import *
 from minions.models import Minions_status
 from returner.models import Salt_grains
-from shaker.tasks import accept_grains_task
+from shaker.tasks import accept_grains_task, minions_status_task
 import logging
 
 logger = logging.getLogger('django')
@@ -25,6 +25,10 @@ def minions_keys(request):
             sapi.accept_key(minion_id_a)
             try:
                 accept_grains_task.delay(minion_id_a)
+            except Exception as e:
+                logger.error(e)
+            try:
+                minions_status_task.delay()
                 alert_info = "Minion: " + minion_id_a + " Accept Key Success"
             except Exception as e:
                 alert_info = "Minion: " + minion_id_a + " Accept Key Fault"
@@ -39,9 +43,13 @@ def minions_keys(request):
                 logger.error(e)
             try:
                 Salt_grains.objects.get(minion_id=minion_id_d).delete()
-                alert_info = "Minion: " + minion_id_d + " Delete Key Success"
             except Exception as e:
-                alert_info = "Minion: " + minion_id_d + " Delete Key Fault"
+                logger.error(e)
+            try:
+                minions_status_task.delay()
+                alert_info = "Minion: " + minion_id_d + " Accept Key Success"
+            except Exception as e:
+                alert_info = "Minion: " + minion_id_d + " Accept Key Fault"
                 logger.error(e)
 
     keys_all = sapi.list_all_key()

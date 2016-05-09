@@ -72,7 +72,6 @@ def dashboard_scheduled_job():
         dashboard_status.save()
     Dashboard_status.objects.filter(id=1).update(id=1, up=up, down=down, accepted=accepted, unaccepted=unaccepted, rejected=rejected)
 
-dashboard = dashboard_scheduled_job()
 
 
 def minions_status_scheduled_job():
@@ -99,7 +98,6 @@ def minions_status_scheduled_job():
             status.save()
         Minions_status.objects.filter(minion_id=host_name).update(minion_id=host_name, minion_version=version, minion_status='Down')
 
-minions_status = minions_status_scheduled_job()
 
 
 def grains_scheduled_job():
@@ -115,7 +113,6 @@ def grains_scheduled_job():
             salt_grains.save()
         Salt_grains.objects.filter(minion_id=host_name.minion_id).update(grains=grains, minion_id=host_name.minion_id)
 
-salt_grains = grains_scheduled_job()
 
 def dashboard_queue_scheduled_job():
     for i in range(0, 6):
