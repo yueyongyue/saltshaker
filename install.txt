@@ -1,3 +1,5 @@
+此安装说明适用于2.0版本
+
 saltshaker 环境搭建 Ubuntu 14.04.3 LTS
 saltshaker 环境搭建 Centos6.x
 
@@ -142,12 +144,21 @@ saltshaker 环境搭建 Centos6.x
 
 8、 相关数据库同步
 
-    #执行如下命令
-    python manage.py migrate                  同步数据djnagohe和djcelery数据库
-    mkdir /var/log/saltshaker                 创建saltshaker日志存放目录
-    python manage.py runserver  0.0.0.0:9000  运行服务
-    python manage.py createsuperuser          设置后台管理员用户名和密码,此用户名和密码用于登陆web页面
+    #在mysql下执行如下命令
+    create database saltshaker;
+    use saltshaker;
+    source /root/saltshaker/saltshaker-init.sql.txt     导入数据库表和初始设置 saltshaker-init.sql.txt 文件路径根据部署的路径填写
+
+9、 启动计划任务
+
     python manage.py crontab add              添加计划任务用于获取queue队列数
+
+10、 启动服务
+
+    python manage.py runserver 0.0.0.0:80
+    使用浏览器打开 http://127.0.0.1
+    初始用户名：admin
+    初始密码：admin
 
 
 
