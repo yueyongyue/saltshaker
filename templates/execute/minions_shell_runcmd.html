@@ -58,34 +58,13 @@
                             <div class="form-group">
                                 <input type="submit" value="Submit" class="btn btn-outline btn-success btn-xs"/>
                                 <input type="reset" value="Reset" class="btn btn-outline btn-danger btn-xs" />
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none"><input type="reset" value="History" class="btn btn-outline btn-danger btn-xs" /></a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none"><input type="submit" value="History" class="btn btn-outline btn-danger btn-xs" onclick="setHistory()"/></a>
                             </div>
                             </form>
                             <div id="collapseOne1" class="panel-collapse collapse on">
                                         <div class="panel-body" style="padding:0px">
-                                           <table class="table table-striped table-bordered table-hover">
-                                               <tr>
-                                                   <td>
-                                                       <label>Command History</label>
-                                                   </td>
-                                                   <td>
-                                                       <label>Date</label>
-                                                   </td>
-                                               </tr>
-                                               {% for history in cmd_history %}
-                                               <tr>
-                                                   <td style="white-space: nowrap;">
-                                                       <div class="checkbox-inline" style="margin-left:7px">
-                                                          {{ history.command }}
-                                                       </div>
-                                                   </td>
-                                                   <td>
-                                                       <div class="checkbox-inline" name="checkedhost">
-                                                           {{ history.execute_time }}
-                                                       </div>
-                                                   </td>
-                                               </tr>
-                                               {% endfor %}
+                                           <table class="table table-striped table-bordered table-hover" id="history">
+
                                            </table>
                                         </div>
                                      </div>
@@ -103,6 +82,7 @@
             <!-- /.row -->
       </div>
 
+      <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
       <script type="text/javascript">
         function selectAll(group){
             var checklist = document.getElementsByClassName(group);
@@ -128,6 +108,33 @@
               ifm.height = subWeb.body.scrollHeight;
               }
         }
+
+        function setHistory(){
+            $.ajax({
+                type: "get",
+                async: false, //同步执行
+                url: "/execute/get_history",
+                data: {},
+                dataType: "json", //返回数据形式为json
+                success: function (result) {
+                    //alert(result.queue_count[2]);
+                    //alert(result.cmd_history_list);
+                    $("#history").empty()
+                    $("#history").append(
+                            '<tr> <td> <label>Command History</label></td><td><label>Date</label></td></tr>'
+                        );
+                    for (var i = 0; i < result.cmd_history_list.length; i++) {
+                        //queue_count_data.push(result.queue_count[i]);
+                        //time_list_data.push(result.time_list[i]);
+                        //alert(result.cmd_history_list[i].execute_time)
+                        $("#history").append(
+                            '<tr><td style="white-space: nowrap;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
+                        );
+                    }
+                }
+            })
+        }
+
     </script>
 
   {% endblock %}
