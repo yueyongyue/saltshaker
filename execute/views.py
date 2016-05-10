@@ -151,6 +151,7 @@ def shell_result(request):
 def salt_runcmd(request):
     return render(request, 'execute/minions_salt_runcmd.html')
 
+
 @login_required(login_url="/account/login/")
 def get_history(request):
     cmd_history_list = []

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Command_history(models.Model):
     class Meta:
         db_table = 'salt_command_history'
