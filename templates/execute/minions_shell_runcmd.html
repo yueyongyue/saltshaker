@@ -58,8 +58,37 @@
                             <div class="form-group">
                                 <input type="submit" value="Submit" class="btn btn-outline btn-success btn-xs"/>
                                 <input type="reset" value="Reset" class="btn btn-outline btn-danger btn-xs" />
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none"><input type="reset" value="History" class="btn btn-outline btn-danger btn-xs" /></a>
                             </div>
                             </form>
+                            <div id="collapseOne1" class="panel-collapse collapse on">
+                                        <div class="panel-body" style="padding:0px">
+                                           <table class="table table-striped table-bordered table-hover">
+                                               <tr>
+                                                   <td>
+                                                       <label>Command History</label>
+                                                   </td>
+                                                   <td>
+                                                       <label>Date</label>
+                                                   </td>
+                                               </tr>
+                                               {% for history in cmd_history %}
+                                               <tr>
+                                                   <td style="white-space: nowrap;">
+                                                       <div class="checkbox-inline" style="margin-left:7px">
+                                                          {{ history.command }}
+                                                       </div>
+                                                   </td>
+                                                   <td>
+                                                       <div class="checkbox-inline" name="checkedhost">
+                                                           {{ history.execute_time }}
+                                                       </div>
+                                                   </td>
+                                               </tr>
+                                               {% endfor %}
+                                           </table>
+                                        </div>
+                                     </div>
                             <div class="form-group">
                                 <label>Command Result</label>
                                 <iframe src="/execute/minions_shell_result/"  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="100%" height=100% id="iframepage" name="iframepage" onLoad="iFrameHeight()"></iframe>
