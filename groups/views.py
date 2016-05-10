@@ -141,17 +141,27 @@ def manage_host(request,*args,**kw):
 
 @login_required(login_url="/account/login/")
 def del_host(request):
-    _success=False
-    _error=False
-    _ids=request.POST.getlist("id")
-    try:
-        _filter=Hosts.objects.filter(id__in=_ids)
-        _filter.delete()
-        _success="Delete opearation successed!"
-    except Exception as e:
-        _error="Delete opearation error!"
-            
-    return manage_host(request,success=_success,error=_error)
+     _success=False
+     _error=False
+     _ids=request.POST.getlist("id")
+     _minion_ids=[]
+     #try:
+     if 1:
+         _filter=Hosts.objects.filter(id__in=_ids)
+         for _m in _filter:
+             _minion_ids.append(_m.minion.id)
+         #delete minion_status
+         _m_filter = Minions_status.objects.filter(id__in=_minion_ids)
+         _m_filter.delete()
+         #delete hosts
+         _filter.delete()
+         _success="Delete opearation success!"
+     #except Exception as e:
+     else:
+         _error="Delete opearation error!"
+
+
+
 @login_required(login_url="/account/login/")
 def modify_host(request):
     _success=False
