@@ -269,7 +269,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (2,'pbkdf2_sha256$20000$AFTU1y74DLX9$ZQTEGw5Px4iQBeNmsyjtZtClt6MD+kr6JmzGmoFrnpY=','2016-05-06 03:32:40',1,'admin','','','admin@localhost',0,1,'2016-05-06 02:37:01');
+INSERT INTO `auth_user` VALUES (2,'pbkdf2_sha256$20000$AFTU1y74DLX9$ZQTEGw5Px4iQBeNmsyjtZtClt6MD+kr6JmzGmoFrnpY=','2016-05-10 06:39:39',1,'admin','','','admin@localhost',0,1,'2016-05-06 02:37:01');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -403,7 +403,7 @@ CREATE TABLE `dashboard_queue` (
   `update_time` varchar(32) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -412,7 +412,7 @@ CREATE TABLE `dashboard_queue` (
 
 LOCK TABLES `dashboard_queue` WRITE;
 /*!40000 ALTER TABLE `dashboard_queue` DISABLE KEYS */;
-INSERT INTO `dashboard_queue` VALUES (1,'12:02:14',0),(2,'12:02:23',0),(3,'12:02:32',0),(4,'12:02:41',0),(5,'12:02:50',0);
+INSERT INTO `dashboard_queue` VALUES (12,'14:40:02',0),(13,'14:40:11',0),(14,'14:40:20',0),(15,'14:40:29',0),(16,'14:40:38',0),(17,'14:40:48',0);
 /*!40000 ALTER TABLE `dashboard_queue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -551,7 +551,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('7g7tsgtr76ioezbpxlkso3ynto7pq0el','OGJkNTFkMjM4NWUxNWNlN2UxYjZiZDlkN2EzN2JhNjI2ODc2YWZmODp7Il9hdXRoX3VzZXJfaGFzaCI6IjliNDY2NzEyNGUxNWM5YTYwMjdjNWI0N2E4YjNhNGQ5OTI0MDQyNjAiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=','2016-05-06 04:32:40'),('8fwsxhqugotbr1pvyb6i4iaq4s4m93eo','MTU2ZGJjYThmNzM1NmE0Y2I1NzEwMzYwYWE2MGYwZWYyMzAwOWUzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImFmNmQ1OThjYTI0M2Y1NjFkNjg3ZGEyMzRiOTFmYTZjMjgxM2M5ZGMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=','2016-05-06 03:23:57');
+INSERT INTO `django_session` VALUES ('2naryacy4x79vxsq5lh021y1lopjykzr','OGJkNTFkMjM4NWUxNWNlN2UxYjZiZDlkN2EzN2JhNjI2ODc2YWZmODp7Il9hdXRoX3VzZXJfaGFzaCI6IjliNDY2NzEyNGUxNWM5YTYwMjdjNWI0N2E4YjNhNGQ5OTI0MDQyNjAiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=','2016-05-10 07:39:39'),('7g7tsgtr76ioezbpxlkso3ynto7pq0el','OGJkNTFkMjM4NWUxNWNlN2UxYjZiZDlkN2EzN2JhNjI2ODc2YWZmODp7Il9hdXRoX3VzZXJfaGFzaCI6IjliNDY2NzEyNGUxNWM5YTYwMjdjNWI0N2E4YjNhNGQ5OTI0MDQyNjAiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=','2016-05-06 04:32:40'),('8fwsxhqugotbr1pvyb6i4iaq4s4m93eo','MTU2ZGJjYThmNzM1NmE0Y2I1NzEwMzYwYWE2MGYwZWYyMzAwOWUzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImFmNmQ1OThjYTI0M2Y1NjFkNjg3ZGEyMzRiOTFmYTZjMjgxM2M5ZGMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=','2016-05-06 03:23:57');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -853,6 +853,33 @@ LOCK TABLES `minions_status` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `salt_command_history`
+--
+
+DROP TABLE IF EXISTS `salt_command_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `salt_command_history` (
+  `execute_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `command` varchar(50) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `salt_command_history_user_id_20c2fb2b98e30230_fk_auth_user_id` (`user_id`),
+  CONSTRAINT `salt_command_history_user_id_20c2fb2b98e30230_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salt_command_history`
+--
+
+LOCK TABLES `salt_command_history` WRITE;
+/*!40000 ALTER TABLE `salt_command_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `salt_command_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `salt_events`
 --
 
@@ -940,4 +967,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-06 12:05:22
+-- Dump completed on 2016-05-10 14:40:49
