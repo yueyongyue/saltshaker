@@ -36,7 +36,7 @@ def manage_group(request,*args,**kw):
         "success":_success,
         "error":_error,
         }
-    return render_to_response("groups/manage_group.html",context)
+    return render(request,"groups/manage_group.html",context)
 
 @login_required(login_url="/account/login/")
 def del_group(request):
@@ -137,7 +137,7 @@ def manage_host(request,*args,**kw):
         "success":_success,
         "error":_error,
         }
-    return render_to_response("groups/manage_host.html",context)
+    return render(request,"groups/manage_host.html",context)
 
 @login_required(login_url="/account/login/")
 def del_host(request):

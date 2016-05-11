@@ -54,7 +54,7 @@ def manage_user(request,*args,**kw):
         "businesses":_businesses,
         "privileges":_privileges,
         }
-    return render_to_response("account/manage_user.html",context)
+    return render(request,"account/manage_user.html",context)
 
 @login_required(login_url="/account/login/")
 def del_user(request):
@@ -239,7 +239,7 @@ def manage_business(request,*args,**kw):
         "success":_success,
         "error":_error,
         }
-    return render_to_response("account/manage_business.html",context)
+    return render(request,"account/manage_business.html",context)
 
 @login_required(login_url="/account/login/")
 def del_business(request):
@@ -337,7 +337,7 @@ def manage_privilege(request,*args,**kw):
         "success":_success,
         "error":_error,
         }
-    return render_to_response("account/manage_privilege.html",context)
+    return render(request,"account/manage_privilege.html",context)
 
 @login_required(login_url="/account/login/")
 def del_privilege(request):

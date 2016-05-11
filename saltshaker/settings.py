@@ -29,7 +29,7 @@ SECRET_KEY = 't@r05nl_m2jp8*=(rkn)r+$7n(jujyt@uviwy(4$$@+t&@yry8'
 DEBUG = True
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 60*60
+#SESSION_COOKIE_AGE = 60*60
 
 ALLOWED_HOSTS = []
 
@@ -127,7 +127,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

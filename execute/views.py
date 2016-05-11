@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 #!/bin/env python
 import re
-
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -11,6 +11,20 @@ from shaker.nodegroups import *
 from groups.models import Groups,Hosts
 from account.models import Businesses,Privileges,UserProfiles
 from execute.models import Command_history
+import json
+import logging
+from datetime import date, datetime
+
+logger = logging.getLogger('django')
+
+class CJsonEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        elif isinstance(obj, date):
+            return obj.strftime('%Y-%m-%d')
+        else:
+            return json.JSONEncoder.default(self, obj)
 
 @login_required(login_url="/account/login/")
 def shell_runcmd(request):
@@ -38,8 +52,7 @@ def shell_runcmd(request):
                 all[_group.name]=_h
     except Exception as e:
         pass
-    cmd_history = Command_history.objects.filter(user_id=_u)
-    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': all, 'cmd_history': cmd_history})
+    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': all})
 
 @login_required(login_url="/account/login/")
 def shell_result(request):
@@ -137,3 +150,19 @@ def shell_result(request):
 @login_required(login_url="/account/login/")
 def salt_runcmd(request):
     return render(request, 'execute/minions_salt_runcmd.html')
+
+
+@login_required(login_url="/account/login/")
+def get_history(request):
+    cmd_history_list = []
+    _u = request.user
+    try:
+        cmd_history = Command_history.objects.filter(user_id=_u).order_by('-id').all()[:10]
+    except Exception as e:
+        logger.error(e)
+    for i in cmd_history:
+        tmp = {'command': i.command, 'execute_time': i.execute_time}
+        cmd_history_list.append(tmp)
+
+    return HttpResponse(json.dumps({"cmd_history_list": cmd_history_list}, cls=CJsonEncoder), content_type = 'application/json')
+
