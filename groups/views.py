@@ -48,7 +48,7 @@ def del_group(request):
     try:
         _filter=Groups.objects.filter(id__in=_ids)
         _filter.delete()
-        _success="Delete opearation successed!"
+        _success="Delete opearation success!"
     except Exception as e:
         _error="Delete error!"
     #return render_to_response("groups/manage_group.html",context)
@@ -141,6 +141,28 @@ def manage_host(request,*args,**kw):
 
 @login_required(login_url="/account/login/")
 def del_host(request):
+<<<<<<< HEAD
+    _success=False
+    _error=False
+    _ids=request.POST.getlist("id")
+    _minion_ids=[]
+    #try:
+    if 1:
+        _filter=Hosts.objects.filter(id__in=_ids)
+        for _m in _filter:
+            _minion_ids.append(_m.minion.id)
+        #delete minion_status
+        _m_filter = Minions_status.objects.filter(id__in=_minion_ids)
+        _m_filter.delete()
+        #delete hosts
+        _filter.delete()
+        _success="Delete opearation success!"
+    #except Exception as e:
+    else:
+        _error="Delete opearation error!"
+            
+    return manage_host(request,success=_success,error=_error)
+=======
      _success=False
      _error=False
      _ids=request.POST.getlist("id")
@@ -160,6 +182,7 @@ def del_host(request):
 
 
 
+>>>>>>> saltshaker-dev
 @login_required(login_url="/account/login/")
 def modify_host(request):
     _success=False
