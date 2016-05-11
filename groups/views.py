@@ -145,8 +145,7 @@ def del_host(request):
      _error=False
      _ids=request.POST.getlist("id")
      _minion_ids=[]
-     #try:
-     if 1:
+     try:
          _filter=Hosts.objects.filter(id__in=_ids)
          for _m in _filter:
              _minion_ids.append(_m.minion.id)
@@ -156,8 +155,7 @@ def del_host(request):
          #delete hosts
          _filter.delete()
          _success="Delete opearation success!"
-     #except Exception as e:
-     else:
+     except Exception as e:
          _error="Delete opearation error!"
 
 
