@@ -1,20 +1,18 @@
 {% extends "base.html" %}
   {% block content %}
-  <div id="page-wrapper">
-     <div class="row">
-         <div class="col-lg-12">
-             <h2 class="page-header">Manage Highstate</h2>
-         </div>
-         <!-- /.col-lg-12 -->
-     </div>
-     <!-- /.row -->
-     <div class="row">
-         <div class="col-lg-12">
-             <div class="panel panel-default">
-                 <div class="panel-heading">
-                     Highstate
-                 </div> 
-                 <!-- /.panel-heading -->
+      <div id="page-wrapper" xmlns="http://www.w3.org/1999/html">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">Highstate</h2>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Highstate
+                        </div>
+                        <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
                                 <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration:none">Target</a></label>
@@ -50,21 +48,28 @@
                                     </div>
                                 </div>
                             </div>
-                 <div class="panel panel-default">
-                 <div class="panel-heading">
-                     Highstate
-                     <!-- begin action -->
-                     <div class="btn-group" style="float:right">
-                       <button type="button" class="btn btn-outline btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       Action <span class="caret"></span>
-                       </button>
-                       <ul class="dropdown-menu">
-                         <li><a id="add_host" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
-                         <li role="separator" class="divider"></li>
-                         <li><a id="modify_user" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | Modify </a></li>
-                         <li role="separator" class="divider"></li>
-                         <li><a id="delete_user" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
-                       </ul>
+<!--
+######################################################################################################
+-->
+                  <!--  pannel-default -->
+                  <div class="panel panel-default">
+
+                  <div class="panel-heading">
+                       Manage Sls
+                       <!-- begin action -->
+                       <div class="btn-group" style="float:right">
+                         <button type="button" class="btn btn-outline btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="tr    ue" aria-expanded="false">
+                         Action <span class="caret"></span>
+                         </button>
+                         <ul class="dropdown-menu">
+                           <li><a id="add_host" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
+                           <li role="separator" class="divider"></li>
+                           <li><a id="modify_user" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | Modify </a></li>
+                           <li role="separator" class="divider"></li>
+                           <li><a id="delete_user" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
+                         </ul>
+                       </div>
+
                        <!-- begin all modal  -->
                        <!-- add  modal -->
                        <div id="add_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -75,22 +80,28 @@
                                <h4 class="modal-title" id="exampleModalLabel">Add</h4>
                              </div>
                              <div class="modal-body">
-                               <form class="form-horizontal" id="add_data" method="post" action="/states_config/add_sls/">
+                               <form class="form-horizontal" id="add_data" method="post" action="/account/add_user/">
                                  <fieldset>
                                    <div class="form-group">
-                                     <label for="name" class="col-sm-3 control-label">Name</label>
+                                     <label for="name" class="col-sm-3 control-label">user Name</label>
                                      <div class="col-sm-9">
-                                       <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
+                                       <input class="form-control" id="name" name="username" minlength="1" type="text" placeholder="username" required>
                                      </div>
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="content" class="col-sm-3 control-label">Content</label>
+                                     <label for="password" class="col-sm-3 control-label">Password</label>
                                      <div class="col-sm-9">
-                                       <textarea class="form-control" rows="15" id="content" name="content" minlength="1" type="content" placeholder="the content of sls" required> </textarea>
+                                       <input class="form-control" id="password" name="password" minlength="1" type="password" placeholder="******" required>
                                      </div>
                                    </div>
 
+                                   <div class="form-group">
+                                     <label for="passwordagain" class="col-sm-3 control-label">Password adain</label>
+                                     <div class="col-sm-9">
+                                       <input class="form-control" id="passwordagain" name="passwordagain" minlength="1" type="password" placeholder="******" required>
+                                     </div>
+                                   </div>
                                    <div class="form-group">
                                      <label label for="business" class="col-sm-3 control-label">Business</label>
                                      <div class="col-sm-offset-4 col-sm-8">
@@ -107,9 +118,36 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label for="infomations" class="col-sm-3 control-label">Informations</label>
+                                     <label label for="privilege" class="col-sm-3 control-label">Priveleges</label>
+                                     <div class="col-sm-offset-4 col-sm-8">
+                                       <div class="checkbox">
+                                           {% if privileges %}
+                                           {% for p in privileges %}
+                                           <input  type="checkbox" name="privilege" value={{ p.name }}> {{ p.name }}<br>
+                                           {% endfor %}
+                                           {% else %}
+                                           <input  type="checkbox" name="privilege" value='unkonwn'> unknown <br> 
+                                           {% endif %}
+                                       </div>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <label for="email" class="col-sm-3 control-label">Email</label>
                                      <div class="col-sm-9">
-                                       <textarea class="form-control" id="informations" name="informations" minlength="1"  placeholder=""> </textarea>
+                                       <input class="form-control" id="email" name="email" minlength="1" type="text" placeholder="aaa@bbb.com" required>
+                                     </div>
+                                   </div>
+                                   <div class="form-group">
+                                     <label for="telephone" class="col-sm-3 control-label">Telephone</label>
+                                     <div class="col-sm-9">
+                                       <input class="form-control" id="telephone" name="telephone" minlength="1" type="text" placeholder="phone number" required>
+                                     </div>
+                                   </div>
+                                   <div class="form-group">
+                                     <label for="department" class="col-sm-3 control-label">Department</label>
+                                     <div class="col-sm-9">
+                                       <input class="form-control" id="department" name="department" minlength="1" type="text" placeholder="xxx department" required>
                                      </div>
                                    </div>
 
@@ -117,7 +155,7 @@
                                      <div class="col-sm-offset-3 col-sm-9">
                                        <div class="checkbox">
                                          <label>
-                                           <input type="checkbox" name="enabled" value="true">Enabled
+                                           <input type="checkbox" name="superuser" value="true"> Is Superuser Or Not
                                          </label>
                                        </div>
                                      </div>
@@ -252,114 +290,8 @@
                        </div>
                        <!-- end modify  -->
 
-                       <!-- set password -->
-                       <div id="set_password_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                         <div class="modal-dialog modal-lg">
-                           <div class="modal-content">
-                             <div class="modal-content">
-                               <div class="modal-header">
-                                 <button type="buttton" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                 <h4 class="modal-title" id="exampleModalLabel">Set Password</h4>
-                               </div>
-                               <div class="modal-body">
-                                 <form id="set_password_form" class="form-horizontal" method="POST" action="/account/set_password/">
-                                     <div class="form-group">
-                                       <label for="username" class="col-sm-3 control-label">User Name</label>
-                                       <div class="col-sm-9">
-                                         <input  class="form-control" id="username" name="username" minlength="1" type="text" placeholder="name" required>
-                                       </div>
-                                     </div>
-                                     <div class="form-group">
-                                       <label for="origin" class="col-sm-3 control-label">Origin Password</label>
-                                       <div class="col-sm-9">
-                                         <input  class="form-control" id="origin" name="origin" minlength="1" type="password" placeholder="******" required>
-                                       </div>
-                                     </div>
-                                     <div class="form-group">
-                                       <label for="new" class="col-sm-3 control-label">New Pssword</label>
-                                       <div class="col-sm-9">
-                                         <input  class="form-control" id="new" name="new" minlength="1" type="password" placeholder="******" required>
-                                       </div>
-                                     </div> 
-                                     <div class="form-group">
-                                       <label for="newagain" class="col-sm-3 control-label">New Password Again</label>
-                                       <div class="col-sm-9">
-                                         <input class="form-control" id="newagain" name="newagain" minlength="1" type="password" placeholder="******" required>
-                                       </div>
-                                     </div>
-                                 </form>
-                               </div>
-                               <div class="modal-footer">
-                                 <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
-                                 <button id="set_password_commit" type="button" class="btn btn-outline btn-primary btn-xs" data-dismiss="modal" >save</button>
-                               </div>
-                             </div>
-                           </div>
-                         </div>
-                       </div>
-
-                       <!-- end set password -->
-
-                       <!-- checkbox error modal -->
-                       <div id="checkbox_error_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                         <div class="modal-dialog modal-lg">
-                           <div class="modal-content">
-                             <div class="modal-content">
-                               <div class="modal-header">
-                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                               </div>
-                               <div class="modal-body">
-                                 <h4 class="modal-title" id="checkbox_error">There is no item selected</h4>
-                               </div>
-                             </div>
-                           </div>
-                         </div>
-                       </div>
-                       <!-- end checkbox page error -->
-
-                       <!-- alert error modal -->
-                       {% if error %}
-                       <div id="error_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                         <div class="modal-dialog modal-lg">
-                           <div class="modal-content">
-                             <div class="modal-content">
-                               <div class="modal-header">
-                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                               </div>
-                               <div class="modal-body">
-                                 <h4 class="modal-title" id="error">{{ error }}</h4>
-                               </div>
-                             </div>
-                           </div>
-                         </div>
-                       </div>
-                       {% endif %}
-                       <!-- end alert error modal  -->
-                       
-                       <!-- alert success modal -->
-                       {% if success %}
-                       <div id="success_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                         <div class="modal-dialog modal-lg">
-                           <div class="modal-content">
-                             <div class="modal-content">
-                               <div class="modal-header">
-                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                               </div>
-                               <div class="modal-body">
-                                 <h4 id="success" class="modal-title">{{ success }}</h4>
-                               </div>
-                             </div>
-                           </div>
-                         </div>
-                       </div>
-                       {% endif %}
-                       <!-- end alert success modal  -->
-                     </div>
-                     <!-- end action -->
                  </div>
                  <!-- /.panel-heading -->
-
-                 <!-- /.panel-body -->
                  <div class="panel-body">
                      <div class="dataTable_wrapper">
                          <table id="datatable-demo" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
@@ -402,18 +334,74 @@
                      <!-- /.table-responsive -->
                  </div>
                  <!-- /.panel-body -->
-             </div>
-             <!-- /.panel -->
-             </div> 
-             <!-- /.panel-default -->
-         </div>
-         <!-- /.col-lg-12 -->
-     </div>
-     <!-- /.row -->
-   </div>
-        <!-- /#page-wrapper -->
-
-  {% endblock %}
+<!--
+######################################################################################################
+-->
+                            <div class="form-group" style="margin-bottom: 5px">
+                                <label>SLS</label>
+                                <div class="panel panel-default">
+                                    <table width="100%">
+                                        <tr>
+                                            <td style="padding: 0px"  valign="top">
+                                                <div class="panel-body" style="width: 100%;padding-right: 0px">
+                                                    <ul id= "active_li" class="nav nav-tabs">
+                                                        {% for name in all_sls %}
+                                                        <li><a href="#{{ name }}" data-toggle="tab">{{ name }}</a>
+                                                        </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            <td width="80%">
+                                                <div class="panel-body" style="width: 100%;padding-left: 0px">
+                                                    <div id = "active_tex" class="tab-content">
+                                                        {% for name,contents in all_sls.items %}
+                                                        <div class="tab-pane fade in " id="{{ name }}" style="width: 100% ">
+                                                            <textarea class="form-control" rows="15" >{% for content in contents %}{{ content }}{% endfor %}</textarea>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <table>
+                                    <tr>
+                                        <th style="padding:0px 5px 0px 0px">
+                                            <input id="sls_name" name="sls_name" type="text" placeholder="SLS Name" class="form-control" />
+                                        </th>
+                                        <th style="padding:0px 5px 0px 0px">
+                                            <input type="button" onClick="AddSLS()" value="Save As" class="btn btn-outline btn-primary btn-xs" />
+                                        </th>
+                                        <th style="padding:0px 5px 0px 0px">
+                                            <input type="submit" value="Execute" class="btn btn-outline btn-success btn-xs" />
+                                        </th>
+                                        <th style="padding:0px 5px 0px 0px">
+                                            <input type="button" onClick="DelSLS()" value="DEl" class="btn btn-outline btn-danger btn-xs" />
+                                        </th>
+                                        <th style="padding:0px 5px 0px 0px">
+                                            <input type="reset" value="Reset" class="btn btn-outline btn-primary btn-xs" />
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                            </form>
+                            <div class="form-group">
+                                <label>Command Result</label>
+                                <iframe src="/states_config/highstate_result/"  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="100%" height=100% id="iframepage" name="iframepage" onLoad="iFrameHeight()"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+{% endblock %}
+<!-- ############################   begin jquery  ############################## -->
     {% block jquery%}
     <script type="text/javascript">
       $(document).ready(function(){
@@ -429,6 +417,8 @@
 
         //data table
         $("#datatable-demo").DataTable( {
+           //"scrollY": 200,
+           //"scrollX": true,
            //设置第一列为初始化排序的列
            "order": [[ 1, "desc" ]],
            //该值的含义为。初始化datatable，但对序号为0,10列的列不进行排序，别的列均可进行排序 
@@ -540,3 +530,76 @@
     });  
     </script>
     {% endblock %}
+
+<!--          ########################   end jquery ################################## -->
+
+    <script>
+        // select all
+        function selectAll(group){
+           var checklist = document.getElementsByClassName(group);
+            //alert(checklist)
+           if(document.getElementById(group).checked) {
+               for(var i=0;i<checklist.length;i++) {
+                     checklist[i].checked = 1;
+                  }
+           }
+           else {
+               for(var j=0;j<checklist.length;j++) {
+                    checklist[j].checked = 0;
+                }
+           }
+        }
+
+        // frame css
+        function iFrameHeight() {
+           var ifm = document.getElementById("iframepage");
+           var subWeb = document.frames ? document.frames["iframepage"].document :
+              ifm.contentDocument;
+              if(ifm != null && subWeb != null) {
+              ifm.height = subWeb.body.scrollHeight;
+              }
+        }
+
+        // onload show first li and textarea
+        function active() {
+            var li = document.getElementById("active_li");
+            var tex = document.getElementById("active_tex");
+            var activeLi = li.getElementsByTagName("li");
+            var activeTex = tex.getElementsByTagName("div");
+            activeLi[0].className = "active";
+            activeTex[0].className = "tab-pane fade in active";
+        }
+        window.onload = active();
+
+        //add SLS
+        function AddSLS(){
+            var sls_name = document.getElementById("sls_name").value.replace(/(^\s*)|(\s*$)/g, "");
+            var sls_content = document.getElementsByClassName("tab-pane fade in active")[0];
+            var sls_content_active = sls_content.getElementsByTagName("textarea")[0].value;
+            if (sls_name == ""){
+                alert("SLS name is null")
+            }
+            else{
+                if (sls_content_active == ""){
+                    alert ("SLS content is null")
+                }
+                else{
+                    $.post("/states_config/add_sls", { filename: sls_name , content: sls_content_active } );
+                    window.location.reload()
+                }
+            }
+        }
+
+        //del sls
+        function DelSLS(){
+            var sls_name = document.getElementById("sls_name").value.replace(/(^\s*)|(\s*$)/g, "");
+            if (sls_name == ""){
+                alert("SLS name is null")
+            }
+            else{
+                $.post("/states_config/del_sls", { filename: sls_name });
+                window.location.reload()
+            }
+        }
+
+    </script>
