@@ -1,19 +1,103 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-from shaker.shaker_core import *
-from shaker.nodegroups import *
-from shaker.highstate import *
 import os
 import time
 
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
+from account.models import Businesses,Privileges,UserProfiles
+from groups.models import Groups,Hosts
+from states_config.models import Highstate
+from shaker.shaker_core import *
+from shaker.nodegroups import *
+from shaker.highstate import *
+
+
+
 @login_required(login_url="/account/login/")
-def highstate(request):
-    group = NodeGroups()
+def highstate(request,*args,**kw):
+    _error = kw.get("error")
+    _success = kw.get("success")
+
     high = HighState()
-    all_host = group.list_groups_hosts()
+    #group = NodeGroups()
+    #all_host = group.list_groups_hosts()
+    _u = request.user
+    _user = User.objects.get(username=_u)
+    _all_businesses = Businesses.objects.all()
+    _businesses = []
+    all = {}
+    try:
+        if _user.is_superuser:
+            _userprofile = UserProfiles.objects.all()
+            _b = Businesses.objects.all()
+        else:
+            _userprofile = UserProfiles.objects.get(user=_user)
+            _b = _userprofile.business.all()
+        for _tmp in _b:
+            _businesses.append(_tmp.name)
+
+        _groups=Groups.objects.filter(business__in = _businesses)
+        for _group in _groups:
+            _h=[]
+            _hosts=_group.groups_hosts_related.all()
+            for _host in _hosts:
+                _h.append(_host.minion.minion_id)
+                all[_group.name]=_h
+    except Exception as e:
+        pass
+    all_host = all
     all_sls = high.list_sls('/srv/salt/')
-    return render(request, 'states_config/highstate.html', {'list_groups': all_host, 'all_sls': all_sls})
+    _slses = Highstate.objects.all()
+    context = {
+        "businesses":_all_businesses,
+        'list_groups': all_host,
+        'all_sls': all_sls,
+        "slses":_slses,
+        "error":_error,
+        "success":_success,
+        }
+
+    return render(request, 'states_config/highstate.html',context)
+
+@login_required(login_url="/account/login/")
+def add_sls(request):
+    _error = ""
+    _success = ""
+    if request.POST:
+        _name = request.POST.get("name","")
+        _content = request.POST.get("content","")
+        _businesses = request.POST.getlist("business",[])
+        _informations = request.POST.get("informations","")
+        _enabled = request.POST.get("enabled","")
+        if _enabled == 'true':
+            _enabled = True
+        else:
+            _enabled = False
+        print _name
+        print _content
+        print _businesses
+        print _enabled
+        if 1:
+           _h = Highstate(name=_name,content=_content,informations=_informations,enabled=_enabled)
+           _h.save()
+           for _b in _businesses:
+               _b_object = Businesses.objects.get(name=_b.strip())
+               _h.business.add(_b_object)
+           _success = "add sls "+ _name + " 0k!"
+
+        else:
+           _error = "name already exists or too long!"
+    return highstate(request,success=_success,error=_error)
+
+@login_required(login_url="/account/login/")
+def modify_sls(request):
+    return highstate(request)
+
+@login_required(login_url="/account/login/")
+def del_sls(request):
+    return highstate(request)
 
 @login_required(login_url="/account/login/")
 def highstate_result(request):
@@ -33,19 +117,19 @@ def highstate_result(request):
             return render(request, 'states_config/highstate_result.html', {'result': result})
     return render(request, 'states_config/highstate_result.html')
 
-@login_required(login_url="/account/login/")
-def add_sls(request):
-    high = HighState()
-    if request.POST:
-        sls_name = request.POST.get("filename")
-        sls_content = request.POST.get("content")
-        high.add_sls(sls_name, sls_content)
-        return HttpResponse(sls_content)
-
-@login_required(login_url="/account/login/")
-def del_sls(request):
-    high = HighState()
-    if request.POST:
-        sls_name = request.POST.get("filename")
-        high.del_sls(sls_name)
-        return HttpResponse(sls_name)
+#@login_required(login_url="/account/login/")
+#def add_sls(request):
+#    high = HighState()
+#    if request.POST:
+#        sls_name = request.POST.get("filename")
+#        sls_content = request.POST.get("content")
+#        high.add_sls(sls_name, sls_content)
+#        return HttpResponse(sls_content)
+#
+#@login_required(login_url="/account/login/")
+#def del_sls(request):
+#    high = HighState()
+#    if request.POST:
+#        sls_name = request.POST.get("filename")
+#        high.del_sls(sls_name)
+#        return HttpResponse(sls_name)
