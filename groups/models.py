@@ -14,7 +14,7 @@ class Groups(models.Model):
 
 class Hosts(models.Model):
     #minion        =    models.OneToOneField(Minions_status,related_name="%(app_label)s_%(class)s_related")
-    minion        =    models.ForeignKey(Minions_status,related_name="%(app_label)s_%(class)s_related",unique=True)
+    minion        =    models.ForeignKey(Minions_status,related_name="%(app_label)s_%(class)s_related")
     name          =    models.CharField(max_length=50,unique=True)
     business      =    models.CharField(max_length=100)
     informations  =    models.CharField(max_length=200)
