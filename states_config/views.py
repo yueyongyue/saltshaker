@@ -12,7 +12,6 @@ from states_config.models import Highstate
 from shaker.shaker_core import *
 from shaker.highstate import HighState
 
-
 @login_required(login_url="/account/login/")
 def highstate(request,*args,**kw):
     _error = kw.get("error")
