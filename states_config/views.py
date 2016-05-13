@@ -14,15 +14,11 @@ from shaker.nodegroups import *
 from shaker.highstate import *
 
 
-
 @login_required(login_url="/account/login/")
 def highstate(request,*args,**kw):
     _error = kw.get("error")
     _success = kw.get("success")
 
-    high = HighState()
-    #group = NodeGroups()
-    #all_host = group.list_groups_hosts()
     _u = request.user
     _user = User.objects.get(username=_u)
     _all_businesses = Businesses.objects.all()
@@ -48,12 +44,10 @@ def highstate(request,*args,**kw):
     except Exception as e:
         pass
     all_host = all
-    all_sls = high.list_sls('/srv/salt/')
     _slses = Highstate.objects.all()
     context = {
         "businesses":_all_businesses,
         'list_groups': all_host,
-        'all_sls': all_sls,
         "slses":_slses,
         "error":_error,
         "success":_success,
