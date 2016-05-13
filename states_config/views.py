@@ -12,14 +12,11 @@ from states_config.models import Highstate
 from shaker.shaker_core import *
 from shaker.highstate import HighState
 
-
-
 @login_required(login_url="/account/login/")
 def highstate(request,*args,**kw):
     _error = kw.get("error")
     _success = kw.get("success")
 
-    high = HighState()
     _u = request.user
     _user = User.objects.get(username=_u)
     _all_businesses = Businesses.objects.all()
@@ -46,12 +43,10 @@ def highstate(request,*args,**kw):
         pass
 
     all_host = all
-    all_sls = high.list_sls('/srv/salt/')
     _slses = Highstate.objects.all()
     context = {
         "businesses": _all_businesses,
         'list_groups': all_host,
-        'all_sls': all_sls,
         "slses": _slses,
         "error": _error,
         "success": _success,
@@ -73,10 +68,6 @@ def add_sls(request):
             _enabled = True
         else:
             _enabled = False
-        print _name
-        print _content
-        print _businesses
-        print _enabled
         if 1:
            _h = Highstate(name=_name,content=_content,informations=_informations,enabled=_enabled)
            _h.save()

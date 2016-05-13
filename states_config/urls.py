@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^highstate/$', views.highstate, name='highstate'),
     url(r'^highstate_result', views.highstate_result, name='highstate_result'),
     url(r'^add_sls', views.add_sls, name='add_sls'),
+    url(r'^modify_sls', views.modify_sls, name='modify_sls'),
     url(r'^del_sls', views.del_sls, name='del_sls'),
 ]

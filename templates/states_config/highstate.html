@@ -49,7 +49,9 @@
                                         </table>
                                     </div>
                                 </div>
+                            </form>
                             </div>
+                         </div>
                  <div class="panel panel-default">
                  <div class="panel-heading">
                      Highstate
@@ -66,6 +68,7 @@
                          <li><a id="delete_user" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
                        </ul>
                        <!-- begin all modal  -->
+
                        <!-- add  modal -->
                        <div id="add_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                          <div class="modal-dialog modal-lg">
@@ -135,7 +138,6 @@
                          </div>
                        </div>
                        <!-- end add  modal -->
-
                        <!-- delete  modal -->
                        <div id="delete_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                          <div class="modal-dialog modal-lg">
@@ -176,9 +178,9 @@
                                      </div>
                                    </div>
                                    <div class="form-group">
-                                     <label for="username" class="col-sm-3 control-label">user Name</label>
+                                     <label for="name" class="col-sm-3 control-label">Name</label>
                                      <div class="col-sm-9">
-                                       <input readonly class="form-control" id="username" name="username" minlength="1" type="text" placeholder="username" required>
+                                       <input readonly class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
                                      </div>
                                    </div>
 
@@ -385,9 +387,10 @@
                                    </td>
                                    <td id="id" style="word-break:break-all">{{ s.id }}</td>
                                    <td id="name" style="word-break:break-all">{{ s.name }}</td>
-                                   <td id="content" style="word-break:break-all">{{ s.content }}</td>
+                                   <td  style="word-break:break-all"><textarea id="content">{{ s.content }}</textarea></td>
                                    <td id="business" style="word-break:break-all">{% for b in s.business.all %}{{ b.name }} {% endfor %}</td>
                                    <td id="enabled" style="word-break:break-all">{{ s.enabled }}</td>
+                                   
                                    
                                    <td>
                                        <button id="test" name="test_button" value="{{ s.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-play" aria-hidden="true"></span>TEST</button>
