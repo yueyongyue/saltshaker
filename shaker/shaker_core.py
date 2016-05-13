@@ -70,7 +70,10 @@ class SaltAPI(object):
         params = {'client': 'local', 'tgt': tgt, 'fun': fun}
         obj = urllib.urlencode(params)
         content = self.postRequest(obj)
-        ret = content['return'][0][tgt]
+        try:
+            ret = content['return'][0][tgt]
+        except Exception as e:
+            pass
         return ret
     def remote_execution(self,tgt,fun,arg):
         ''' Command execution with parameters '''
