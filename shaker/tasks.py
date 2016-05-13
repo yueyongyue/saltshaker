@@ -49,6 +49,7 @@ def grains_task():
             salt_grains.minion_id = host_name
             salt_grains.save()
         Salt_grains.objects.filter(minion_id=host_name).update(grains=grains, minion_id=host_name)
+        print "Update " + host_name + " grains"
     '''
     # minion status , version data save to mysql
     for host_name in status_up:
@@ -123,3 +124,4 @@ def accept_grains_task(minion_id):
     salt_grains.grains = grains
     salt_grains.minion_id = minion_id
     salt_grains.save()
+    print "accept " + minion_id + " key"
