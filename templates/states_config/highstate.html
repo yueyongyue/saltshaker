@@ -13,130 +13,88 @@
              <div class="panel panel-default">
                  <div class="panel-heading">
                      Highstate
-                 </div> 
-                 <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="dataTable_wrapper">
-                                <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration:none">Target</a></label>
-                            <form method="post" action="/states_config/highstate_result/" target="iframepage">     <!-- target iframe refresh highstate_result.html -->
-                                <div id="collapseOne" class="panel-collapse collapse on">
-                                    <div class="panel-body" style="padding:0px">
-                                        <table class="table table-striped table-bordered table-hover">
-                                            <tr>
-                                                <td>
-                                                   <label>Groups</label>
-                                               </td>
-                                               <td>
-                                                   <label>Hosts</label>
-                                               </td>
-                                            </tr>
-                                            {% for groups,hosts in list_groups.items %}
-                                            <tr>
-                                                <td style="white-space: nowrap;">
-                                                   <div class="checkbox-inline" style="margin-left:7px">
-                                                      <input  id="{{ groups }}"  onclick="selectAll('{{ groups }}')" type="checkbox" value="">{{ groups }}
-                                                   </div>
-                                                </td>
-                                                <td>
-                                                   {% for host in hosts %}
-                                                       <div class="checkbox-inline" name="checkedhost">
-                                                           <input class="{{ groups }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
-                                                       </div>
-                                                   {% endfor %}
-                                               </td>
-                                            </tr>
-                                           {% endfor %}
-                                        </table>
-                                    </div>
-                                </div>
-                            </form>
-                            </div>
-                         </div>
-                 <div class="panel panel-default">
-                 <div class="panel-heading">
-                     Highstate
-                     <!-- begin action -->
                      <div class="btn-group" style="float:right">
-                       <button type="button" class="btn btn-outline btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       Action <span class="caret"></span>
-                       </button>
-                       <ul class="dropdown-menu">
-                         <li><a id="add_sls" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
-                         <li role="separator" class="divider"></li>
-                         <li><a id="modify_sls" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | Modify </a></li>
-                         <li role="separator" class="divider"></li>
-                         <li><a id="delete_sls" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
-                       </ul>
-                       <!-- begin all modal  -->
+                           <button type="button" class="btn btn-outline btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Action <span class="caret"></span>
+                           </button>
+                           <ul class="dropdown-menu">
+                             <li><a id="add_sls" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
+                             <li role="separator" class="divider"></li>
+                             <li><a id="modify_sls" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | Modify </a></li>
+                             <li role="separator" class="divider"></li>
+                             <li><a id="delete_sls" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
+                           </ul>
+                           <!-- begin all modal  -->
 
-                       <!-- add  modal -->
-                       <div id="add_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                         <div class="modal-dialog modal-lg">
-                           <div class="modal-content">
-                             <div class="modal-header">
-                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                               <h4 class="modal-title" id="exampleModalLabel">Add</h4>
-                             </div>
-                             <div class="modal-body">
-                               <form class="form-horizontal" id="add_data" method="post" action="/states_config/add_sls/">
-                                 <fieldset>
-                                   <div class="form-group">
-                                     <label for="name" class="col-sm-3 control-label">Name</label>
-                                     <div class="col-sm-9">
-                                       <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                     <label for="content" class="col-sm-3 control-label">Content</label>
-                                     <div class="col-sm-9">
-                                       <textarea class="form-control" rows="15" id="content" name="content" minlength="1" type="content" placeholder="the content of sls" required> </textarea>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                     <label label for="business" class="col-sm-3 control-label">Business</label>
-                                     <div class="col-sm-offset-4 col-sm-8">
-                                       <div class="checkbox">
-                                           {% if businesses %}
-                                           {% for b in businesses %}
-                                           <input  type="checkbox" name="business" value={{ b.name }}> {{ b.name }}<br>
-                                           {% endfor %}
-                                           {% else %}
-                                           <input  type="checkbox" name="business" value='unkonwn'> unknown <br> 
-                                           {% endif %}
+                           <!-- add  modal -->
+                           <div id="add_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                             <div class="modal-dialog modal-lg">
+                               <div class="modal-content">
+                                 <div class="modal-header">
+                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                   <h4 class="modal-title" id="exampleModalLabel">Add</h4>
+                                 </div>
+                                 <div class="modal-body">
+                                   <form class="form-horizontal" id="add_data" method="post" action="/states_config/add_sls/">
+                                     <fieldset>
+                                       <div class="form-group">
+                                         <label for="name" class="col-sm-3 control-label">Name</label>
+                                         <div class="col-sm-9">
+                                           <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
+                                         </div>
                                        </div>
-                                     </div>
-                                   </div>
 
-                                   <div class="form-group">
-                                     <label for="infomations" class="col-sm-3 control-label">Informations</label>
-                                     <div class="col-sm-9">
-                                       <textarea class="form-control" id="informations" name="informations" minlength="1"  placeholder=""> </textarea>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                     <div class="col-sm-offset-3 col-sm-9">
-                                       <div class="checkbox">
-                                         <label>
-                                           <input type="checkbox" name="enabled" value="true">Enabled
-                                         </label>
+                                       <div class="form-group">
+                                         <label for="content" class="col-sm-3 control-label">Content</label>
+                                         <div class="col-sm-9">
+                                           <textarea class="form-control" rows="15" id="content" name="content" minlength="1" type="content" placeholder="the content of sls" required> </textarea>
+                                         </div>
                                        </div>
-                                     </div>
-                                   </div>
 
-                                   <div class="form-group">
-                                     <div class="col-sm-offset-3 col-sm-9">
-                                       <button onclick="submit" id="add_commit" type="submit" class="btn btn-outline btn-success btn-xs">Submit</button>
-                                     </div>
-                                   </div>
-                                 </fieldset>
-                               </form>
+                                       <div class="form-group">
+                                         <label label for="business" class="col-sm-3 control-label">Business</label>
+                                         <div class="col-sm-offset-4 col-sm-8">
+                                           <div class="checkbox">
+                                               {% if businesses %}
+                                               {% for b in businesses %}
+                                               <input  type="checkbox" name="business" value={{ b.name }}> {{ b.name }}<br>
+                                               {% endfor %}
+                                               {% else %}
+                                               <input  type="checkbox" name="business" value='unkonwn'> unknown <br>
+                                               {% endif %}
+                                           </div>
+                                         </div>
+                                       </div>
+
+                                       <div class="form-group">
+                                         <label for="infomations" class="col-sm-3 control-label">Informations</label>
+                                         <div class="col-sm-9">
+                                           <textarea class="form-control" id="informations" name="informations" minlength="1"  placeholder=""> </textarea>
+                                         </div>
+                                       </div>
+
+                                       <div class="form-group">
+                                         <div class="col-sm-offset-3 col-sm-9">
+                                           <div class="checkbox">
+                                             <label>
+                                               <input type="checkbox" name="enabled" value="true">Enabled
+                                             </label>
+                                           </div>
+                                         </div>
+                                       </div>
+
+                                       <div class="form-group">
+                                         <div class="col-sm-offset-3 col-sm-9">
+                                           <button onclick="submit" id="add_commit" type="submit" class="btn btn-outline btn-success btn-xs">Submit</button>
+                                         </div>
+                                       </div>
+                                     </fieldset>
+                                   </form>
+                                 </div>
+                               </div>
                              </div>
                            </div>
-                         </div>
-                       </div>
+                     </div>
                        <!-- end add  modal -->
 
                        <!-- delete  modal -->
@@ -160,8 +118,8 @@
                          </div>
                        </div>
                        <!-- end delete   -->
-                       
-                       <!-- modify --> 
+
+                       <!-- modify -->
                        <div id="modify_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                          <div class="modal-dialog modal-lg">
                            <div class="modal-content">
@@ -203,7 +161,7 @@
                                            <input  type="checkbox" name="business" value={{ b.name }}> {{ b.name }}<br>
                                            {% endfor %}
                                            {% else %}
-                                           <input  type="checkbox" name="business" value='unkonwn'> unknown <br> 
+                                           <input  type="checkbox" name="business" value='unkonwn'> unknown <br>
                                            {% endif %}
                                        </div>
                                      </div>
@@ -272,7 +230,7 @@
                        </div>
                        {% endif %}
                        <!-- end alert error modal  -->
-                       
+
                        <!-- alert success modal -->
                        {% if success %}
                        <div id="success_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -291,14 +249,48 @@
                        </div>
                        {% endif %}
                        <!-- end alert success modal  -->
-                     </div>
-                     <!-- end action -->
-                 </div>
+                 </div> 
                  <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration:none">Target</a></label>
+                            <form method="post" action="/states_config/highstate_result/" target="iframepage">     <!-- target iframe refresh highstate_result.html -->
+                                <div id="collapseOne" class="panel-collapse collapse on">
+                                    <div class="panel-body" style="padding:0px">
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <tr>
+                                                <td>
+                                                   <label>Groups</label>
+                                               </td>
+                                               <td>
+                                                   <label>Hosts</label>
+                                               </td>
+                                            </tr>
+                                            {% for groups,hosts in list_groups.items %}
+                                            <tr>
+                                                <td style="white-space: nowrap;">
+                                                   <div class="checkbox-inline" style="margin-left:7px">
+                                                      <input  id="{{ groups }}"  onclick="selectAll('{{ groups }}')" type="checkbox" value="">{{ groups }}
+                                                   </div>
+                                                </td>
+                                                <td>
+                                                   {% for host in hosts %}
+                                                       <div class="checkbox-inline" name="checkedhost">
+                                                           <input class="{{ groups }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
+                                                       </div>
+                                                   {% endfor %}
+                                               </td>
+                                            </tr>
+                                           {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
 
-                 <!-- /.panel-body -->
-                 <div class="panel-body">
-                     <div class="dataTable_wrapper">
+                        </div>
+                        <label style="text-decoration:none">SLS</label>
+                        <div class="panel panel-default">
+                         <div class="panel-body">
+                         <div class="dataTable_wrapper">
                          <table id="datatable-demo" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                              <thead>
                                  <tr>
@@ -309,7 +301,7 @@
                                     <th>Name</th>
                                     <th>Content</th>
                                     <th>Business</th>
-                                    <th>Information</th>
+                                    <th style="display: none">Information</th>
                                     <th>Enabled</th>
                                     <th>Opearation</th>
                                  </tr>
@@ -322,16 +314,15 @@
                                      <input  name="CHKlist" type="checkbox" value="{{ s.id }}"></input>
                                    </td>
                                    <td id="id" style="word-break:break-all">{{ s.id }}</td>
-                                   <td id="name" style="word-break:break-all">{{ s.name }}</td>
-                                   <td  style="word-break:break-all"><textarea id="content">{{ s.content }}</textarea></td>
+                                   <td id="name" style="word-break:break-all" value="{{ s.name }}">{{ s.name }}</td>
+                                   <td style="word-break:break-all"><textarea id="content" rows="1" style="padding:0px;font-size: 10px">{{ s.content }}</textarea></td>
                                    <td id="business" style="word-break:break-all">{% for b in s.business.all %}{{ b.name }} {% endfor %}</td>
-                                   <td id="informations" style="word-break:break-all">{{ s.informations }}</td>
+                                   <td id="informations" style="word-break:break-all;display: none">{{ s.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ s.enabled|lower }}</td>
-                                   
-                                   
                                    <td>
-                                       <button id="test" name="test_button" value="{{ s.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-play" aria-hidden="true"></span>TEST</button>
-                                       <button id="update" name="update_button" value="{{ sname }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-play" aria-hidden="true"></span>UPDATE</button>
+                                       <button type="submit" type="button" class="btn btn-outline btn-success btn-xs">Execute</button>
+                                       <button type="submit" type="button" class="btn btn-outline btn-primary btn-xs">Test</button>
+                                       <button id="update" name="update_button" value="{{ sname }}" type="button" class="btn btn-outline btn-primary btn-xs" >Upload File</button>
                                    </td>
                                </tr>
                                {% endfor %}
@@ -339,8 +330,15 @@
                              </tbody>
                          </table>
                      </div>
-                     <!-- /.table-responsive -->
-                 </div>
+                    </div>
+                    </div>
+                    </form>
+                    <div class="form-group" style="margin-bottom: 5px">
+                        <div class="form-group">
+                            <label>Command Result</label>
+                            <iframe src="/states_config/highstate_result/"  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="100%" height=100% id="iframepage" name="iframepage" onLoad="iFrameHeight()"></iframe>
+                        </div>
+                    </div>
                  <!-- /.panel-body -->
              </div>
              <!-- /.panel -->
@@ -372,7 +370,7 @@
            //设置第一列为初始化排序的列
            "order": [[ 1, "desc" ]],
            //该值的含义为。初始化datatable，但对序号为0,10列的列不进行排序，别的列均可进行排序 
-           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,6 ] }]  
+           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,5 ] }]
            });     
         // end data table
         // add //
@@ -453,6 +451,32 @@
       $('#success_modal').modal('show')
       $('#error_modal').modal('show')
       //  end show success and error modal //
-    });  
+    });
+
+      // select all
+        function selectAll(group){
+           var checklist = document.getElementsByClassName(group);
+            //alert(checklist)
+           if(document.getElementById(group).checked) {
+               for(var i=0;i<checklist.length;i++) {
+                     checklist[i].checked = 1;
+                  }
+           }
+           else {
+               for(var j=0;j<checklist.length;j++) {
+                    checklist[j].checked = 0;
+                }
+           }
+        }
+
+    // iframe
+        function iFrameHeight() {
+           var ifm= document.getElementById("iframepage");
+           var subWeb = document.frames ? document.frames["iframepage"].document :
+              ifm.contentDocument;
+              if(ifm != null && subWeb != null) {
+              ifm.height = subWeb.body.scrollHeight;
+              }
+        }
     </script>
     {% endblock %}
