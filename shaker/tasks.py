@@ -7,11 +7,12 @@ import logging
 import time
 
 logger = logging.getLogger('django')
-sapi = SaltAPI()
+
 
 @task()
 def dashboard_task():
     # minion status data save to mysql
+    sapi = SaltAPI()
     status = sapi.runner_status('status')
     key_status = sapi.list_all_key()
     up = len(status['up'])
@@ -35,6 +36,7 @@ def dashboard_task():
 @task()
 def grains_task():
     # grains data save to mysql
+    sapi = SaltAPI()
     status = sapi.runner_status('status')
     status_up = status['up']
     for host_name in status_up:
@@ -75,6 +77,7 @@ def grains_task():
 @task()
 def minions_status_task():
     #minion status , version data save to mysql
+    sapi = SaltAPI()
     status_all = sapi.runner_status('status')
     for host_name in status_all['up']:
         salt_grains = Salt_grains.objects.filter(minion_id=host_name)
@@ -113,7 +116,8 @@ def minions_status_task():
 @task()
 def accept_grains_task(minion_id):
     # when accept key save grains to mysql
-    time.sleep(50)
+    time.sleep(30)
+    sapi = SaltAPI()
     grains = sapi.remote_noarg_execution(minion_id, 'grains.items')
     salt_grains = Salt_grains()
     salt_grains.grains = grains

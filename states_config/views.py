@@ -10,8 +10,7 @@ from account.models import Businesses,Privileges,UserProfiles
 from groups.models import Groups,Hosts
 from states_config.models import Highstate
 from shaker.shaker_core import *
-from shaker.nodegroups import *
-from shaker.highstate import *
+from shaker.highstate import HighState
 
 
 @login_required(login_url="/account/login/")
@@ -34,26 +33,27 @@ def highstate(request,*args,**kw):
         for _tmp in _b:
             _businesses.append(_tmp.name)
 
-        _groups=Groups.objects.filter(business__in = _businesses)
+        _groups = Groups.objects.filter(business__in=_businesses)
         for _group in _groups:
-            _h=[]
-            _hosts=_group.groups_hosts_related.all()
+            _h = []
+            _hosts = _group.groups_hosts_related.all()
             for _host in _hosts:
                 _h.append(_host.minion.minion_id)
-                all[_group.name]=_h
+                all[_group.name] = _h
     except Exception as e:
         pass
+
     all_host = all
     _slses = Highstate.objects.all()
     context = {
-        "businesses":_all_businesses,
+        "businesses": _all_businesses,
         'list_groups': all_host,
-        "slses":_slses,
-        "error":_error,
-        "success":_success,
+        "slses": _slses,
+        "error": _error,
+        "success": _success,
         }
 
-    return render(request, 'states_config/highstate.html',context)
+    return render(request, 'states_config/highstate.html', context)
 
 @login_required(login_url="/account/login/")
 def add_sls(request):
@@ -69,10 +69,6 @@ def add_sls(request):
             _enabled = True
         else:
             _enabled = False
-        print _name
-        print _content
-        print _businesses
-        print _enabled
         if 1:
            _h = Highstate(name=_name,content=_content,informations=_informations,enabled=_enabled)
            _h.save()
@@ -83,6 +79,9 @@ def add_sls(request):
 
         else:
            _error = "name already exists or too long!"
+
+        high = HighState()
+        high.add_sls(_name, _content)
     return highstate(request,success=_success,error=_error)
 
 @login_required(login_url="/account/login/")

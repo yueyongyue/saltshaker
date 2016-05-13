@@ -23,7 +23,7 @@ class HighState(object):
         return all_sls
 
     def add_sls(self, filename, content):
-        files = file("/srv/salt/"+filename+".sls", "w+")
+        files = file("/srv/salt/"+filename+".sls", "w")
         files.writelines(content)
         files.close()
 
@@ -41,10 +41,9 @@ def main():
     a = highstate.list_sls("/srv/salt/")
     #b = ['dfgdfgfgfdg\n','  fgfgfdgfgfgfg\n']
     #a = highstate.add_sls("tomcat", b)
-    print a
+    #print a
     #filename = "test"
     #a = highstate.del_sls(filename)
-
 
 if __name__ == '__main__':
     main()
