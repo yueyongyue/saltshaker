@@ -61,11 +61,11 @@
                        Action <span class="caret"></span>
                        </button>
                        <ul class="dropdown-menu">
-                         <li><a id="add_host" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
+                         <li><a id="add_sls" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
                          <li role="separator" class="divider"></li>
-                         <li><a id="modify_user" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | Modify </a></li>
+                         <li><a id="modify_sls" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | Modify </a></li>
                          <li role="separator" class="divider"></li>
-                         <li><a id="delete_user" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
+                         <li><a id="delete_sls" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
                        </ul>
                        <!-- begin all modal  -->
 
@@ -138,6 +138,7 @@
                          </div>
                        </div>
                        <!-- end add  modal -->
+
                        <!-- delete  modal -->
                        <div id="delete_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                          <div class="modal-dialog modal-lg">
@@ -147,7 +148,7 @@
                                <h4 class="modal-title" id="exampleModalLabel">Are You Sure?</h4>
                              </div>
                              <div class="modal-body">
-                               <form id="delete_data" class="form-inline" method="POST" action="/account/del_user/">
+                               <form id="delete_data" class="form-inline" method="POST" action="/states_config/del_sls/">
                                <!-- jquery will append content here -->
                                </form>
                              </div>
@@ -170,17 +171,26 @@
                              </div>
                              <div class="modal-body">
 
-                               <form id="modify_data" class="form-horizontal" method="POST" action="/account/setup_user/">
+                               <form id="modify_data" class="form-horizontal" method="POST" action="/states_config/modify_sls/">
+
                                    <div class="form-group">
-                                     <label for="id" class="col-sm-3 control-label">ID</label>
+                                     <label for="name" class="col-sm-3 control-label">Id</label>
                                      <div class="col-sm-9">
                                        <input readonly class="form-control" id="id" name="id" minlength="1" type="text" placeholder="id" required>
                                      </div>
                                    </div>
+
                                    <div class="form-group">
                                      <label for="name" class="col-sm-3 control-label">Name</label>
                                      <div class="col-sm-9">
-                                       <input readonly class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
+                                       <input class="form-control" id="name" name="name" minlength="1" type="text" placeholder="name" required>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <label for="content" class="col-sm-3 control-label">Content</label>
+                                     <div class="col-sm-9">
+                                       <textarea class="form-control" rows="15" id="content" name="content" minlength="1" type="content" placeholder="the content of sls" required> </textarea>
                                      </div>
                                    </div>
 
@@ -200,37 +210,9 @@
                                    </div>
 
                                    <div class="form-group">
-                                     <label label for="privilege" class="col-sm-3 control-label">Priveleges</label>
-                                     <div class="col-sm-offset-4 col-sm-8">
-                                       <div class="checkbox">
-                                           {% if privileges %}
-                                           {% for p in privileges %}
-                                           <input  type="checkbox" name="privilege" value={{ p.name }}> {{ p.name }}<br>
-                                           {% endfor %}
-                                           {% else %}
-                                           <input  type="checkbox" name="privilege" value='unkonwn'> unknown <br> 
-                                           {% endif %}
-                                       </div>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                     <label for="email" class="col-sm-3 control-label">Email</label>
+                                     <label for="informations" class="col-sm-3 control-label">Informations</label>
                                      <div class="col-sm-9">
-                                       <input  class="form-control" id="email" name="email" minlength="1" type="text" placeholder="name" required>
-                                     </div>
-                                   </div>
-
-                                   <div class="form-group">
-                                     <label for="telephone" class="col-sm-3 control-label">Telephone</label>
-                                     <div class="col-sm-9">
-                                       <input class="form-control" id="telephone" name="telephone" minlength="1" type="text" placeholder="phone number" required>
-                                     </div>
-                                   </div>
-                                   <div class="form-group">
-                                     <label for="department" class="col-sm-3 control-label">Department</label>
-                                     <div class="col-sm-9">
-                                       <input class="form-control" id="department" name="department" minlength="1" type="text" placeholder="xxx department" required>
+                                       <textarea class="form-control" id="informations" name="informations" minlength="1"  placeholder=""> </textarea>
                                      </div>
                                    </div>
 
@@ -238,69 +220,22 @@
                                      <div class="col-sm-offset-3 col-sm-9">
                                        <div class="checkbox">
                                          <label>
-                                           <input id="issuperuser"  type="checkbox" name="issuperuser" value="true"> Is Superuser Or Not
+                                           <input type="checkbox" id="enabled" name="enabled" value="true">Enabled
                                          </label>
                                        </div>
                                      </div>
                                    </div>
-                               </form>
+
                              </div>
                              <div class="modal-footer">
                                <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
                                <button id="modify_commit" type="button" class="btn btn-outline btn-primary btn-xs" data-dismiss="modal" >Save</button>
                              </div>
+                             </form>
                            </div>
                          </div>
                        </div>
                        <!-- end modify  -->
-
-                       <!-- set password -->
-                       <div id="set_password_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                         <div class="modal-dialog modal-lg">
-                           <div class="modal-content">
-                             <div class="modal-content">
-                               <div class="modal-header">
-                                 <button type="buttton" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                 <h4 class="modal-title" id="exampleModalLabel">Set Password</h4>
-                               </div>
-                               <div class="modal-body">
-                                 <form id="set_password_form" class="form-horizontal" method="POST" action="/account/set_password/">
-                                     <div class="form-group">
-                                       <label for="username" class="col-sm-3 control-label">User Name</label>
-                                       <div class="col-sm-9">
-                                         <input  class="form-control" id="username" name="username" minlength="1" type="text" placeholder="name" required>
-                                       </div>
-                                     </div>
-                                     <div class="form-group">
-                                       <label for="origin" class="col-sm-3 control-label">Origin Password</label>
-                                       <div class="col-sm-9">
-                                         <input  class="form-control" id="origin" name="origin" minlength="1" type="password" placeholder="******" required>
-                                       </div>
-                                     </div>
-                                     <div class="form-group">
-                                       <label for="new" class="col-sm-3 control-label">New Pssword</label>
-                                       <div class="col-sm-9">
-                                         <input  class="form-control" id="new" name="new" minlength="1" type="password" placeholder="******" required>
-                                       </div>
-                                     </div> 
-                                     <div class="form-group">
-                                       <label for="newagain" class="col-sm-3 control-label">New Password Again</label>
-                                       <div class="col-sm-9">
-                                         <input class="form-control" id="newagain" name="newagain" minlength="1" type="password" placeholder="******" required>
-                                       </div>
-                                     </div>
-                                 </form>
-                               </div>
-                               <div class="modal-footer">
-                                 <button type="button" class="btn btn-outline btn-warning btn-xs" data-dismiss="modal">Close</button>
-                                 <button id="set_password_commit" type="button" class="btn btn-outline btn-primary btn-xs" data-dismiss="modal" >save</button>
-                               </div>
-                             </div>
-                           </div>
-                         </div>
-                       </div>
-
-                       <!-- end set password -->
 
                        <!-- checkbox error modal -->
                        <div id="checkbox_error_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -374,6 +309,7 @@
                                     <th>Name</th>
                                     <th>Content</th>
                                     <th>Business</th>
+                                    <th>Information</th>
                                     <th>Enabled</th>
                                     <th>Opearation</th>
                                  </tr>
@@ -389,7 +325,8 @@
                                    <td id="name" style="word-break:break-all">{{ s.name }}</td>
                                    <td  style="word-break:break-all"><textarea id="content">{{ s.content }}</textarea></td>
                                    <td id="business" style="word-break:break-all">{% for b in s.business.all %}{{ b.name }} {% endfor %}</td>
-                                   <td id="enabled" style="word-break:break-all">{{ s.enabled }}</td>
+                                   <td id="informations" style="word-break:break-all">{{ s.informations }}</td>
+                                   <td id="enabled" style="word-break:break-all">{{ s.enabled|lower }}</td>
                                    
                                    
                                    <td>
@@ -439,7 +376,7 @@
            });     
         // end data table
         // add //
-        $("#add_host").click(function(){
+        $("#add_sls").click(function(){
             $('#add_modal').modal('show')
 
             $("#add_commit").click(function(){
@@ -451,7 +388,7 @@
 
 
         // delete //
-        $("#delete_user").click(function(){
+        $("#delete_sls").click(function(){
            var ids=[];
            $('input[name="CHKlist"]:checked').each(function(){
                var id=$(this).val();
@@ -477,57 +414,33 @@
       });
       // end delete //
 
-      // set passwotd //
-      $("#set_password").click(function(){
-          var ids=[];
-          $('input[name="CHKlist"]:checked').each(function(){
-              var id=$(this).val();
-              ids.push(id);
-          });
-          var tmp_id=ids[0];
-          var tmp_name=$("#"+tmp_id).find("#username").text();
-          var tmp_username = tmp_name;
-          $('#set_password_form').find('input#username').val(tmp_username);
-          $('#set_password_modal').modal('show');
-          $("#set_password_commit").click(function(){
-              $("#set_password_form").submit()
-            });
-      });
-      // end set password //
-
       // modify //
-      $("#modify_user").click(function(){
+      $("#modify_sls").click(function(){
           var ids=[];
           $('input[name="CHKlist"]:checked').each(function(){
               var id=$(this).val();
               ids.push(id);
           });
           var tmp_id=ids[0];
-          var tmp_name=$("#"+tmp_id).find("#username").text();
-          var tmp_email=$("#"+tmp_id).find("#email").text();
-          var tmp_issuperuser=$("#"+tmp_id).find("#issuperuser").text();
-          var tmp_business=$("#"+tmp_id).find("#business").text();
-          var tmp_privilege=$("#"+tmp_id).find("#privilege").text();
-          var tmp_telephone=$("#"+tmp_id).find("#telephone").text();
-          var tmp_department=$("#"+tmp_id).find("#department").text();
+          var tmp_name=$("#"+tmp_id).find("#name").text();
+          //var tmp_business=$("#"+tmp_id).find("#business").text();
+          var tmp_content=$("#"+tmp_id).find("#content").val();
+          var tmp_informations=$("#"+tmp_id).find("#informations").text();
+          var tmp_enabled=$("#"+tmp_id).find("#enabled").text();
           $('#modify_data').find('input#id').val(tmp_id);
-          $('#modify_data').find('input#username').val(tmp_name);
-          $('#modify_data').find('input#email').val(tmp_email);
-          $('#modify_data').find('input#department').val(tmp_department);
-          //$('#modify_data').find('input#business').val(tmp_business);
-          //$('#modify_data').find('input#privilege').val(tmp_privilege);
-          $('#modify_data').find('input#telephone').val(tmp_telephone);
-          if (tmp_issuperuser == "true")
+          $('#modify_data').find('input#name').val(tmp_name);
+          $('#modify_data').find('textarea#content').val(tmp_content);
+          $('#modify_data').find('textarea#informations').val(tmp_informations);
+          if (tmp_enabled == "true")
               {
-              $('#modify_data').find('input#issuperuser').attr("checked",true);
-              $('#modify_data').find('input#isuperuser').val(tmp_issuperuser);
+              $('#modify_data').find('input#enabled').attr("checked",true);
+              $('#modify_data').find('input#enabled').val(tmp_enabled);
               }
           else
               {
-              $('#modify_data').find('input#issuperuser').attr("checked",false);
-              $('#modify_data').find('input#issuperuser').val(tmp_issuperuser);
+              $('#modify_data').find('input#enabled').attr("checked",false);
+              $('#modify_data').find('input#enabled').val(tmp_enabled);
               }
-
 
           $('#modify_modal').modal('show')
           $('#modify_commit').click(function(){

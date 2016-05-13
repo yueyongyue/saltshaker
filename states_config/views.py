@@ -26,9 +26,12 @@ def highstate(request,*args,**kw):
         if _user.is_superuser:
             _userprofile = UserProfiles.objects.all()
             _b = Businesses.objects.all()
+            _slses = Highstate.objects.all()
         else:
             _userprofile = UserProfiles.objects.get(user=_user)
             _b = _userprofile.business.all()
+
+            _slses = Highstate.objects.filter(business__in = _b)
         for _tmp in _b:
             _businesses.append(_tmp.name)
 
@@ -43,7 +46,6 @@ def highstate(request,*args,**kw):
         pass
 
     all_host = all
-    _slses = Highstate.objects.all()
     context = {
         "businesses": _all_businesses,
         'list_groups': all_host,
@@ -85,11 +87,56 @@ def add_sls(request):
 
 @login_required(login_url="/account/login/")
 def modify_sls(request):
-    return highstate(request)
+    _success=False
+    _error=False
+    if request.method == "POST":
+        _id = request.POST.get("id")
+        _name = request.POST.get("name")
+        _businesses = request.POST.getlist("business")
+        _content = request.POST.get("content")
+        _informations = request.POST.get("informations")
+        _enabled=request.POST.get("enabled")
+        if _enabled is not None:
+            _enabled=True
+        else:
+            _enabled=False
+        #try:
+        if 1:
+            _highstate=Highstate.objects.get(id=_id)
+            _name_before=_highstate.name
+            _highstate.name = _name
+            _highstate.content = _content
+            _highstate.enabled = _enabled
+            _highstate.informations = _informations
+            _highstate.save()
+            for _b in _businesses:
+                _b_object = Businesses.objects.get(name=_b.strip())
+                _highstate.business.add(_b_object)
+            _success="Modify SLS "+ _name +" OK"
+        #except Exception as e:
+        else:
+            _error="Modify SLS "+ _name +" failed"
+            
+        
+    return highstate(request,success=_success,error=_error)
 
 @login_required(login_url="/account/login/")
 def del_sls(request):
-    return highstate(request)
+
+    _success=False
+    _error=False
+    _ids=request.POST.getlist("id")
+    try:
+        _filter=Highstate.objects.filter(id__in=_ids)
+        _filter.delete()
+        _success="Delete opearation success!"
+    except Exception as e:
+        _error="Delete error!"
+    return highstate(request,success=_success,error=_error)
+
+
+ 
+    return highstate(request,error=_error,success=_success)
 
 @login_required(login_url="/account/login/")
 def highstate_result(request):
