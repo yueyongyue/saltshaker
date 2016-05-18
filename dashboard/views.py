@@ -50,8 +50,8 @@ def index(request):
 
     salt_master_stauts = CheckPort('Salt Master', '127.0.0.1', 4505)
     salt_api_status = CheckPort('Salt Api', '127.0.0.1', 8000)
-    rabbitmy_status = CheckPort('RabbixMQ', '127.0.0.1', 5672)
-    rabbitmy_m_status = CheckPort('RabbixMQ Management', '127.0.0.1', 15672)
+    rabbitmy_status = CheckPort('RabbitMQ', '127.0.0.1', 5672)
+    rabbitmy_m_status = CheckPort('RabbitMQ Management', '127.0.0.1', 15672)
     celery_status = CheckProgress('Celery', 'celery worker')
     check_service = [salt_master_stauts, salt_api_status, rabbitmy_status, rabbitmy_m_status, celery_status]
 
