@@ -148,11 +148,6 @@ def shell_result(request):
     return render(request, 'execute/minions_shell_result.html')
 
 @login_required(login_url="/account/login/")
-def salt_runcmd(request):
-    return render(request, 'execute/minions_salt_runcmd.html')
-
-
-@login_required(login_url="/account/login/")
 def get_history(request):
     cmd_history_list = []
     _u = request.user
@@ -165,4 +160,33 @@ def get_history(request):
         cmd_history_list.append(tmp)
 
     return HttpResponse(json.dumps({"cmd_history_list": cmd_history_list}, cls=CJsonEncoder), content_type = 'application/json')
+
+
+@login_required(login_url="/account/login/")
+def salt_runcmd(request):
+    _u = request.user
+    _user = User.objects.get(username=_u)
+
+    _businesses = []
+    all = {}
+    try:
+        if _user.is_superuser:
+            _userprofile = UserProfiles.objects.all()
+            _b = Businesses.objects.all()
+        else:
+            _userprofile = UserProfiles.objects.get(user=_user)
+            _b = _userprofile.business.all()
+        for _tmp in _b:
+            _businesses.append(_tmp.name)
+
+        _groups=Groups.objects.filter(business__in = _businesses)
+        for _group in _groups:
+            _h=[]
+            _hosts=_group.groups_hosts_related.all()
+            for _host in _hosts:
+                _h.append(_host.minion.minion_id)
+                all[_group.name]=_h
+    except Exception as e:
+        pass
+    return render(request, 'execute/minions_salt_runcmd.html', {'list_groups': all})
 
