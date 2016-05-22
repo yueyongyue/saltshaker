@@ -67,20 +67,23 @@ class SaltAPI(object):
         return ret
     def remote_noarg_execution(self,tgt,fun):
         ''' Execute commands without parameters '''
-        params = {'client': 'local', 'tgt': tgt, 'fun': fun}
+        params = {'client': 'local', 'tgt': tgt, 'fun': fun, 'expr_form': 'list'}
         obj = urllib.urlencode(params)
         content = self.postRequest(obj)
         try:
-            ret = content['return'][0][tgt]
+            ret = content['return'][0]
         except Exception as e:
             pass
         return ret
     def remote_execution(self,tgt,fun,arg):
         ''' Command execution with parameters '''
-        params = {'client': 'local', 'tgt': tgt, 'fun': fun, 'arg': arg}
+        params = {'client': 'local', 'tgt': tgt, 'fun': fun, 'arg': arg, 'expr_form': 'list'}
         obj = urllib.urlencode(params)
         content = self.postRequest(obj)
-        ret = content['return'][0][tgt]
+        try:
+            ret = content['return'][0]
+        except Exception as e:
+            pass
         return ret
     def shell_remote_execution(self,tgt,arg):
         ''' Shell command execution with parameters '''
@@ -167,7 +170,7 @@ def main():
 
     #b = sapi.runner("status")
     #print a
-
+    '''
     up_host = sapi.runner_status('status')['up']
     os_list = []
     os_release = []
@@ -186,6 +189,9 @@ def main():
 
     print os_release
     print os_all
+    '''
+    a = sapi.remote_execution('*','service.status','ssh')
+    print a
 
 
 
