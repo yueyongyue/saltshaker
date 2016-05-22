@@ -190,3 +190,22 @@ def salt_runcmd(request):
         pass
     return render(request, 'execute/minions_salt_runcmd.html', {'list_groups': all})
 
+def salt_result(request):
+    line = "################################################################"
+    sapi = SaltAPI()
+    if request.POST:
+        host_list = request.POST.getlist("hosts_name")
+        salt_fun = request.POST.get('salt_fun')
+        salt_arg = request.POST.get('salt_arg').strip()
+        cmd = str(salt_fun) + '.' + str(salt_arg)
+
+        host_str = ",".join(host_list)
+        if salt_arg == '':
+            result = sapi.remote_noarg_execution(host_str, salt_fun)
+        else:
+            result = sapi.remote_execution(host_str, salt_fun, salt_arg)
+
+        return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
+
+
+

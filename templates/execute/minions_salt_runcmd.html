@@ -19,7 +19,7 @@
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
                                      <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration:none">Target</a></label>
-                            <form method="post" action="/execute/minions_shell_result/" target="iframepage">     <!-- target iframe refresh minions_shell_result.html -->
+                            <form method="post" action="/execute/minions_salt_result/" target="iframepage">     <!-- target iframe refresh minions_shell_result.html -->
                                      <div id="collapseOne" class="panel-collapse collapse on">
                                         <div class="panel-body" style="padding:0px">
                                            <table class="table table-striped table-bordered table-hover">
@@ -53,9 +53,9 @@
                             </div>
                                 <div class="form-group">
                                     <label>Modules Name</label>
-                                    <select class="js-example-basic-single" style="width: 100%;margin-bottom: 0px">
+                                    <select style="width: 100%;margin-bottom: 0px">
                                       <optgroup label="Alaskan/Hawaiian Time Zone">
-                                        <option value="AK">Alaska</option>
+                                        <option value="service.status" name="salt_fun">service.status</option>
                                         <option value="HI">Hawaii</option>
                                       </optgroup>
                                       <optgroup label="Pacific Time Zone">
@@ -118,12 +118,12 @@
                                 </div>
                             <div class="form-group">
                                 <label>Arguments</label>
-                                <textarea class="form-control" rows="1" name="cmd" id="shell_cmd"></textarea>
+                                <textarea class="form-control" rows="1" name="salt_arg" id="salt_arg"></textarea>
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="Submit" class="btn btn-outline btn-success btn-xs"/>
                                 <input type="reset" value="Reset" class="btn btn-outline btn-danger btn-xs" />
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none"><input type="submit" value="History" class="btn btn-outline btn-info btn-xs" onclick="setHistory()"/></a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><input type="submit" value="History" class="btn btn-outline btn-info btn-xs" onclick="setHistory()"/></a>
                             </div>
                             </form>
                             <div id="collapseOne1" class="panel-collapse collapse on">
