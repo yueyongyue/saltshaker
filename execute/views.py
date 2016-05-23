@@ -195,17 +195,18 @@ def salt_result(request):
     sapi = SaltAPI()
     if request.POST:
         host_list = request.POST.getlist("hosts_name")
+        logger.info(host_list)
         salt_fun = request.POST.get('salt_fun')
         salt_arg = request.POST.get('salt_arg').strip()
         cmd = str(salt_fun) + '.' + str(salt_arg)
 
         host_str = ",".join(host_list)
+        logger.info(host_str)
         if salt_arg == '':
             result = sapi.remote_noarg_execution(host_str, salt_fun)
         else:
             result = sapi.remote_execution(host_str, salt_fun, salt_arg)
-
-        return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
+        return render(request, 'execute/minions_salt_result.html', {'result': result, 'cmd': cmd, 'line': line})
 
 
 
