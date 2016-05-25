@@ -126,7 +126,7 @@
                     for (var i = 0; i < result.cmd_history_list.length; i++) {
                         //alert(result.cmd_history_list[i].execute_time)
                         $("#history").append(
-                            '<tr><td style="white-space: nowrap;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
+                            '<tr><td style=""word-break:break-all; word-wrap:break-all;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
                         );
                     }
                 }

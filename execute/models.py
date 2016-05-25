@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Command_history(models.Model):
     class Meta:
         db_table = 'salt_command_history'
-    command = models.CharField(max_length=50, blank=True)
+    command = models.TextField(null=True, blank=True)
     execute_time = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User)
 
