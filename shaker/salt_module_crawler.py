@@ -25,7 +25,7 @@ def get_module():
     salt_modindex = get_modindex('http://docs.saltstack.com/en/latest/salt-modindex.html')
     print salt_modindex
     for mod in salt_modindex:
-        url = 'http://docs.saltstack.com/en/latest/ref/modules/all/' + i + '.html#module-' + i
+        url = 'http://docs.saltstack.com/en/latest/ref/modules/all/' + mod + '.html#module-' + mod
         print url
         request = urllib2.Request(url, None, req_header)
         try:
