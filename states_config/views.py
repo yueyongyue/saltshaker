@@ -148,17 +148,16 @@ def del_sls(request):
 def highstate_result(request):
     sapi = SaltAPI()
     if request.POST:
-        sls_name = request.POST.get("sls_name")
         host_list = request.POST.getlist("hosts_name")
         execute = request.POST.get("execute")
         if execute:
             host_str = ",".join(host_list)
-            jid = sapi.target_deploy(host_str, sls_name)
+            jid = sapi.target_deploy(host_str, execute)
             while 1:
                 jids = "salt-run jobs.lookup_jid " + jid
                 result = os.popen(jids).read()
                 if len(result) > 0:
-                    exit
+                    break
             if result == "":
                 result = "Execute time too long, Please see jid:" + jid + " history."
                 return render(request, 'states_config/highstate_result.html', {'result': result})
