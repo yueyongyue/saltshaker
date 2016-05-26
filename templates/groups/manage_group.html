@@ -345,6 +345,8 @@
            var ids=[];
            $('input[name="CHKlist"]:checked').each(function(){
                var id=$(this).val();
+               //tr_index = $(this).parent().parent().index()
+               //td_name = $(this).parent().parent().children("td:eq(2)").text()
                ids.push(id);
            }); 
            if (ids.length >0)

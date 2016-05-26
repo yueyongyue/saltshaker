@@ -254,7 +254,7 @@
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration:none">Target</a></label>
-                            <form method="post" action="/states_config/highstate_result/" target="iframepage">     <!-- target iframe refresh highstate_result.html -->
+                            <form id="run_sls" method="post" action="/states_config/highstate_result/" target="iframepage">     <!-- target iframe refresh highstate_result.html -->
                                 <div id="collapseOne" class="panel-collapse collapse on">
                                     <div class="panel-body" style="padding:0px">
                                         <table class="table table-striped table-bordered table-hover">
@@ -320,9 +320,8 @@
                                    <td id="informations" style="word-break:break-all;display: none">{{ s.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ s.enabled|lower }}</td>
                                    <td>
-                                       <button type="submit" type="button" class="btn btn-outline btn-success btn-xs">Execute</button>
-                                       <button type="submit" type="button" class="btn btn-outline btn-primary btn-xs">Test</button>
-                                       <button id="update" name="update_button" value="{{ sname }}" type="button" class="btn btn-outline btn-primary btn-xs" >Upload File</button>
+                                       <button  form="run_sls" id="execute" name="execute" value={{ s.name }} type="submit" type="button" class="btn btn-outline btn-success btn-xs">Execute</button>
+                                       <button  form="run_sls" id="test" name="test" value={{ s.name }} type="submit" type="submit" class="btn btn-outline btn-primary btn-xs">Test</button>
                                    </td>
                                </tr>
                                {% endfor %}
@@ -447,12 +446,28 @@
       })
       // end modify //
 
+
+      // execute sls //
+      $('#execute').click(function(){
+          /*  
+          sls = $(this).parent().parent().children("td:eq(2)").text()
+          var obj=document.getElementsByName('hosts_name')
+          var hosts = []
+          for(var i=0; i<obj.length; i++){
+              if (obj[i].checked){
+                  var host = obj[i].value
+                  hosts.push(host)
+              }
+            }
+          */  
+          $('#run_sls').submit();
+      })
+
       //show success and error modal //
       $('#success_modal').modal('show')
       $('#error_modal').modal('show')
       //  end show success and error modal //
     });
-
       // select all
         function selectAll(group){
            var checklist = document.getElementsByClassName(group);

@@ -79,7 +79,7 @@ def add_sls(request):
            for _b in _businesses:
                _b_object = Businesses.objects.get(name=_b.strip())
                _h.business.add(_b_object)
-           _success = "add sls "+ _name + " 0k!"
+           _success = "add sls "+ _name + " ok!"
 
         else:
            _error = "name already exists or too long!"
@@ -150,16 +150,20 @@ def highstate_result(request):
     if request.POST:
         sls_name = request.POST.get("sls_name")
         host_list = request.POST.getlist("hosts_name")
-        host_str = ",".join(host_list)
-        jid = sapi.target_deploy(host_str, sls_name)
-        jids = "salt-run jobs.lookup_jid " + jid
-        time.sleep(60)
-        result = os.popen(jids).read()
-        if result == "":
-            result = "Execute time too long, Please see jid:" + jid + " history."
-            return render(request, 'states_config/highstate_result.html', {'result': result})
-        else:
-            return render(request, 'states_config/highstate_result.html', {'result': result})
+        execute = request.POST.get("execute")
+        if execute:
+            host_str = ",".join(host_list)
+            jid = sapi.target_deploy(host_str, sls_name)
+            while 1:
+                jids = "salt-run jobs.lookup_jid " + jid
+                result = os.popen(jids).read()
+                if len(result) > 0:
+                    exit
+            if result == "":
+                result = "Execute time too long, Please see jid:" + jid + " history."
+                return render(request, 'states_config/highstate_result.html', {'result': result})
+            else:
+                return render(request, 'states_config/highstate_result.html', {'result': result})
     return render(request, 'states_config/highstate_result.html')
 
 #@login_required(login_url="/account/login/")
