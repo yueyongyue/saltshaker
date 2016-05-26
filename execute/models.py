@@ -12,4 +12,18 @@ class Command_history(models.Model):
     def __unicode__(self):
         return u'%s %s %s' % (self.command, self.execute_time, self.user)
 
+class Modindex(models.Model):
+    class Meta:
+        db_table = 'salt_modindex'
+    module_name = models.TextField(null=True, blank=True)
+    module_fun = models.TextField(null=True, blank=True)
+    module_des = models.TextField(null=True, blank=True)
+    module_exa = models.TextField(null=True, blank=True)
+
+
+    def __unicode__(self):
+        return u'%s %s %s' % (self.module_name, self.module_fun, self.module_des)
+
+
+
 

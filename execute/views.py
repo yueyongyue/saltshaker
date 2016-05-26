@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from shaker.shaker_core import *
-from shaker.nodegroups import *
+from execute.models import *
 from groups.models import Groups,Hosts
 from account.models import Businesses,Privileges,UserProfiles
 from execute.models import Command_history
@@ -188,7 +188,8 @@ def salt_runcmd(request):
                 all[_group.name]=_h
     except Exception as e:
         pass
-    return render(request, 'execute/minions_salt_runcmd.html', {'list_groups': all})
+    modindex = Modindex.objects.all()
+    return render(request, 'execute/minions_salt_runcmd.html', {'list_groups': all, 'modindex': modindex})
 
 def salt_result(request):
     line = "################################################################"
@@ -206,7 +207,8 @@ def salt_result(request):
             result = sapi.remote_noarg_execution(host_str, salt_fun)
         else:
             result = sapi.remote_execution(host_str, salt_fun, salt_arg)
-        return render(request, 'execute/minions_salt_result.html', {'result': result, 'cmd': cmd, 'line': line})
+
+        return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
 
 
 
