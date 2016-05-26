@@ -17,7 +17,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table class="table table-striped table-bordered table-hover" id="datatable-demo">
                                     <thead>
                                         <tr>
                                             <th>Jid</th>
@@ -58,4 +58,18 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
+  {% endblock %}
+
+
+  {% block jquery %}
+     <script type="text/javascript">
+     $(document).ready(function(){
+         //data table
+         $("#datatable-demo").DataTable( {
+            //设置第一列为初始化排序的列
+            "order": [[ 3, "desc" ]],
+            });
+         // end data table
+     });
+     </script>
   {% endblock %}
