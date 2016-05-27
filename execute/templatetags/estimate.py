@@ -8,11 +8,12 @@ def to_str(value):
         value_str = '\n'.join(value)
         return value_str
     elif type(value) == dict:
-        b = ''
-        for key, values in value.items():
-            a = key + '\n    ' + values
-            #b = a + b
-            return a
+        value_l = []
+        for key in value:
+            tmp = str(key) + '\n    ' + str(value[key])
+            value_l.append(tmp)
+        value_str = '\n'.join(value_l)
+        return value_str
     else:
         return value
 
