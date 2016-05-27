@@ -208,7 +208,7 @@ def salt_result(request):
         else:
             result = sapi.remote_execution(host_str, salt_fun, salt_arg)
 
-        return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
+        return render(request, 'execute/minions_salt_result.html', {'result': result, 'cmd': cmd, 'line': line})
 
 
 
