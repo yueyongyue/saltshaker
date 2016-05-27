@@ -15,15 +15,10 @@
         <div class="col-lg-12">
             <textarea class="form-control" rows="20" style="background: #300a24" >
 {{ cmd }}
-{{ line }}
-                {% for hostname,shell_result in result.items %}
+{{ line }}{% load estimate %}{% for hostname,shell_result in result.items %}
 Minions : {{ hostname }}
 ------------------------------------------------------------------------------------------------------
-{% for i,v in shell_result.items %}{{ i }}:
-    {{ v }}
-{% endfor %}
-{% for i in shell_result %}{{ i }}
-{% endfor %}
+{{ shell_result | to_str }}
                 {% endfor %}
             </textarea>
         </div>
