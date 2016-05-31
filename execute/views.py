@@ -144,7 +144,24 @@ def shell_result(request):
         cmd_history.user = _u
         cmd_history.command = cmd
         cmd_history.save()
-        return render(request, 'execute/minions_shell_result.html', {'result': result, 'cmd': cmd, 'line': line})
+
+        minion_count = 'Total: ' + str(len(minion_id_list))
+        cmd_succeed = 'Succeed: ' + str(len(result))
+        cmd_failure = 'Failure: ' + str(len(minion_id_list)-len(result))
+        succeed_minion = []
+        for i in result:
+            succeed_minion.append(i)
+        failure_minion = 'Failure_Minion: ' + ','.join(list(set(minion_id_list).difference(set(succeed_minion))))
+
+
+        return render(request, 'execute/minions_shell_result.html', {'result': result,
+                                                                     'cmd': cmd,
+                                                                     'line': line,
+                                                                     'minion_count': minion_count,
+                                                                     'cmd_succeed': cmd_succeed,
+                                                                     'cmd_failure': cmd_failure,
+                                                                     'failure_minion': failure_minion
+                                                                     })
     return render(request, 'execute/minions_shell_result.html')
 
 @login_required(login_url="/account/login/")
