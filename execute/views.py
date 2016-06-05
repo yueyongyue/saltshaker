@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from shaker.shaker_core import *
 from execute.models import *
@@ -143,11 +144,13 @@ def shell_result(request):
         cmd_history = Command_history()
         cmd_history.user = _u
         cmd_history.command = cmd
+        cmd_history.command_tag = 0
         cmd_history.save()
 
         minion_count = 'Total: ' + str(len(minion_id_list))
         cmd_succeed = 'Succeed: ' + str(len(result))
         cmd_failure = 'Failure: ' + str(len(minion_id_list)-len(result))
+        cmd = 'Command: ' + cmd
         succeed_minion = []
         for i in result:
             succeed_minion.append(i)
@@ -165,18 +168,18 @@ def shell_result(request):
     return render(request, 'execute/minions_shell_result.html')
 
 @login_required(login_url="/account/login/")
-def get_history(request):
+def get_history(request, tag):
     cmd_history_list = []
     _u = request.user
     try:
-        cmd_history = Command_history.objects.filter(user_id=_u).order_by('-id').all()[:10]
+        cmd_history = Command_history.objects.filter(Q(user_id=_u) & Q(command_tag=tag)).order_by('-id').all()[:10]
     except Exception as e:
         logger.error(e)
     for i in cmd_history:
         tmp = {'command': i.command, 'execute_time': i.execute_time}
         cmd_history_list.append(tmp)
 
-    return HttpResponse(json.dumps({"cmd_history_list": cmd_history_list}, cls=CJsonEncoder), content_type = 'application/json')
+    return HttpResponse(json.dumps({"cmd_history_list": cmd_history_list}, cls=CJsonEncoder), content_type='application/json')
 
 
 @login_required(login_url="/account/login/")
@@ -209,6 +212,7 @@ def salt_runcmd(request):
     return render(request, 'execute/minions_salt_runcmd.html', {'list_groups': all, 'modindex': modindex})
 
 def salt_result(request):
+    _u = request.user
     line = "################################################################"
     sapi = SaltAPI()
     if request.POST:
@@ -225,7 +229,30 @@ def salt_result(request):
         else:
             result = sapi.remote_execution(host_str, salt_fun, salt_arg)
 
-        return render(request, 'execute/minions_salt_result.html', {'result': result, 'cmd': cmd, 'line': line})
+        cmd_history = Command_history()
+        cmd_history.user = _u
+        cmd_history.command = cmd
+        cmd_history.command_tag = 1
+        cmd_history.save()
+
+        minion_count = 'Total: ' + str(len(host_list))
+        cmd_succeed = 'Succeed: ' + str(len(result))
+        cmd_failure = 'Failure: ' + str(len(host_list)-len(result))
+        cmd = 'Command: ' + cmd
+        succeed_minion = []
+        for i in result:
+            succeed_minion.append(i)
+        failure_minion = 'Failure_Minion: ' + ','.join(list(set(host_list).difference(set(succeed_minion))))
+
+        return render(request, 'execute/minions_salt_result.html', {'result': result,
+                                                                     'cmd': cmd,
+                                                                     'line': line,
+                                                                     'minion_count': minion_count,
+                                                                     'cmd_succeed': cmd_succeed,
+                                                                     'cmd_failure': cmd_failure,
+                                                                     'failure_minion': failure_minion
+                                                                     })
+
 
 
 
