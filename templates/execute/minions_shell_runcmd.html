@@ -39,7 +39,8 @@
                                                        </div>
                                                    </td>
                                                    <td>
-                                                       {% for host in hosts %}
+                                                   　　{% load estimate %}
+                                                       {% for host in hosts|sort_ip %}
                                                            <div class="checkbox-inline" name="checkedhost">
                                                                <input class="{{ groups }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
                                                            </div>
