@@ -20,7 +20,8 @@ def to_str(value):
 @register.filter(is_safe=True)
 def sort_ip(ip_list):
     try:
-        return ip_list.sort(lambda x, y: int(x.split('.')[3])-int(y.split('.')[3]))
+        ip_list.sort(lambda x, y: int(x.split('.')[3])-int(y.split('.')[3]))
+        return ip_list
     except:
         return ip_list
 
