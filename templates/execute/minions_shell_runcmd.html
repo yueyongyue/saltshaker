@@ -31,6 +31,7 @@
                                                        <label>Hosts</label>
                                                    </td>
                                                </tr>
+                                               {% load estimate %}
                                                {% for groups,hosts in list_groups.items %}
                                                <tr>
                                                    <td style="white-space: nowrap;">
@@ -39,8 +40,7 @@
                                                        </div>
                                                    </td>
                                                    <td>
-                                                   　　{% load estimate %}
-                                                       {% for host in hosts|sort_ip %}
+                                                       {% for host in hosts %}
                                                            <div class="checkbox-inline" name="checkedhost">
                                                                <input class="{{ groups }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
                                                            </div>
