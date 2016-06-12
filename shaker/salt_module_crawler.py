@@ -47,6 +47,8 @@ def get_module():
         #print items_example
         for i in items_name:
             modindex = Modindex()
+            if mod_fun == 'sysmod':
+                mod_fun = 'sys'
             name = mod_fun + '.' + i
             modindex.module_name = name
             modindex.save()
