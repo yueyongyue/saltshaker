@@ -110,8 +110,6 @@ def setup_user(request):
         return render_to_response("account/error.html",)
     _success=False
     _error=False
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
     if request.method == "POST":
 
         _username = request.POST.get("username")

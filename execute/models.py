@@ -6,6 +6,7 @@ class Command_history(models.Model):
     class Meta:
         db_table = 'salt_command_history'
     command = models.TextField(null=True, blank=True)
+    command_tag = models.IntegerField(null=True, blank=True)
     execute_time = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User)
 

@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-lg-12">
             <textarea class="form-control" rows="20" style="background: #300a24" >
-{{ cmd }}
+{{ cmd }}     {{ minion_count }}    {{ cmd_succeed }}    {{ cmd_failure }}    {{ failure_minion }}
 {{ line }}{% load estimate %}{% for hostname,shell_result in result.items %}
 Minions : {{ hostname }}
 ------------------------------------------------------------------------------------------------------

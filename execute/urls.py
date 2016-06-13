@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^minions_salt_runcmd', views.salt_runcmd, name='salt_runcmd'),
     url(r'^minions_shell_result', views.shell_result, name='shell_result'),
     url(r'^minions_salt_result', views.salt_result, name='salt_result'),
-    url(r'^get_history', views.get_history, name='get_history'),
+    url(r'^get_history/([0|1])', views.get_history, name='get_history'),
 ]

@@ -31,6 +31,7 @@
                                                        <label>Hosts</label>
                                                    </td>
                                                </tr>
+                                               {% load estimate %}
                                                {% for groups,hosts in list_groups.items %}
                                                <tr>
                                                    <td style="white-space: nowrap;">
@@ -39,7 +40,7 @@
                                                        </div>
                                                    </td>
                                                    <td>
-                                                       {% for host in hosts %}
+                                                       {% for host in hosts|sort_ip %}
                                                            <div class="checkbox-inline" name="checkedhost">
                                                                <input class="{{ groups }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
                                                            </div>
@@ -113,7 +114,7 @@
             $.ajax({
                 type: "get",
                 async: false, //同步执行
-                url: "/execute/get_history",
+                url: "/execute/get_history/0",
                 data: {},
                 dataType: "json", //返回数据形式为json
                 success: function (result) {

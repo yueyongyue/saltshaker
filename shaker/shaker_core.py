@@ -71,7 +71,7 @@ class SaltAPI(object):
         obj = urllib.urlencode(params)
         content = self.postRequest(obj)
         try:
-            ret = content['return'][0]
+            ret = content['return'][0][tgt]
         except Exception as e:
             pass
         return ret
@@ -81,7 +81,7 @@ class SaltAPI(object):
         obj = urllib.urlencode(params)
         content = self.postRequest(obj)
         try:
-            ret = content['return'][0]
+            ret = content['return'][0][tgt]
         except Exception as e:
             pass
         return ret
