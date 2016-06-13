@@ -17,17 +17,23 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from filebrowser.sites import site
 import dashboard,minions,execute,jobs,states_config,code_update,groups,system_setup,account
 
 urlpatterns = [
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.STATIC_ROOT}),
+    #Add the FileBrowser site to your url-patterns (before any admin-urls)
+    url(r'^admin/filebrowser/', include(site.urls)),
+    url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
+
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^$', include('dashboard.urls')),
     url(r'minions/', include('minions.urls')),
     url(r'execute/', include('execute.urls')),
     url(r'jobs/', include('jobs.urls')),
     url(r'states_config/', include('states_config.urls')),
+    url(r'files_manager/', include('files_manager.urls')),
     #url(r'code_update/', include('code_update.urls')),
     url(r'groups/', include('groups.urls')),
     url(r'system_setup/', include('system_setup.urls')),
