@@ -75,6 +75,16 @@ class SaltAPI(object):
         except Exception as e:
             pass
         return ret
+    def remote_noarg_execution_notgt(self,tgt,fun):
+        ''' Execute commands without parameters '''
+        params = {'client': 'local', 'tgt': tgt, 'fun': fun, 'expr_form': 'list'}
+        obj = urllib.urlencode(params)
+        content = self.postRequest(obj)
+        try:
+            ret = content['return'][0]
+        except Exception as e:
+            pass
+        return ret
     def remote_execution(self,tgt,fun,arg):
         ''' Command execution with parameters '''
         params = {'client': 'local', 'tgt': tgt, 'fun': fun, 'arg': arg, 'expr_form': 'list'}
@@ -82,6 +92,16 @@ class SaltAPI(object):
         content = self.postRequest(obj)
         try:
             ret = content['return'][0][tgt]
+        except Exception as e:
+            pass
+        return ret
+    def remote_execution_notgt(self,tgt,fun,arg):
+        ''' Command execution with parameters '''
+        params = {'client': 'local', 'tgt': tgt, 'fun': fun, 'arg': arg, 'expr_form': 'list'}
+        obj = urllib.urlencode(params)
+        content = self.postRequest(obj)
+        try:
+            ret = content['return'][0]
         except Exception as e:
             pass
         return ret

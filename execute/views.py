@@ -225,9 +225,9 @@ def salt_result(request):
         host_str = ",".join(host_list)
         logger.info(host_str)
         if salt_arg == '':
-            result = sapi.remote_noarg_execution(host_str, salt_fun)
+            result = sapi.remote_noarg_execution_notgt(host_str, salt_fun)
         else:
-            result = sapi.remote_execution(host_str, salt_fun, salt_arg)
+            result = sapi.remote_execution_notgt(host_str, salt_fun, salt_arg)
 
         cmd_history = Command_history()
         cmd_history.user = _u
