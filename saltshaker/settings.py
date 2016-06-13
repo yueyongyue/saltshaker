@@ -44,8 +44,6 @@ CRONJOBS = (
 # Application definition
 
 INSTALLED_APPS = (
-    'grappelli',
-    'filebrowser',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,7 +138,6 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-STATIC_ROOT = "/var/salt/"
 
 # SaltStack API
 SALT_API_URL = 'http://127.0.0.1:8000'
@@ -148,7 +145,7 @@ SALT_API_USER = 'admin'
 SALT_API_PASSWD = 'admin'
 
 # File root directory
-FILE_BASE_DIR = '/srv/salt/files/'
+FILE_BASE_DIR = '/srv/salt/'
 
 # django logging
 CUSTOM_ACCESS_LOG_OPEN = True
