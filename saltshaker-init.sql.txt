@@ -868,7 +868,7 @@ CREATE TABLE `salt_command_history` (
   PRIMARY KEY (`id`),
   KEY `salt_command_history_user_id_20c2fb2b98e30230_fk_auth_user_id` (`user_id`),
   CONSTRAINT `salt_command_history_user_id_20c2fb2b98e30230_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -944,7 +944,7 @@ CREATE TABLE `salt_modindex` (
   `module_des` longtext,
   `module_exa` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4396 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4396 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1001,7 +1001,7 @@ CREATE TABLE `states_config_highstate` (
   `enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1029,7 +1029,7 @@ CREATE TABLE `states_config_highstate_business` (
   KEY `states_c_businesses_id_7481062c72b03eb4_fk_account_businesses_id` (`businesses_id`),
   CONSTRAINT `states_c_businesses_id_7481062c72b03eb4_fk_account_businesses_id` FOREIGN KEY (`businesses_id`) REFERENCES `account_businesses` (`id`),
   CONSTRAINT `stat_highstate_id_49b6f30364af7382_fk_states_config_highstate_id` FOREIGN KEY (`highstate_id`) REFERENCES `states_config_highstate` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
