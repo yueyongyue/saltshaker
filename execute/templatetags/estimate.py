@@ -19,3 +19,9 @@ def to_str(value):
 
 
 
+@register.filter(is_safe=True)
+def ListToStr(l,nu):
+    return l[nu]
+    
+
+
