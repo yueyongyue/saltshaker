@@ -140,7 +140,7 @@ saltshaker 环境搭建 Centos6.x
 
 7、 启动celery worker
 
-    python manage.py celery worker --loglevel=info
+    python manage.py celery worker --loglevel=info -c 5
 
 8、 相关数据库同步
 
