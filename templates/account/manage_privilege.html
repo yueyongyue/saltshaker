@@ -350,6 +350,10 @@
               var id=$(this).val();
               ids.push(id);
           });
+          if (ids.length <= 0){
+              $('#checkbox_error_modal').modal('show');
+              }
+          else {
           var tmp_id=ids[0];
           var tmp_name=$("#"+tmp_id).find("#name").text();
           var tmp_allow=$("#"+tmp_id).find("#allow").text();
@@ -375,6 +379,7 @@
           $('#modify_commit').click(function(){
               $('#modify_data').submit();
               });
+          }
       })
       // end modify //
 
