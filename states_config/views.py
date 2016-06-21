@@ -41,7 +41,7 @@ def highstate(request,*args,**kw):
         _groups = Groups.objects.filter(business__in=_businesses)
         for _group in _groups:
             _h = []
-            _hosts = _group.groups_hosts_related.all()
+            _hosts = _group.hosts_set.all()
             for _host in _hosts:
                 _h.append(_host.minion.minion_id)
                 all[_group.name] = _h

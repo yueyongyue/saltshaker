@@ -208,10 +208,44 @@ def add_host(request):
             _enabled=True
         else:
             _enabled=False
+        if 1:
+     
+            _host=Hosts(minion=_minion,name=_name,informations=_informations,enabled=_enabled)
+            _host.save()
+            _host.group.add(_group)
+
+            _minion_status=Minions_status.objects.get(minion_id=_m)
+            _minion_status.minion_config=True
+            _minion_status.save()
+            _success="Add Host "+_name+" OK!!"
+        #except Exception as e:
+        else:
+            _error="name already exists or too long!"
+            
+    else:
+        pass
+    return manage_host(request,success=_success,error=_error)
+@login_required(login_url="/account/login/")
+def add_hosts(request):
+    _success=False
+    _error=False
+    if request.method=="POST":
+        _m=request.POST.get("minion")
+        _minion=Minions_status.objects.get(minion_id=_m)
+        _g=request.POST.get("group")
+        _group=Groups.objects.get(name=_g)
+        _name=request.POST.get("name")
+        _informations=request.POST.get("informations")
+        if request.POST.get("enabled") == "true":
+            _enabled=True
+        else:
+            _enabled=False
         try:
      
-            _host=Hosts(minion=_minion,group=_group,name=_name,informations=_informations,enabled=_enabled)
+            _host=Hosts(minion=_minion,name=_name,informations=_informations,enabled=_enabled)
             _host.save()
+            _host.group.add(_group)
+
             _minion_status=Minions_status.objects.get(minion_id=_m)
             _minion_status.minion_config=True
             _minion_status.save()

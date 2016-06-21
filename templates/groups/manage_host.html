@@ -19,7 +19,9 @@
                        Action <span class="caret"></span>
                        </button>
                        <ul class="dropdown-menu">
-                         <li><a id="add_host" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add </a></li>
+                         <li><a id="add_host" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add 1 </a></li>
+                         <li role="separator" class="divider"></li>
+                         <li><a id="add_hosts" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add 1+ </a></li>
                          <li role="separator" class="divider"></li>
                          <li><a id="modify_host" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | modify </a></li>
                          <li role="separator" class="divider"></li>
@@ -99,6 +101,69 @@
                          </div>
                        </div>
                        <!-- end add  modal -->
+                       <!-- add hosts modal -->
+                       <div id="add_hosts_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                         <div class="modal-dialog modal-lg">
+                           <div class="modal-content">
+                             <div class="modal-header">
+                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                               <h4 class="modal-title" id="exampleModalLabel">Add</h4>
+                             </div>
+                             <div class="modal-body">
+                               <form class="form-horizontal" id="add_hosts_data" method="post" action="/groups/add_hosts/">
+                                 <fieldset>
+
+                                   <div class="form-group">
+                                     <label for="minion" class="col-sm-3 control-label">minion_ids</label>
+                                     <div class="col-sm-9">
+                                         {% if minions %}
+                                         {% for m in minions %}
+                                             <input type="checkbox" id="minion" name="minion" value="{{ m.minion_id }}">{{ m.minion_id }} 
+                                         {% endfor %}
+                                         {% endif %}
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <label for="minion_id" class="col-sm-3 control-label">groups</label>
+                                     <div class="col-sm-9">
+                                         {% if groups %}
+                                         {% for g in groups %}
+                                           <input type="checkbox" id="group" name="group" value="{{ g }}">{{ g }} 
+                                         {% endfor %}
+                                         {% endif %}
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <label for="informations" class="col-sm-3 control-label">informations</label>
+                                     <div class="col-sm-9">
+                                       <textarea class="form-control" id="informations" name="informations" minlength="1" required></textarea>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <div class="col-sm-offset-3 col-sm-9">
+                                       <div class="checkbox">
+                                         <label>
+                                           <input checked type="checkbox" name="enabled" value="true"> Enabled or Not
+                                         </label>
+                                       </div>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <div class="col-sm-offset-3 col-sm-9">
+                                       <button onclick="submit" id="add_hosts_commit" type="submit" class="btn btn-outline btn-success btn-xs">Submit</button>
+                                     </div>
+                                   </div>
+                                 </fieldset>
+                               </form>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                       <!-- end add hosts modal -->
 
                        <!-- delete  modal -->
                        <div id="delete_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -287,7 +352,7 @@
                                    <td id="id" style="word-break:break-all">{{ h.id }}</td>
                                    <td id="name" style="display:none;word-break:break-all">{{ h.name }}</td>
                                    <td id="minion" style="word-break:break-all">{{ h.minion.minion_id }}</td>
-                                   <td id="group" style="word-break:break-all">{{ h.group.name }}</td>
+                                   <td id="group" style="word-break:break-all">{% for g in h.group.all %} {{ g.name }} {% endfor %}</td>
                                    <td id="informations" style="display:none;word-break:break-all">{{ h.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ h.enabled|lower }}</td>
                                    <td style="display:none" ><button onclick="modify_host()" id="modify_host" name="modify_button" value="{{ h.id }}" type="button" class="btn btn-outline btn-success btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
@@ -332,7 +397,7 @@
            "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,7] }]  
            });     
         // end data table
-        // add //
+        // add host//
         $("#add_host").click(function(){
             var hostname=$("#minion").find("option:selected").text()
             $("#add_hostname").val(hostname)
@@ -345,6 +410,16 @@
             });
         // end add //
 
+        // add hosts//
+        $("#add_hosts").click(function(){
+            $('#add_hosts_modal').modal('show')
+
+            $("#add_hosts_commit").click(function(){
+                $("#add_hosts_data").submit()
+            });
+            
+            });
+        // end hosts add //
 
         // delete //
         $("#delete_host").click(function(){

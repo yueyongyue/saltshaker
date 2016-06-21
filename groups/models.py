@@ -18,7 +18,8 @@ class Hosts(models.Model):
     name          =    models.CharField(max_length=50,unique=True)
     business      =    models.CharField(max_length=100)
     informations  =    models.CharField(max_length=200)
-    group         =    models.ForeignKey(Groups,related_name="%(app_label)s_%(class)s_related")
+    #group         =    models.ForeignKey(Groups,related_name="%(app_label)s_%(class)s_related")
+    group         =    models.ManyToManyField(Groups)
     enabled       =    models.BooleanField(default=True)
 
     def __unicode__(self):
