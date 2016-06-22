@@ -100,7 +100,6 @@ def add_group(request):
         else:
             _enabled=False
         try:
-            print _name,_business,_informations,_enabled
             _group=Groups(name=_name,business=_business,informations=_informations,enabled=_enabled)
             _group.save()
             _success="Add Group "+_name+" OK!!"
@@ -126,7 +125,7 @@ def manage_host(request,*args,**kw):
             _bs.append(_t.name)
         _groups = Groups.objects.filter(business__in = _bs)  
 
-    _hosts = Hosts.objects.filter(group__in=_groups)
+    _hosts = Hosts.objects.filter(group__in=_groups).distinct()
     _minions = Minions_status.objects.filter(minion_config=False)
     _success = kw.get("success",False)
     _error = kw.get("error",False)
@@ -147,9 +146,13 @@ def del_host(request):
     _minion_ids=[]
     try:
         _filter=Hosts.objects.filter(id__in=_ids)
+        # Break off relations with groups
+        for _f in _filter:
+            _f.group.clear()
+
         for _m in _filter:
             _minion_ids.append(_m.minion.id)
-        #delete minion_status
+        #delete minions
         _m_filter = Minions_status.objects.filter(id__in=_minion_ids)
         _m_filter.delete()
         #delete hosts
@@ -163,30 +166,38 @@ def del_host(request):
 def modify_host(request):
     _success=False
     _error=False
-    if request.method=="POST":
-        _id=request.POST.get("id")
-        _m=request.POST.get("minion")
-        _minion=Minions_status.objects.get(minion_id=_m)
-        _g=request.POST.get("group")
-        _group=Groups.objects.get(name=_g)
-        _name=request.POST.get("name")
-        _business=request.POST.get("business")
-        _enabled=request.POST.get("enabled")
-        _informations=request.POST.get("informations")
+    if request.method == "POST":
+        _id = request.POST.get("id")
+        _m = request.POST.get("minion")
+        _minion = Minions_status.objects.get(minion_id=_m)
+        _gs = request.POST.getlist("group")
+        _name = request.POST.get("name")
+        _business = request.POST.get("business")
+        _enabled = request.POST.get("enabled")
+        _informations = request.POST.get("informations")
         if _enabled is not None:
             _enabled=True
         else:
             _enabled=False
+
+        if len(_gs) < 1:
+            _error = "There is no group selected!"
+            return manage_host(request,success=_success,error=_error)
+
         try:
             _host=Hosts.objects.get(id=_id)
             _name_before=_host.name
             _host.name=_name
             _host.minion=_minion
-            _host.group=_group
             _host.business=_business
             _host.enabled=_enabled
             _host.informations=_informations
             _host.save()
+
+            _host.group.clear()
+            for _g in _gs:
+                _group =  Groups.objects.get(name = _g)
+                _host.group.add(_group)
             _success="Modify Host "+ _name +" OK"
         except Exception as e:
             _error="Modify Host "+ _name +" failed"
@@ -208,48 +219,56 @@ def add_host(request):
             _enabled=True
         else:
             _enabled=False
-        if 1:
-     
-            _host=Hosts(minion=_minion,name=_name,informations=_informations,enabled=_enabled)
-            _host.save()
-            _host.group.add(_group)
-
-            _minion_status=Minions_status.objects.get(minion_id=_m)
-            _minion_status.minion_config=True
-            _minion_status.save()
-            _success="Add Host "+_name+" OK!!"
-        #except Exception as e:
-        else:
-            _error="name already exists or too long!"
-            
-    else:
-        pass
-    return manage_host(request,success=_success,error=_error)
-@login_required(login_url="/account/login/")
-def add_hosts(request):
-    _success=False
-    _error=False
-    if request.method=="POST":
-        _m=request.POST.get("minion")
-        _minion=Minions_status.objects.get(minion_id=_m)
-        _g=request.POST.get("group")
-        _group=Groups.objects.get(name=_g)
-        _name=request.POST.get("name")
-        _informations=request.POST.get("informations")
-        if request.POST.get("enabled") == "true":
-            _enabled=True
-        else:
-            _enabled=False
         try:
      
             _host=Hosts(minion=_minion,name=_name,informations=_informations,enabled=_enabled)
             _host.save()
             _host.group.add(_group)
 
-            _minion_status=Minions_status.objects.get(minion_id=_m)
-            _minion_status.minion_config=True
-            _minion_status.save()
+            _minion.minion_config=True
+            _minion.save()
             _success="Add Host "+_name+" OK!!"
+        except Exception as e:
+            _error="name already exists or too long!"
+            
+    else:
+        pass
+    return manage_host(request,success=_success,error=_error)
+@login_required(login_url="/account/login/")
+def add_multi_hosts(request):
+    _success=False
+    _error=False
+    if request.method=="POST":
+        _ms=request.POST.getlist("minion")
+        _names = _ms
+        _gs=request.POST.getlist("group")
+        _informations=request.POST.get("informations")
+        if request.POST.get("enabled") == "true":
+            _enabled=True
+        else:
+            _enabled=False
+        if len(_ms) < 1 and len(_gs) <1:
+            _error = "There is no minion_id or group selected"
+            return manage_host(request,success=_success,error=_error)
+
+        try:
+            nu = 0
+            for _m in _ms:
+                _minion=Minions_status.objects.get(minion_id=_m)
+                _n = _minion.minion_id
+                _host=Hosts(minion=_minion,name=_n,informations=_informations,enabled=_enabled)
+                _host.save()
+                _minion.minion_config=True
+                _minion.save()
+
+                for _g in _gs:
+                    _group=Groups.objects.get(name=_g)
+                    _host.group.add(_group)
+
+            _ns = ""
+            for _name in _names:
+                _ns += ' | '+_name
+                _success="Add Host %s OK!!" % (_ns)
         except Exception as e:
             _error="name already exists or too long!"
             

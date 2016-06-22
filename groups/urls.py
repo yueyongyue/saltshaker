@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^manage_host', views.manage_host,name='manage_host'),
     url(r'^modify_host', views.modify_host,name='modify_host'),
     url(r'^add_host', views.add_host,name='add_host'),
-    url(r'^add_hosts', views.add_hosts,name='add_hosts'),
+    url(r'^add_multi_hosts', views.add_multi_hosts,name='add_multi_hosts'),
     url(r'^del_host', views.del_host,name='del_host'),
 
 ]
