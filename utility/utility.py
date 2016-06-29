@@ -50,3 +50,26 @@ def delele_file(*args,**kwargs):
     except Exception as e :
         pass
         return False
+
+def update_import_hosts(file="/tmp/tmp.txt"):
+    from groups.models import Groups,Hosts
+    _f = open("/tmp/tmp.txt","r")
+    for line in _f.readlines():
+        host_id = line.split(',')[0]
+        group_id = line.split(',')[1]
+        group_object = Groups.objects.get(group_id)
+        host_object = Hosts.objects.get(host_id)
+        host_object.group.add(group_object)
+    print "done"
+
+def update_export_hosts(file="/tmp/tmp.txt"):
+    from groups.models import Groups,Hosts
+    _hosts = Hosts.objects.all()
+    _f = open("/tmp/tmp.txt","w")
+    for _host in _hosts:
+        _f.write(str(_host.id)+','+str(_host.group.id))
+        _f.write("\n")
+    print "done"
+    _f.close()
+
+
