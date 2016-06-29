@@ -57,8 +57,8 @@ def update_import_hosts(file="/tmp/tmp.txt"):
     for line in _f.readlines():
         host_id = line.split(',')[0]
         group_id = line.split(',')[1]
-        group_object = Groups.objects.get(group_id)
-        host_object = Hosts.objects.get(host_id)
+        group_object = Groups.objects.get(id=group_id)
+        host_object = Hosts.objects.get(id=host_id)
         host_object.group.add(group_object)
     print "done"
 
