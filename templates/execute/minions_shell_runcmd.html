@@ -32,17 +32,17 @@
                                                    </td>
                                                </tr>
                                                {% load estimate %}
-                                               {% for groups,hosts in list_groups.items %}
+                                               {% for group in list_groups %}
                                                <tr>
                                                    <td style="white-space: nowrap;">
                                                        <div class="checkbox-inline" style="margin-left:7px">
-                                                          <input  id="{{ groups }}"  onclick="selectAll('{{ groups }}')" type="checkbox" value="">{{ groups }}
+                                                          <input  id="{{ group.name }}"  onclick="selectAll('{{ group.name }}')" type="checkbox" value="">{{ group.name }}
                                                        </div>
                                                    </td>
                                                    <td>
-                                                       {% for host in hosts|sort_ip %}
+                                                       {% for host in group.hosts_set.all|sort_ip %}
                                                            <div class="checkbox-inline" name="checkedhost">
-                                                               <input class="{{ groups }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
+                                                               <input class="{{ group.name }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
                                                            </div>
                                                        {% endfor %}
                                                    </td>

@@ -18,11 +18,16 @@ def to_str(value):
         return value
 
 @register.filter(is_safe=True)
-def sort_ip(ip_list):
+def sort_ip(ip_ob):
+    ip_list = []
     try:
+        for ip in ip_ob:
+            ip_list.append(ip.minion.minion_id)
         ip_list.sort(lambda x, y: int(x.split('.')[3])-int(y.split('.')[3]))
         return ip_list
     except:
+        for ip in ip_ob:
+            ip_list.append(ip.minion.minion_id)
         return ip_list
 
 
