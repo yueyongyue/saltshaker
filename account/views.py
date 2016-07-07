@@ -36,14 +36,15 @@ def logout_view(request):
 
 @login_required(login_url="/account/login/")
 def manage_user(request,*args,**kw):
-    _supermen = request.user
+    _superman = request.user
     _businesses = Businesses.objects.all()
     _privileges = Privileges.objects.all()
-    _u=User.objects.get(username=_supermen)
+
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         _users = UserProfiles.objects.all()
     else:
-        _userobject = User.objects.get(username=_supermen)
+        _userobject = User.objects.get(username=_superman)
         _users = [UserProfiles.objects.get(user=_userobject)]
     _success = kw.get("success",False)
     _error = kw.get("error",False)
@@ -58,8 +59,8 @@ def manage_user(request,*args,**kw):
 
 @login_required(login_url="/account/login/")
 def del_user(request):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         _users = UserProfiles.objects.all()
     else:
@@ -102,8 +103,8 @@ def set_password(request):
 
 @login_required(login_url="/account/login/")
 def setup_user(request):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         _users = UserProfiles.objects.all()
     else:
@@ -168,8 +169,8 @@ def add_user(request):
     _error=False
     
     if request.method=="POST":
-        _supermen = request.user
-        _u=User.objects.get(username=_supermen)
+        _superman = request.user
+        _u=User.objects.get(username=_superman)
         if _u.is_superuser == True:
             _users = UserProfiles.objects.all()
         else:
@@ -193,7 +194,9 @@ def add_user(request):
             _superuser=True
         else:
             _superuser=False
-        try:
+        #try:
+        if 1:
+       
             _user=User.objects.create_user(username=_username,password=_password,email=_email)
             _user.is_superuser=_superuser
             _user.save()
@@ -214,7 +217,8 @@ def add_user(request):
 
             _success="Add user "+_username+" OK!!"
 
-        except Exception as e:
+        #except Exception as e:
+        else:
             _error="user already exists or too long!"
     else:
         pass
@@ -223,8 +227,8 @@ def add_user(request):
 ###########################  mange business #######################   
 @login_required(login_url="/account/login/")
 def manage_business(request,*args,**kw):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         pass 
     else:
@@ -241,8 +245,8 @@ def manage_business(request,*args,**kw):
 
 @login_required(login_url="/account/login/")
 def del_business(request):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         pass
     else:
@@ -260,8 +264,8 @@ def del_business(request):
     return manage_business(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
 def modify_business(request):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         pass
     else:
@@ -291,8 +295,8 @@ def modify_business(request):
     return manage_business(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
 def add_business(request):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         pass
     else:
@@ -321,8 +325,8 @@ def add_business(request):
 
 @login_required(login_url="/account/login/")
 def manage_privilege(request,*args,**kw):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         pass
     else:
@@ -339,8 +343,8 @@ def manage_privilege(request,*args,**kw):
 
 @login_required(login_url="/account/login/")
 def del_privilege(request):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         pass
     else:
@@ -358,8 +362,8 @@ def del_privilege(request):
     return manage_privilege(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
 def modify_privilege(request):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         pass
     else:
@@ -393,8 +397,8 @@ def modify_privilege(request):
     return manage_privilege(request,success=_success,error=_error)
 @login_required(login_url="/account/login/")
 def add_privilege(request):
-    _supermen = request.user
-    _u=User.objects.get(username=_supermen)
+    _superman = request.user
+    _u=User.objects.get(username=_superman)
     if _u.is_superuser == True:
         pass
     else:

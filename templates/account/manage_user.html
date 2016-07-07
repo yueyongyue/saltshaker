@@ -181,9 +181,9 @@
                                      <label label for="business" class="col-sm-3 control-label">Business</label>
                                      <div class="col-sm-offset-4 col-sm-8">
                                        <div class="checkbox">
-                                           {% if businesses %}
+                                           {% if businesses  %}
                                            {% for b in businesses %}
-                                           <input  type="checkbox" name="business" value={{ b.name }}> {{ b.name }}<br>
+                                               <input  type="checkbox" name="business" class="business" value={{ b.name }}> {{ b.name }}<br>
                                            {% endfor %}
                                            {% else %}
                                            <input  type="checkbox" name="business" value='unkonwn'> unknown <br> 
@@ -198,7 +198,7 @@
                                        <div class="checkbox">
                                            {% if privileges %}
                                            {% for p in privileges %}
-                                           <input  type="checkbox" name="privilege" value={{ p.name }}> {{ p.name }}<br>
+                                           <input  type="checkbox" class="privilege" name="privilege" value={{ p.name }}> {{ p.name }}<br>
                                            {% endfor %}
                                            {% else %}
                                            <input  type="checkbox" name="privilege" value='unkonwn'> unknown <br> 
@@ -364,7 +364,7 @@
                                     <th>ID</th>
                                     <th>UserName</th>
                                     <th>Email</th>
-                                    <th>Supermen</th>
+                                    <th>Superman</th>
                                     <th>Business</th>
                                     <th style="display:none">Department</th>
                                     <th>Privilege</th>
@@ -512,8 +512,41 @@
           $('#modify_data').find('input#username').val(tmp_name);
           $('#modify_data').find('input#email').val(tmp_email);
           $('#modify_data').find('input#department').val(tmp_department);
-          //$('#modify_data').find('input#business').val(tmp_business);
-          //$('#modify_data').find('input#privilege').val(tmp_privilege);
+
+          //use jquery function strim  to cut spaces
+          var tbs = $.trim(tmp_business)
+          var tbs = tbs.split(/\s+/)
+          for (_tb in tbs)
+          {
+              // business name
+              var bn = tbs[_tb]
+              $('#modify_data').find('input.business').each(function (){
+                  if ($(this).val() == bn)
+                  {
+                  $(this).attr("checked",true);;
+                  } 
+
+              })
+          }
+           
+          //use jquery function strim  to cut spaces
+          var tps = $.trim(tmp_privilege)
+          var tps = tps.split(/\s+/)
+          for (_tp in tps)
+          {
+              // privilege name
+              var pn = tps[_tp]
+              $('#modify_data').find('input.privilege').each(function (){
+                  if ($(this).val() == pn)
+                  {
+                  $(this).attr("checked",true);;
+                  } 
+
+              })
+          }
+
+          //$('#modify_data').find('input.business').attr("checked",true);;
+          //$('#modify_data').find('input.privilege').val(tmp_privilege);
           $('#modify_data').find('input#telephone').val(tmp_telephone);
           if (tmp_issuperuser == "true")
               {

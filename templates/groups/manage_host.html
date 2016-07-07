@@ -115,7 +115,7 @@
 
                                    <div class="alert alert-warning alert-dismissible" role="alert">
                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                     <strong>Note!</strong> Hostname euqal minion_id here,click button named modify,if you want define diffrent hostname!
+                                     <strong>Note!</strong> Hostname euqals minion_id here,click button named modify,if you want define diffrent hostname!
                                    </div>
 
                                    <div class="form-group">
@@ -236,7 +236,7 @@
                                      <div class="col-sm-9">
                                          {% if groups %}
                                          {% for g in groups %}
-                                             <input type="checkbox" id="group" name="group" value="{{ g.name }}">{{ g.name }} 
+                                             <input type="checkbox" class="group" id="group" name="group" value="{{ g.name }}">{{ g.name }} 
                                          {% endfor %}
                                          {% endif %}
                                      </div>
@@ -469,7 +469,24 @@
           $('#modify_data').find('input#id').val(tmp_id);
           $('#modify_data').find('input#name').val(tmp_name);
           $('#modify_data').find('select#minion').find("option:selected").text(tmp_minion);
-          $('#modify_data').find('select#group').find("option:selected").text(tmp_group);
+
+          //use jquery function strim  to cut spaces
+          var tgs = $.trim(tmp_group)
+          var tgs = tgs.split(/\s+/)
+          for (_tg in tgs)
+          {
+              // group name
+              var gn = tgs[_tg]
+              $('#modify_data').find('input.group').each(function (){
+                  if ($(this).val() == gn)
+                  {
+                  $(this).attr("checked",true);;
+                  } 
+
+              })
+          }
+
+
           if (tmp_enabled == "true")
               {
               $('#modify_data').find('input#enabled').attr("checked",true);
