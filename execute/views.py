@@ -44,7 +44,7 @@ def shell_runcmd(request):
         for _tmp in _b:
             _businesses.append(_tmp.name)
 
-        _groups=Groups.objects.filter(business__in = _businesses)
+        _groups=Groups.objects.filter(business__in = _businesses).order_by('name')
         for _group in _groups:
             _h=[]
             _hosts=_group.hosts_set.all()
@@ -53,7 +53,7 @@ def shell_runcmd(request):
                 all[_group.name]=_h
     except Exception as e:
         pass
-    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': all})
+    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': _groups})
 
 @login_required(login_url="/account/login/")
 def shell_result(request):
@@ -199,7 +199,7 @@ def salt_runcmd(request):
         for _tmp in _b:
             _businesses.append(_tmp.name)
 
-        _groups=Groups.objects.filter(business__in = _businesses)
+        _groups=Groups.objects.filter(business__in = _businesses).order_by('name')
         for _group in _groups:
             _h=[]
             _hosts=_group.hosts_set.all()
@@ -209,7 +209,7 @@ def salt_runcmd(request):
     except Exception as e:
         pass
     modindex = Modindex.objects.all()
-    return render(request, 'execute/minions_salt_runcmd.html', {'list_groups': all, 'modindex': modindex})
+    return render(request, 'execute/minions_salt_runcmd.html', {'list_groups': _groups, 'modindex': modindex})
 
 def salt_result(request):
     _u = request.user
