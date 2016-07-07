@@ -17,11 +17,13 @@ def login_view(request):
             _next = "/"
         username = request.POST.get('username')
         password = request.POST.get('password')
-        
+        remember = request.POST.get("remember")
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
+                if remember == None:
+                    request.session.set_expiry(0)
                 return HttpResponseRedirect(_next)
             else:
                 msg.append("Disabled account")
