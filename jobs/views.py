@@ -6,6 +6,9 @@ import os
 @login_required(login_url="/account/login/")
 def jobs_history(request):
     sapi = SaltAPI()
+    for key in jids.keys():
+        if jids[key]['Function'] == 'mine.update':
+            del jids[key]
     jids = sapi.runner("jobs.list_jobs")
     return render(request, 'jobs/jobs_history.html', {'jids': jids})
 
