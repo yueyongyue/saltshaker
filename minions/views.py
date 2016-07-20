@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from shaker.shaker_core import *
 from minions.models import Minions_status
 from returner.models import Salt_grains
-from shaker.tasks import accept_grains_task, minions_status_task
+from shaker.tasks import accept_grains_task, minions_status_task, accept_key_task
 import logging
 
 logger = logging.getLogger('django')
@@ -18,39 +18,37 @@ def minions_keys(request):
     sapi = SaltAPI()
     alert_info = ""
     if request.POST:
-        minion_id_a = request.POST.get("accept")
-        minion_id_r = request.POST.get("reject")
-        minion_id_d = request.POST.get("delete")
-        if minion_id_a:
-            sapi.accept_key(minion_id_a)
-            try:
-                accept_grains_task.delay(minion_id_a)
-            except Exception as e:
-                logger.error(e)
-            try:
-                minions_status_task.delay()
-                alert_info = "Minion: " + minion_id_a + " Accept Key Success"
-            except Exception as e:
-                alert_info = "Minion: " + minion_id_a + " Accept Key Fault"
-                logger.error(e)
-        elif minion_id_r:
-            sapi.reject_key(minion_id_r)
+        minion_id_a_l = request.POST.getlist("accept")
+        minion_id_r_l = request.POST.getlist("reject")
+        minion_id_d_l = request.POST.getlist("delete")
+        if minion_id_a_l:
+            for minion_id_a in minion_id_a_l:
+                sapi.accept_key(minion_id_a)
+                try:
+                    accept_key_task.delay(minion_id_a)
+                except Exception as e:
+                    alert_info = "Minion: " + minion_id_a + " Accept Key Fault"
+                    logger.error(e)
+        elif minion_id_r_l:
+            for minion_id_r in minion_id_r_l:
+                sapi.reject_key(minion_id_r)
         else:
-            sapi.delete_key(minion_id_d)
-            try:
-                Minions_status.objects.get(minion_id=minion_id_d).delete()
-            except Exception as e:
-                logger.error(e)
-            try:
-                Salt_grains.objects.get(minion_id=minion_id_d).delete()
-            except Exception as e:
-                logger.error(e)
-            try:
-                minions_status_task.delay()
-                alert_info = "Minion: " + minion_id_d + " Accept Key Success"
-            except Exception as e:
-                alert_info = "Minion: " + minion_id_d + " Accept Key Fault"
-                logger.error(e)
+            for minion_id_d in minion_id_d_l:
+                sapi.delete_key(minion_id_d)
+                try:
+                    Minions_status.objects.get(minion_id=minion_id_d).delete()
+                except Exception as e:
+                    logger.error(e)
+                try:
+                    Salt_grains.objects.get(minion_id=minion_id_d).delete()
+                except Exception as e:
+                    logger.error(e)
+                try:
+                    Minions_status.objects.get(minion_id=minion_id_d).delete()
+                    alert_info = "Minion: " + minion_id_d + " Accept Key Success"
+                except Exception as e:
+                    alert_info = "Minion: " + minion_id_d + " Accept Key Fault"
+                    logger.error(e)
 
     keys_all = sapi.list_all_key()
 
