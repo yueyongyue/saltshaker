@@ -5,6 +5,7 @@ from minions.models import Minions_status
 from returner.models import Salt_grains
 from shaker.tasks import accept_grains_task, minions_status_task, accept_key_task
 import logging
+from celery.task.control import inspect
 
 logger = logging.getLogger('django')
 
@@ -76,7 +77,10 @@ def minions_asset_info(request):
     salt_grains = Salt_grains.objects.all()
     asset_list = []
     for asset in salt_grains:
-        asset_dic = {asset.minion_id.decode('string-escape'): eval(asset.grains)}
+        try:
+            asset_dic = {asset.minion_id.decode('string-escape'): eval(asset.grains)}
+        except Exception as e:
+            asset_dic = {asset.minion_id.decode('string-escape'): ''}
         asset_dics = asset_dic.copy()
         asset_list.append(asset_dics)
     return render(request, 'minions/minions_asset_info.html', {'asset': asset_list})

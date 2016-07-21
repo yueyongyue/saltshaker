@@ -37,11 +37,14 @@ def index(request):
     os_all = []
     os_release = []
     for release in salt_grains:
-        release_dic = eval(release.grains)
-        release_info = release_dic.get('osfullname').decode('string-escape') + release_dic.get('osrelease').decode('string-escape')
-        release_list.append(release_info)
-        os_release = list(set(release_list))
-        logger.info(os_release)
+        if not release.grains:
+            continue
+        else:
+            release_dic = eval(release.grains)
+            release_info = release_dic.get('osfullname').decode('string-escape') + release_dic.get('osrelease').decode('string-escape')
+            release_list.append(release_info)
+            os_release = list(set(release_list))
+            logger.info(os_release)
 
     for release_name in os_release:
         os_dic = {'name': release_name, 'value': release_list.count(release_name)}
