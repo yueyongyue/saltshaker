@@ -114,18 +114,27 @@
                              <div class="modal-body">
                                <form class="form-horizontal" id="add_hosts_data" method="post" action="/groups/add_multi_hosts/">
                                  <fieldset>
-
+                                    <!--
                                    <div class="alert alert-warning alert-dismissible" role="alert">
                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                      <strong>Note!</strong> Hostname euqals minion_id here,click button named modify,if you want define diffrent hostname!
                                    </div>
-
+                                    -->
                                    <div class="form-group">
-                                     <label for="minion" class="col-sm-3 control-label">minion_ids</label>
+                                     <label for="minion" class="col-sm-3 control-label">
+                                            minion_ids
+                                     </label>
+                                     <div class="col-sm-9">
+                                         <div style="margin-left: 7px;padding-top: 0px" class="checkbox-inline">
+                                         <input id="CHKminion" type="checkbox" name="CHKminion" value="CHKminion"><font color="green">select all</font></input>
+                                         </div>
+                                     </div>
                                      <div class="col-sm-9">
                                          {% if minions %}
                                          {% for m in minions %}
-                                             <input type="checkbox" id="minion" name="minion" value="{{ m.minion_id }}">{{ m.minion_id }} 
+                                             <div style="margin-left: 7px;" class="checkbox-inline">
+                                             <input type="checkbox" id="minion" name="minion" value="{{ m.minion_id }}">{{ m.minion_id }}
+                                             </div>
                                          {% endfor %}
                                          {% endif %}
                                      </div>
@@ -134,9 +143,18 @@
                                    <div class="form-group">
                                      <label for="minion_id" class="col-sm-3 control-label">groups</label>
                                      <div class="col-sm-9">
+                                         <div style="margin-left: 7px;padding-top: 0px" class="checkbox-inline">
+                                         <input id="CHKgroup" type="checkbox" name="CHKgroup" value="CHKgroup"><font color="green">select all</font></input>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-9">
                                          {% if groups %}
                                          {% for g in groups %}
-                                           <input type="checkbox" id="group" name="group" value="{{ g }}">{{ g }} 
+                                             <li style="list-style-type:none;">
+                                                 <div style="margin-left: 7px;" class="checkbox-inline">
+                                                    <input type="checkbox" id="group" name="group" value="{{ g }}">{{ g }}
+                                                 </div>
+                                             </li>
                                          {% endfor %}
                                          {% endif %}
                                      </div>
@@ -153,7 +171,7 @@
                                      <div class="col-sm-offset-3 col-sm-9">
                                        <div class="checkbox">
                                          <label>
-                                           <input checked type="checkbox" name="enabled" value="true"> Enabled or Not
+                                             <input checked type="checkbox" name="enabled" value="true"> Enabled or Not
                                          </label>
                                        </div>
                                      </div>
@@ -392,6 +410,20 @@
          });  
         // end slelect all
 
+          $("#CHKminion").click(function(){
+            if(this.checked){
+                $("input[name='minion']").prop("checked", true);
+            }else{
+                $("input[name='minion']").prop("checked", false);
+            }
+         });
+          $("#CHKgroup").click(function(){
+            if(this.checked){
+                $("input[name='group']").prop("checked", true);
+            }else{
+                $("input[name='group']").prop("checked", false);
+            }
+         });
         //data table
         $("#datatable-demo").DataTable( {
            //设置第一列为初始化排序的列
