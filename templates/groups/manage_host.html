@@ -24,8 +24,10 @@
                          <li><a id="add_hosts" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> | Add 1+ </a></li>
                          <li role="separator" class="divider"></li>
                          <li><a id="modify_host" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> | modify </a></li>
+                         <!--
                          <li role="separator" class="divider"></li>
                          <li><a id="delete_host" href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> | Delete </a></li>
+                         -->
                        </ul>
                        <!-- begin all modal  -->
                        <!-- add  modal -->
@@ -169,7 +171,6 @@
                          </div>
                        </div>
                        <!-- end add hosts modal -->
-
                        <!-- delete  modal -->
                        <div id="delete_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                          <div class="modal-dialog modal-lg">
@@ -190,8 +191,8 @@
                            </div>
                          </div>
                        </div>
+
                        <!-- end delete   -->
-                       
                        <!-- modify  --> 
                        <div id="modify_modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                          <div class="modal-dialog modal-lg">
@@ -423,6 +424,7 @@
             });
         // end hosts add //
 
+        /*
         // delete //
         $("#delete_host").click(function(){
            var ids=[];
@@ -448,6 +450,8 @@
                  $("#delete_data").submit()
              });
       });
+      */
+
       // end delete //
       // modify //
       $("#modify_host").click(function (){

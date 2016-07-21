@@ -137,7 +137,7 @@ def manage_host(request,*args,**kw):
         "error":_error,
         }
     return render(request,"groups/manage_host.html",context)
-
+'''
 @login_required(login_url="/account/login/")
 def del_host(request):
     _success=False
@@ -161,7 +161,7 @@ def del_host(request):
     except Exception as e:
         _error="Delete opearation error!"
     return manage_host(request,success=_success,error=_error)
-
+'''
 @login_required(login_url="/account/login/")
 def modify_host(request):
     _success=False

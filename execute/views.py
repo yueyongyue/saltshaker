@@ -49,11 +49,12 @@ def shell_runcmd(request):
             _h=[]
             _hosts=_group.hosts_set.all()
             for _host in _hosts:
-                _h.append(_host.minion.minion_id)
-                all[_group.name]=_h
+                if _host.enabled == True:
+                    _h.append(_host.minion.minion_id)
+            all[_group.name]=_h
     except Exception as e:
         pass
-    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': _groups})
+    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': all})
 
 @login_required(login_url="/account/login/")
 def shell_result(request):

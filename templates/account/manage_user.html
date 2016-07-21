@@ -120,6 +120,16 @@
 
                                    <div class="form-group">
                                      <div class="col-sm-offset-3 col-sm-9">
+                                       <div class="checkbox">
+                                         <label>
+                                           <input checked type="checkbox" name="enabled" value="true"> Enabled
+                                         </label>
+                                       </div>
+                                     </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                     <div class="col-sm-offset-3 col-sm-9">
                                        <button onclick="submit" id="add_commit" type="submit" class="btn btn-outline btn-success btn-xs">Submit</button>
                                      </div>
                                    </div>
@@ -236,6 +246,17 @@
                                        </div>
                                      </div>
                                    </div>
+
+                                   <div class="form-group">
+                                     <div class="col-sm-offset-3 col-sm-9">
+                                       <div class="checkbox">
+                                         <label>
+                                           <input id="enabled"  type="checkbox" name="enabled" value="true"> Enabled
+                                         </label>
+                                       </div>
+                                     </div>
+                                   </div>
+
                                </form>
                              </div>
                              <div class="modal-footer">
@@ -365,6 +386,7 @@
                                     <th>UserName</th>
                                     <th>Email</th>
                                     <th>Superman</th>
+                                    <th>Enabled</th>
                                     <th>Business</th>
                                     <th style="display:none">Department</th>
                                     <th>Privilege</th>
@@ -383,6 +405,7 @@
                                    <td id="username" style="word-break:break-all">{{ u.user.username }}</td>
                                    <td id="email" style="word-break:break-all">{{ u.user.email }}</td>
                                    <td id="issuperuser" style="word-break:break-all">{{ u.user.is_superuser|lower }}</td>
+                                   <td id="enabled" style="word-break:break-all">{{ u.user.is_active|lower }}</td>
                                    <td id="business" style="word-break:break-all">{% for b in u.business.all %}{{ b.name }} {% endfor %}</td>
                                    <td id="department" style="display:none;word-break:break-all">{{ u.department }}</td>
                                    <td id="privilege" style="word-break:break-all">{% for p in u.privilege.all %} {{ p.name }} {% endfor %}</td>
@@ -504,6 +527,7 @@
           var tmp_name=$("#"+tmp_id).find("#username").text();
           var tmp_email=$("#"+tmp_id).find("#email").text();
           var tmp_issuperuser=$("#"+tmp_id).find("#issuperuser").text();
+          var tmp_enabled=$("#"+tmp_id).find("#enabled").text();
           var tmp_business=$("#"+tmp_id).find("#business").text();
           var tmp_privilege=$("#"+tmp_id).find("#privilege").text();
           var tmp_telephone=$("#"+tmp_id).find("#telephone").text();
@@ -559,6 +583,16 @@
               $('#modify_data').find('input#issuperuser').val(tmp_issuperuser);
               }
 
+          if (tmp_enabled == "true")
+              {
+              $('#modify_data').find('input#enabled').attr("checked",true);
+              $('#modify_data').find('input#enabled').val(tmp_enabled);
+              }
+          else
+              {
+              $('#modify_data').find('input#enabled').attr("checked",false);
+              $('#modify_data').find('input#enabled').val(tmp_enabled);
+              }
 
           $('#modify_modal').modal('show')
           $('#modify_commit').click(function(){

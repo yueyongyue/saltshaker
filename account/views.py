@@ -133,10 +133,18 @@ def setup_user(request):
                 _issuperuser = False  
         else:
             _issuperuser = False
+
+        _enabled = request.POST.get("enabled")
+        if _enabled is not None:
+            _enabled = True
+        else:
+            _enabled = False
+
         try:
             _user = User.objects.get(username=_username)
             _user.email = _email
             _user.is_superuser = _issuperuser
+            _user.is_active = _enabled
             _user.save()
             # modify user profiles
             _userobject = User.objects.get(username=_username)
@@ -193,17 +201,23 @@ def add_user(request):
             return manage_user(request,success=_success,error=_error)
             
         if request.POST.get("superuser") == "true":
-            _superuser=True
+            _superuser = True
         else:
-            _superuser=False
-        #try:
-        if 1:
-       
+            _superuser = False
+
+        _enabled = request.POST.get("enabled")
+        if _enabled is not None:
+            _enabled = True
+        else:
+            _enabled = False
+
+        try:
             _user=User.objects.create_user(username=_username,password=_password,email=_email)
-            _user.is_superuser=_superuser
+            _user.is_superuser = _superuser
+            _user.is_active = _enabled
             _user.save()
             # add profile for user
-            _userobject=User.objects.get(username=_username)
+            _userobject = User.objects.get(username=_username)
             _userprofile = UserProfiles(user=_userobject,department=_department,telephone=_telephone)
 
             _userprofile.save()
@@ -219,8 +233,7 @@ def add_user(request):
 
             _success="Add user "+_username+" OK!!"
 
-        #except Exception as e:
-        else:
+        except Exception as e:
             _error="user already exists or too long!"
     else:
         pass
