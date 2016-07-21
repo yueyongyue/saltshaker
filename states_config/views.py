@@ -43,15 +43,15 @@ def highstate(request,*args,**kw):
             _h = []
             _hosts = _group.hosts_set.all()
             for _host in _hosts:
-                _h.append(_host.minion.minion_id)
-                all[_group.name] = _h
+                if _host.enabled == True:
+                    _h.append(_host.minion.minion_id)
+            all[_group.name] = _h
     except Exception as e:
         pass
 
-    all_host = all
     context = {
         "businesses": _all_businesses,
-        'list_groups': all_host,
+        'list_groups': all,
         "slses": _slses,
         "error": _error,
         "success": _success,
