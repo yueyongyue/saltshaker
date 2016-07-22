@@ -33,6 +33,10 @@
     <!-- Bootstrap Select2 -->
     <link href="{% static "select2-4.0.2/dist/css/select2.min.css" %}" rel="stylesheet" type="text/css">
 
+    <!--lobibox_notification -->
+    <link href="{% static "lobibox_notification/dist/css/Lobibox.min.css" %}" rel="stylesheet" type="text/css">
+
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -250,6 +254,14 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="#"><i class="fa fa-code-fork fa-fw"></i> System Log<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/system_logs/logs/">Logs</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -278,6 +290,10 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static "dist/js/sb-admin-2.js" %}"></script>
+
+    <!-- lobixbox_notification -->
+    <script src="{% static "lobibox_notification/dist/js/lobibox.min.js" %}"></script>
+    <script src="{% static "lobibox_notification/demo/demo.js" %}"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 
