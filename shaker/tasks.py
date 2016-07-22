@@ -129,7 +129,7 @@ def accept_grains_task(minion_id):
 @task()
 def accept_key_task(minion_id):
     # when accept key save grains to mysql
-    time.sleep(60)
+    time.sleep(30)
     sapi = SaltAPI()
     grains = sapi.remote_noarg_execution(minion_id, 'grains.items')
     salt_grains = Salt_grains()
