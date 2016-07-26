@@ -169,11 +169,11 @@ def shell_result(request):
     return render(request, 'execute/minions_shell_result.html')
 
 @login_required(login_url="/account/login/")
-def get_history(request, tag):
+def get_history(request, tag, search_input):
     cmd_history_list = []
     _u = request.user
     try:
-        cmd_history = Command_history.objects.filter(Q(user_id=_u) & Q(command_tag=tag)).order_by('-id').all()[:10]
+        cmd_history = Command_history.objects.filter(Q(user_id=_u) & Q(command_tag=tag) & Q(command__icontains=search_input)).order_by('-id').all()[:10]
     except Exception as e:
         logger.error(e)
     for i in cmd_history:

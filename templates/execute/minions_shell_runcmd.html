@@ -59,6 +59,13 @@
                             <div class="form-group">
                                 <input type="submit" value="Submit" class="btn btn-outline btn-success btn-xs"/>
                                 <input type="reset" value="Reset" class="btn btn-outline btn-danger btn-xs" />
+                                <div class="form-group input-group" style="width: 200px;float: right;margin-left: 5px">
+                                            <input id='history_search' type="text" class="form-control" placeholder="Search history...">
+                                            <span class="input-group-btn">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><button class="btn btn-default btn-xs" type="button" onclick="searchHistory()"><i class="fa fa-search"></i>
+                                                </button></a>
+                                            </span>
+                                </div>
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><input type="submit" value="History" class="btn btn-outline btn-info btn-xs" onclick="setHistory()"/></a>
                             </div>
                             </form>
@@ -133,6 +140,31 @@
                 }
             })
         }
+
+      function searchHistory(){
+          var txt = $("#history_search").val();
+          $.ajax({
+                type: "post",
+                async: false, //同步执行
+                url: "/execute/get_history/0/" + txt ,
+                data: {},
+                dataType: "json", //返回数据形式为json
+                success: function (result) {
+                    //alert(result.queue_count[2]);
+                    //alert(result.cmd_history_list);
+                    $("#history").empty()
+                    $("#history").append(
+                            '<tr><td><label>Command History</label></td><td><label>Date</label></td></tr>'
+                        );
+                    for (var i = 0; i < result.cmd_history_list.length; i++) {
+                        //alert(result.cmd_history_list[i].execute_time)
+                        $("#history").append(
+                            '<tr><td style=""word-break:break-all; word-wrap:break-all;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
+                        );
+                    }
+                }
+            })
+      }
 
     </script>
 
