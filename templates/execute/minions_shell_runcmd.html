@@ -36,7 +36,7 @@
                                                <tr>
                                                    <td style="white-space: nowrap;">
                                                        <div class="checkbox-inline" style="margin-left:7px">
-                                                          <input  id="{{ group }}"  onclick="selectAll('{{ group.name }}')" type="checkbox" value="">{{ group }}
+                                                          <input  id="{{ group }}"  onclick="selectAll('{{ group }}')" type="checkbox" value="">{{ group }}
                                                        </div>
                                                    </td>
                                                    <td>
@@ -93,7 +93,7 @@
 
       <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
       <script type="text/javascript">
-        function selectAll(group){
+          function selectAll(group){
             var checklist = document.getElementsByClassName(group);
             var checkspan = document.getElementsByTagName('span');
             //alert(checkspan)
