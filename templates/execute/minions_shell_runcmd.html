@@ -135,7 +135,7 @@
                     for (var i = 0; i < result.cmd_history_list.length; i++) {
                         //alert(result.cmd_history_list[i].execute_time)
                         $("#history").append(
-                            '<tr><td style="white-space: nowrap;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
+                            '<tr><td style="word-break:break-all; word-wrap:break-all;"><div class="checkbox-inline" style="margin-left:7px;">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
                         );
                     }
                 }
@@ -150,7 +150,7 @@
                 search_num = 10
             }
           $.ajax({
-                type: "post",
+                type: "get",
                 async: false, //同步执行
                 url: "/execute/get_history/0/" + search_num + "/" + search_txt ,
                 data: {},
