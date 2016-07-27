@@ -122,7 +122,7 @@
             $.ajax({
                 type: "get",
                 async: false, //同步执行
-                url: "/execute/get_history/0",
+                url: "/execute/get_history/0/10",
                 data: {},
                 dataType: "json", //返回数据形式为json
                 success: function (result) {
@@ -143,11 +143,16 @@
         }
 
         function searchHistory(){
-          var txt = $("#history_search").val();
+            var txt = $.trim($("#history_search").val());
+            search_txt = txt.split(';')[0]
+            search_num = txt.split(';')[1]
+            if (typeof(search_num) == "undefined"){
+                search_num = 10
+            }
           $.ajax({
                 type: "post",
                 async: false, //同步执行
-                url: "/execute/get_history/0/" + txt ,
+                url: "/execute/get_history/0/" + search_num + "/" + search_txt ,
                 data: {},
                 dataType: "json", //返回数据形式为json
                 success: function (result) {
@@ -177,7 +182,8 @@
                                     txt_area = $("#shell_cmd").val();
                                     command_area = $(this).text();
                                     txt_area = command_area;
-                                    $("#shell_cmd").val(txt_area);                                }
+                                    $("#shell_cmd").val(txt_area);
+                                }
                             )
                         }
                     )
@@ -192,7 +198,8 @@
                                     txt_area = $("#shell_cmd").val();
                                     command_area = $(this).text();
                                     txt_area = command_area;
-                                    $("#shell_cmd").val(txt_area);                                }
+                                    $("#shell_cmd").val(txt_area);
+                                }
                             )
                         }
                     )
