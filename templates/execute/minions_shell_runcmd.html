@@ -62,11 +62,11 @@
                                 <div class="form-group input-group" style="width: 200px;float: right;margin-left: 5px">
                                             <input id='history_search' type="text" class="form-control" placeholder="Search history...">
                                             <span class="input-group-btn">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><button class="btn btn-default btn-xs" type="button" onclick="searchHistory()"><i class="fa fa-search"></i>
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><button id="history_search_button" class="btn btn-default btn-xs" type="button" onclick="searchHistory()"><i class="fa fa-search"></i>
                                                 </button></a>
                                             </span>
                                 </div>
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><input type="submit" value="History" class="btn btn-outline btn-info btn-xs" onclick="setHistory()"/></a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><input id="history_button" type="submit" value="History" class="btn btn-outline btn-info btn-xs" onclick="setHistory()"/></a>
                             </div>
                             </form>
                             <div id="collapseOne1" class="panel-collapse collapse on">
@@ -89,6 +89,7 @@
             </div>
             <!-- /.row -->
       </div>
+
 
       <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
       <script type="text/javascript">
@@ -134,14 +135,14 @@
                     for (var i = 0; i < result.cmd_history_list.length; i++) {
                         //alert(result.cmd_history_list[i].execute_time)
                         $("#history").append(
-                            '<tr><td style=""word-break:break-all; word-wrap:break-all;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
+                            '<tr><td style="white-space: nowrap;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
                         );
                     }
                 }
             })
         }
 
-      function searchHistory(){
+        function searchHistory(){
           var txt = $("#history_search").val();
           $.ajax({
                 type: "post",
@@ -159,13 +160,47 @@
                     for (var i = 0; i < result.cmd_history_list.length; i++) {
                         //alert(result.cmd_history_list[i].execute_time)
                         $("#history").append(
-                            '<tr><td style=""word-break:break-all; word-wrap:break-all;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
+                            '<tr><td style="word-break:break-all; word-wrap:break-all;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
                         );
                     }
                 }
             })
-      }
+        }
+        // dbclick append history command
+        $(document).ready(function() {
+            $("#history_button").click(
+                function(){
+                    $("table#history tr:gt(0) td:nth-child(1)").each(
+                        function(){
+                            $(this).dblclick(
+                                function(){
+                                    txt_area = $("#shell_cmd").val();
+                                    command_area = $(this).text();
+                                    txt_area = command_area;
+                                    $("#shell_cmd").val(txt_area);                                }
+                            )
+                        }
+                    )
+                }
+            )
+            $("#history_search_button").click(
+                function(){
+                    $("table#history tr:gt(0) td:nth-child(1)").each(
+                        function(){
+                            $(this).dblclick(
+                                function(){
+                                    txt_area = $("#shell_cmd").val();
+                                    command_area = $(this).text();
+                                    txt_area = command_area;
+                                    $("#shell_cmd").val(txt_area);                                }
+                            )
+                        }
+                    )
+                }
+            )
+        });
 
     </script>
+
 
   {% endblock %}
