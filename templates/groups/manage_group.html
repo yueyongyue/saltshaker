@@ -138,6 +138,48 @@
                                    </div>
 
                                    <div class="form-group">
+                                     <label for="name" class="col-sm-3 control-label">Members</label>
+                                     <div class="col-sm-9">
+
+                                       <div class="col-md-5">
+                                           <h4>Included hosts</h4>
+                                           <div style="height:200px;border:1px solid green;border-radius: 10px;overflow-y:auto; padding:5px; overflow-x:auto;">
+                                                  <label id="included_hosts">
+                                                  <!-- jquery will append content here -->
+                                                  </label>
+                                           </div>
+                                       </div>
+
+                                       <div class="col-md-2">
+                                             <h4>Add/Delete</h4>
+                                             <a id="left" class="form-control btn btn-info btn-sm">
+                                                 <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                                             </a>
+                                             <a id="right" class="form-control btn btn-warning btn-sm">
+                                                 <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                                             </a>
+                                       </div>
+
+                                       <div class="col-md-5">
+                                           <h4>Optional Hosts</h4>
+                                           <div style="height:200px;border:1px solid green;border-radius: 10px;overflow-y:auto; padding:5px; overflow-x:auto;">
+                                                 <label id="hosts">
+                                                   {% if groups %}
+                                                   {% for g in groups %}
+                                                     {% for h in g.hosts_set.all %}
+                                                       <div>
+                                                       <input type="checkbox" value="{{ h.minion.minion_id }}">{{ h.minion.minion_id }} <br>
+                                                       </div>
+                                                     {% endfor %}
+                                                   {% endfor %}
+                                                   {% endif %}
+                                                 </label>
+                                           </div>
+                                       </div>
+
+                                     </div>
+                                   </div>
+                                   <div class="form-group">
                                      <label for="business" class="col-sm-3 control-label">Business</label>
                                      <div class="col-sm-9">
                                        <select class="form-control" id="business" name="business" required>
@@ -246,6 +288,7 @@
                                     </th>
                                     <th>ID</th>
                                     <th>Group_Name</th>
+                                    <th>Members</th>
                                     <th>Business</th>
                                     <th style="display:none">Informations</th>
                                     <th>Enabled</th>
@@ -261,6 +304,15 @@
                                    </td>
                                    <td id="id" style="word-break:break-all">{{ g.id }}</td>
                                    <td id="name" style="word-break:break-all">{{ g.name }}</td>
+                                   <td style="word-break:break-all">
+                                     <table id="member">
+                                     {% for h in g.hosts_set.all %}
+                                         <tr>
+                                         <td>{{ h.minion.minion_id }}</td>
+                                         </tr>
+                                     {% endfor %}
+                                     </table>
+                                   </td>
                                    <td id="business" style="word-break:break-all">{{ g.business }}</td>
                                    <td id="informations" style="display:none;word-break:break-all">{{ g.informations }}</td>
                                    <td id="enabled" style="word-break:break-all">{{ g.enabled|lower }}</td>
@@ -285,7 +337,7 @@
         <!-- /#page-wrapper -->
 
   {% endblock %}
-    {% block jquery%}
+    {% block jquery %}
     <script type="text/javascript">
       $(document).ready(function(){
         //全选或全不选 
@@ -298,13 +350,12 @@
          });  
         // end slelect all
 
-
         //data table
         $("#datatable-demo").DataTable( {
            //设置第一列为初始化排序的列
            "order": [[ 1, "desc" ]],
            //该值的含义为。初始化datatable，但对序号为0,7列的列不进行排序，别的列均可进行排序 
-           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,6 ] }]  
+           "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,7 ] }]  
            });     
         // end data table
         // add //
@@ -339,7 +390,6 @@
         });
         // end add //
 
-
         // delete //
         $("#delete_group").click(function(){
            var ids=[];
@@ -370,6 +420,34 @@
       // end delete //
       // modify //
       $("#modify_group").click(function(){
+          // add or delete member //
+          $("a#left").click(function(){
+              $("label#hosts input").each(function(){
+                  if ( $(this).is(':checked')){
+                      $("#included_hosts").prepend(
+                          '<div style="color:#99FF99"><input type="checkbox" name="member" value="' 
+                          + $(this).val() + '">' 
+                          + $(this).val() 
+                          + '<br></div>'
+                      )
+                      $(this).parent().remove()
+                  }
+              })
+          });
+          $("a#right").click(function(){
+              $("label#included_hosts input").each(function(){
+                  if ( $(this).is(':checked')){
+                      $("#hosts").prepend(
+                          '<div style="color:#CC0000"><input type="checkbox" name="member" value="' 
+                          + $(this).val() + '">' 
+                          + $(this).val() 
+                          + '<br></div>'
+                      )
+                      $(this).parent().remove()
+                  }
+              })
+          });
+          //
           var ids=[];
           $('input[name="CHKlist"]:checked').each(function(){
               var id=$(this).val();
@@ -384,6 +462,28 @@
           var tmp_enabled=$("#"+tmp_id).find("#enabled").text();
           var tmp_informations=$("#"+tmp_id).find("#informations").text();
           var tmp_business=$("#"+tmp_id).find("#business").text();
+          
+          var members = []
+          $("#"+tmp_id).find("table#member tr").each(function(i){
+            //alert("这是第"+i+"行内容");
+            $(this).children("td").each(function(i){
+                //alert("第"+i+"个td的内容："+$(this).text());
+                if (i == 0){
+                    members.push($(this).text())
+                }
+            });
+          });
+          
+          $("#included_hosts").empty()
+          for (var i=0;i<members.length;i++){
+              $("#included_hosts").append(
+                '<div><input  type="checkbox" name="member" value="' 
+                + members[i] + '">' 
+                + members[i] 
+                + '<br></div>'
+              )
+          }
+
           $('#modify_data').find('input#id').val(tmp_id);
           $('#modify_data').find('input#name').val(tmp_name);
           if (tmp_enabled == "true")
@@ -400,6 +500,11 @@
           $('#modify_data').find('select#business').find("option:selected").text(tmp_business);
           $('#modify_modal').modal('show')
           $('#modify_commit').click(function(){
+              // make checkbox checked
+              $("label#included_hosts input").each(function(){
+                  $(this).attr("checked",true);
+              })
+              //commit form
               $('#modify_data').submit();
               });
           };
