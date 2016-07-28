@@ -65,11 +65,13 @@ def modify_group(request):
         _business=request.POST.get("business")
         _enabled=request.POST.get("enabled")
         _informations=request.POST.get("informations")
+        _members=request.POST.getlist("member")
         if _enabled is not None:
             _enabled=True
         else:
             _enabled=False
-        try:
+        #try:
+        if 1:
             _group=Groups.objects.get(id=_id)
             _name_before=_group.name
             _group.name=_name
@@ -77,8 +79,31 @@ def modify_group(request):
             _group.enabled=_enabled
             _group.informations=_informations
             _group.save()
+            _minions = []
+            for _tmp in _group.hosts_set.all():
+                _minions.append(_tmp.minion.minion_id)
+            #add member to group
+            for member in _members:
+                if member not in _minions:
+                    _minion_obj = Minions_status.objects.get(minion_id=member)
+                    _host_obj = Hosts.objects.get(minion=_minion_obj)
+                    _host_obj.group.add(_group)
+                else:
+                    pass
+            #delete member from group
+            for member in _minions:
+                if member not  in _members:
+                    _minion_obj = Minions_status.objects.get(minion_id=member)
+                    _host_obj = Hosts.objects.get(minion=_minion_obj)
+                    _host_obj.group.remove(_group)
+                else:
+                    pass
+            
+             
+                    
             _success="Modify Group "+ _name +" OK"
-        except Exception as e:
+        #except Exception as e:
+        else:
             _error="Modify Group "+ _name +" failed"
             
         
