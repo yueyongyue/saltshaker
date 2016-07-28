@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from shaker.shaker_core import *
 from minions.models import Minions_status
 from returner.models import Salt_grains
-from shaker.tasks import accept_grains_task, minions_status_task, accept_key_task
+from shaker.tasks import accept_key_task
+from system_logs.logs_save import system_logs_save
 import logging
 from celery.task.control import inspect
 
@@ -27,8 +28,9 @@ def minions_keys(request):
                 sapi.accept_key(minion_id_a)
                 try:
                     accept_key_task.delay(minion_id_a)
+                    system_logs_save(request.user.username, "Minion: " + minion_id_a + " Accept Key Success!", 2, 1)
                 except Exception as e:
-                    alert_info = "Minion: " + minion_id_a + " Accept Key Fault"
+                    system_logs_save(request.user.username, "Minion: " + minion_id_a + " Accept Key Fault! Except: " + e, 2, 1)
                     logger.error(e)
         elif minion_id_r_l:
             for minion_id_r in minion_id_r_l:
@@ -38,18 +40,15 @@ def minions_keys(request):
                 sapi.delete_key(minion_id_d)
                 try:
                     Minions_status.objects.get(minion_id=minion_id_d).delete()
+                    system_logs_save(request.user.username, "Minion: " + minion_id_d + " Delete Minons_status Table Success!", 2, 1)
                 except Exception as e:
                     logger.error(e)
                 try:
                     Salt_grains.objects.get(minion_id=minion_id_d).delete()
+                    system_logs_save(request.user.username, "Minion: " + minion_id_d + " Delete Salt_grains Table Success!", 2, 1)
                 except Exception as e:
                     logger.error(e)
-                try:
-                    Minions_status.objects.get(minion_id=minion_id_d).delete()
-                    alert_info = "Minion: " + minion_id_d + " Accept Key Success"
-                except Exception as e:
-                    alert_info = "Minion: " + minion_id_d + " Accept Key Fault"
-                    logger.error(e)
+                system_logs_save(request.user.username, "Minion: " + minion_id_d + " Delete Key Success!", 2, 1)
 
     keys_all = sapi.list_all_key()
 
