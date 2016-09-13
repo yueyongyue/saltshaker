@@ -42,7 +42,7 @@
                                                    <td>
                                                        {% for host in group.hosts_set.all|sort_ip %}
                                                            <div class="checkbox-inline" name="checkedhost">
-                                                               <input class="{{ group.name }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
+                                                               <input class="{{ group.name }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host.minion.minion_id }}" >{{ host.minion.minion_id }}
                                                            </div>
                                                        {% endfor %}
                                                    </td>

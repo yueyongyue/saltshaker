@@ -45,6 +45,7 @@ def shell_runcmd(request):
             _businesses.append(_tmp.name)
 
         _groups=Groups.objects.filter(business__in = _businesses).order_by('name')
+        ''' 
         for _group in _groups:
             _h=[]
             _hosts=_group.hosts_set.all()
@@ -52,6 +53,7 @@ def shell_runcmd(request):
                 if _host.enabled == True:
                     _h.append(_host.minion.minion_id)
             all[_group.name]=_h
+        '''
     except Exception as e:
         pass
     return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': _groups})
@@ -201,12 +203,14 @@ def salt_runcmd(request):
             _businesses.append(_tmp.name)
 
         _groups=Groups.objects.filter(business__in = _businesses).order_by('name')
+        '''
         for _group in _groups:
             _h=[]
             _hosts=_group.hosts_set.all()
             for _host in _hosts:
                 _h.append(_host.minion.minion_id)
             all[_group.name]=_h
+        '''
     except Exception as e:
         pass
     modindex = Modindex.objects.all()
