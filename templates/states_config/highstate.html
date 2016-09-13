@@ -266,22 +266,23 @@
                                                    <label>Hosts</label>
                                                </td>
                                             </tr>
-                                            {% for groups,hosts in list_groups.items %}
-                                            <tr>
-                                                <td style="white-space: nowrap;">
-                                                   <div class="checkbox-inline" style="margin-left:7px">
-                                                      <input  id="{{ groups }}"  onclick="selectAll('{{ groups }}')" type="checkbox" value="">{{ groups }}
-                                                   </div>
-                                                </td>
-                                                <td>
-                                                   {% for host in hosts %}
-                                                       <div class="checkbox-inline" name="checkedhost">
-                                                           <input class="{{ groups }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
+                                               {% load estimate %}
+                                               {% for group,hosts in list_groups.items %}
+                                               <tr>
+                                                   <td style="white-space: nowrap;">
+                                                       <div class="checkbox-inline" style="margin-left:7px">
+                                                          <input  id="{{ group }}"  onclick="selectAll('{{ group }}')" type="checkbox" value="">{{ group }}
                                                        </div>
-                                                   {% endfor %}
-                                               </td>
-                                            </tr>
-                                           {% endfor %}
+                                                   </td>
+                                                   <td>
+                                                       {% for host in hosts|sort_ip %}
+                                                             <div class="checkbox-inline" name="checkedhost">
+                                                               <input class="{{ group }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
+                                                             </div>
+                                                       {% endfor %}
+                                                   </td>
+                                               </tr>
+                                               {% endfor %}
                                         </table>
                                     </div>
                                 </div>
