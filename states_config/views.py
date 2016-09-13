@@ -46,6 +46,7 @@ def highstate(request,*args,**kw):
                 if _host.enabled == True:
                     _h.append(_host.minion.minion_id)
             all[_group.name] = _h
+        print all
     except Exception as e:
         pass
 
