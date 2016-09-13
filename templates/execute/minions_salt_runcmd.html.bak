@@ -4,7 +4,7 @@
       <div id="page-wrapper" xmlns="http://www.w3.org/1999/html">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="page-header">Run Shell Command</h2>
+                    <h2 class="page-header">Run Saltstack Command</h2>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -12,14 +12,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Run Shell Command
+                        <div class="panel-heading" id="aaa">
+                            Run Saltstack Command
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
                                      <label><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="text-decoration:none">Target</a></label>
-                            <form method="post" action="/execute/minions_shell_result/" target="iframepage">     <!-- target iframe refresh minions_shell_result.html -->
+                            <form method="post" action="/execute/minions_salt_result/" target="iframepage">     <!-- target iframe refresh minions_shell_result.html -->
                                      <div id="collapseOne" class="panel-collapse collapse on">
                                         <div class="panel-body" style="padding:0px">
                                            <table class="table table-striped table-bordered table-hover">
@@ -48,14 +48,21 @@
                                                    </td>
                                                </tr>
                                                {% endfor %}
-
                                            </table>
                                         </div>
                                      </div>
                             </div>
+                                <div class="form-group">
+                                    <label>Modules Name</label>
+                                    <select class="js-example-basic-single" name="salt_fun" style="width: 100%;margin-bottom: 0px">
+                                          {% for mod in modindex %}
+                                                  <option>{{ mod.module_name }}</option>
+                                          {% endfor %}
+                                    </select>
+                                </div>
                             <div class="form-group">
-                                <label>Command</label>
-                                <textarea class="form-control" rows="3" name="cmd" id="shell_cmd"></textarea>
+                                <label>Arguments</label>
+                                <textarea class="form-control" rows="1" name="salt_arg" id="salt_arg"></textarea>
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="Submit" class="btn btn-outline btn-success btn-xs"/>
@@ -63,11 +70,11 @@
                                 <div class="form-group input-group" style="width: 200px;float: right;margin-left: 5px">
                                             <input id='history_search' type="text" class="form-control" placeholder="Search history...">
                                             <span class="input-group-btn">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><button id="history_search_button" class="btn btn-default btn-xs" type="button" onclick="searchHistory()"><i class="fa fa-search"></i>
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><button class="btn btn-default btn-xs" type="button" onclick="searchHistory()"><i class="fa fa-search"></i>
                                                 </button></a>
                                             </span>
                                 </div>
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><input id="history_button" type="submit" value="History" class="btn btn-outline btn-info btn-xs" onclick="setHistory()"/></a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne1" style="text-decoration:none;float: right"><input type="submit" value="History" class="btn btn-outline btn-info btn-xs" onclick="setHistory()"/></a>
                             </div>
                             </form>
                             <div id="collapseOne1" class="panel-collapse collapse on">
@@ -91,10 +98,9 @@
             <!-- /.row -->
       </div>
 
-
       <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
       <script type="text/javascript">
-          function selectAll(group){
+        function selectAll(group){
             var checklist = document.getElementsByClassName(group);
             var checkspan = document.getElementsByTagName('span');
             //alert(checkspan)
@@ -123,7 +129,7 @@
             $.ajax({
                 type: "get",
                 async: false, //同步执行
-                url: "/execute/get_history/0/10",
+                url: "/execute/get_history/1/10",
                 data: {},
                 dataType: "json", //返回数据形式为json
                 success: function (result) {
@@ -136,7 +142,7 @@
                     for (var i = 0; i < result.cmd_history_list.length; i++) {
                         //alert(result.cmd_history_list[i].execute_time)
                         $("#history").append(
-                            '<tr><td style="word-break:break-all; word-wrap:break-all;"><div class="checkbox-inline" style="margin-left:7px;">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
+                            '<tr><td style="white-space: nowrap;"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].command + '</div></td><td style="width: 180px"><div class="checkbox-inline" style="margin-left:7px">' + result.cmd_history_list[i].execute_time + '</div></td></tr>'
                         );
                     }
                 }
@@ -144,16 +150,16 @@
         }
 
         function searchHistory(){
-            var txt = $.trim($("#history_search").val());
+          var txt = $.trim($("#history_search").val());
             search_txt = txt.split(';')[0]
             search_num = txt.split(';')[1]
             if (typeof(search_num) == "undefined"){
                 search_num = 10
             }
           $.ajax({
-                type: "get",
+                type: "post",
                 async: false, //同步执行
-                url: "/execute/get_history/0/" + search_num + "/" + search_txt ,
+                url: "/execute/get_history/1/" + txt ,
                 data: {},
                 dataType: "json", //返回数据形式为json
                 success: function (result) {
@@ -172,43 +178,10 @@
                 }
             })
         }
-        // dbclick append history command
+
         $(document).ready(function() {
-            $("#history_button").click(
-                function(){
-                    $("table#history tr:gt(0) td:nth-child(1)").each(
-                        function(){
-                            $(this).dblclick(
-                                function(){
-                                    txt_area = $("#shell_cmd").val();
-                                    command_area = $(this).text();
-                                    txt_area = command_area;
-                                    $("#shell_cmd").val(txt_area);
-                                }
-                            )
-                        }
-                    )
-                }
-            )
-            $("#history_search_button").click(
-                function(){
-                    $("table#history tr:gt(0) td:nth-child(1)").each(
-                        function(){
-                            $(this).dblclick(
-                                function(){
-                                    txt_area = $("#shell_cmd").val();
-                                    command_area = $(this).text();
-                                    txt_area = command_area;
-                                    $("#shell_cmd").val(txt_area);
-                                }
-                            )
-                        }
-                    )
-                }
-            )
+            $(".js-example-basic-single").select2();
         });
 
     </script>
-
-
   {% endblock %}

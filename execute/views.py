@@ -54,7 +54,7 @@ def shell_runcmd(request):
             all[_group.name]=_h
     except Exception as e:
         pass
-    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': all})
+    return render(request, 'execute/minions_shell_runcmd.html', {'list_groups': _groups})
 
 @login_required(login_url="/account/login/")
 def shell_result(request):
@@ -206,7 +206,7 @@ def salt_runcmd(request):
             _hosts=_group.hosts_set.all()
             for _host in _hosts:
                 _h.append(_host.minion.minion_id)
-                all[_group.name]=_h
+            all[_group.name]=_h
     except Exception as e:
         pass
     modindex = Modindex.objects.all()

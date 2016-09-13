@@ -38,7 +38,7 @@ def highstate(request,*args,**kw):
         for _tmp in _b:
             _businesses.append(_tmp.name)
 
-        _groups = Groups.objects.filter(business__in=_businesses)
+        _groups = Groups.objects.filter(business__in=_businesses).order_by("name")
         for _group in _groups:
             _h = []
             _hosts = _group.hosts_set.all()
@@ -46,13 +46,12 @@ def highstate(request,*args,**kw):
                 if _host.enabled == True:
                     _h.append(_host.minion.minion_id)
             all[_group.name] = _h
-        print all
     except Exception as e:
         pass
 
     context = {
         "businesses": _all_businesses,
-        'list_groups': all,
+        'list_groups': _groups,
         "slses": _slses,
         "error": _error,
         "success": _success,

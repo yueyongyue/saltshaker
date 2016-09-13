@@ -267,22 +267,23 @@
                                                </td>
                                             </tr>
                                                {% load estimate %}
-                                               {% for group,hosts in list_groups.items %}
+                                               {% for group in list_groups %}
                                                <tr>
                                                    <td style="white-space: nowrap;">
                                                        <div class="checkbox-inline" style="margin-left:7px">
-                                                          <input  id="{{ group }}"  onclick="selectAll('{{ group }}')" type="checkbox" value="">{{ group }}
+                                                          <input  id="{{ group.name }}"  onclick="selectAll('{{ group.name }}')" type="checkbox" value="">{{ group }}
                                                        </div>
                                                    </td>
                                                    <td>
-                                                       {% for host in hosts|sort_ip %}
-                                                             <div class="checkbox-inline" name="checkedhost">
-                                                               <input class="{{ group }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
-                                                             </div>
+                                                       {% for host in group.hosts_set.all|sort_ip %}
+                                                           <div class="checkbox-inline" name="checkedhost">
+                                                               <input class="{{ group.name }}" name="hosts_name"  onclick="selectAll()" type="checkbox" value="{{ host }}" >{{ host }}
+                                                           </div>
                                                        {% endfor %}
                                                    </td>
                                                </tr>
                                                {% endfor %}
+
                                         </table>
                                     </div>
                                 </div>
