@@ -1,5 +1,5 @@
 # saltshaker
-SaltShaker-GitHub交流学习QQ群:106485742
+SaltShaker交流学习QQ群:622806083
 
 GUI For SaltStack
 
