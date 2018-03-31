@@ -1,5 +1,6 @@
 # saltshaker
-SaltShaker交流学习QQ群:622806083
+# SaltShaker交流学习QQ群:622806083
+![image](https://github.com/yueyongyue/saltshaker_api/blob/master/screenshots/qq.png)
 
 GUI For SaltStack
 
