@@ -174,7 +174,6 @@ class SaltAPI(object):
 def main():
     #sapi = SaltAPI(url='http://127.0.0.1:8000',username='admin',password='admin')
     sapi = SaltAPI()
-    #jid = sapi.target_deploy('echo.example.sinanode.com.cn','nginx-test')
     #jids = sapi.shell_remote_execution('echo','netstat -tnlp')
     #jids = "salt-run jobs.lookup_jid " + jid
     #print jid
