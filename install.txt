@@ -66,7 +66,7 @@ saltshaker 环境搭建 Centos6.x
 
     pip install Django==1.8.4
     pip install django-crontab
-    pip install install mysql-python
+    pip install mysql-python
     mkdir -pv /var/log/saltshaker/
 
     vim settings.py       配置数据库和salt api 认证信息
